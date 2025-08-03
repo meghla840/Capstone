@@ -195,7 +195,7 @@ a:hover{
   align-items: center;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-  animation-duration: 30s;
+  animation-duration: 90s;
   animation-fill-mode: forwards;
   transition: transform 1.5s ease, opacity 1.5s ease;
   text-align: center;
@@ -532,6 +532,7 @@ input[type="button"]{
 
 /* Specialist */
 .specialist{
+    margin-bottom: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
