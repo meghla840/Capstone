@@ -197,7 +197,7 @@ a:hover{
   animation-iteration-count: infinite;
   animation-duration: 90s;
   animation-fill-mode: forwards;
-  transition: transform 1.5s ease, opacity 1.5s ease;
+  transition: transform 20s ease, opacity 1.5s ease;
   text-align: center;
 }
 
@@ -219,8 +219,8 @@ a:hover{
     animation-name: slideFade3;
      background-image: url(../images/medicine.jpeg);
      background-size: cover;
-    background-pos
-}
+    }
+
 @keyframes slideFade1 {
     0%{
         opacity: 1;
