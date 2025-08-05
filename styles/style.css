@@ -35,7 +35,11 @@ p{
     font-size: 0.85rem;
     line-height: 1.5;
 }
+.nunito {
+  font-family: "Nunito", sans-serif;
 
+  font-style: normal;
+}
 /* header part */
 
 .hold{
@@ -858,3 +862,166 @@ input[type="button"]{
         background-color: rgba(116, 116, 154, 0.6);
         padding: 20px;
     }
+    /* form page design*/
+ 
+        /*formbody and main*/
+        
+
+    
+    /*form search part*/
+
+
+    .fSeacrh_Section ,.fsearch{
+            width: 100%;
+            
+        }
+
+    .fsearch{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(116, 116, 154, 0.6);
+        padding-bottom: 20px;
+        z-index: 1;
+        border-radius: 10px;
+    }
+    .fsearch h2{
+        font-size: 2.2rem;
+        margin: 10px 0;
+        color: #2c3e50
+    }
+   
+
+   
+
+
+        /*form part of form page */
+    .fmf{
+         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #3498db;
+        max-width: 600px;
+         background: #fff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 90%;
+    }
+        .formf {
+            
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+       
+        
+        margin-top: 50px;
+        margin-bottom: 50px;
+        }
+
+        .formheading {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 900;
+        margin-bottom: 50px;
+        color: #2c3e50
+        }
+
+        .name,
+        .email_user,
+        .pass {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        }
+
+        .name input,
+        .email_user input,
+        .pass input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        font-size: 15px;
+        }
+
+        .select_location select {
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        margin-bottom: 15px;
+        }
+
+        .start {
+        margin: 20px 0;
+        }
+
+        .start h2 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+        }
+
+        .start input[type="radio"] {
+        margin-right: 6px;
+        margin-left: 15px;
+        }
+
+        .start label {
+        margin-right: 10px;
+        font-size: 14px;
+        color: #444;
+        }
+        .btnclass{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btnn {
+            align-items: center;
+            padding: 12px;
+            border:1px solid #3498db;
+            color:black;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+
+
+        .log {
+        border-top: 1px solid bLACK;
+        width: 100%;
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+        }
+
+        .log a {
+        color: #1e90ff;
+        text-decoration: none;
+        margin-left: 5px;
+        }
+        input[type="radio"] {
+        width: 15px;
+        height: 15px;
+        accent-color: #1e90ff; 
+        cursor: pointer;
+        }
+        label{
+            font-size: 2rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+
+
+        
