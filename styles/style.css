@@ -898,6 +898,7 @@ input[type="button"]{
 
         /*form part of form page */
     .fmf{
+        margin-top: 5px;
          display: flex;
         flex-direction: column;
         justify-content: center;
@@ -909,8 +910,7 @@ input[type="button"]{
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         width: 90%;
     }
-        .ff {
-            
+        .ff {   
         display: flex;
         flex-direction: column;
         justify-content: center;
