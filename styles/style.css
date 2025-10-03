@@ -50,6 +50,9 @@ p{
     margin: -10px;
     padding: 10px;
 }
+#menu-toggle {
+    display: none;
+}
 .estrip{
     width:90%;
     overflow: hidden;
@@ -1022,70 +1025,7 @@ input[type="button"]{
 
         /*  Responsive for mobile */
 
-        @media screen and (max-width: 600px) {
-            .fmf {
-                width: 95%;
-                padding: 25px 20px;
-            }
-
-            .formheading {
-                font-size: 1.6rem;
-                margin-bottom: 30px;
-            }
-
-            .name,
-            .email_user,
-            .pass {
-                flex-direction: column; 
-                gap: 10px;
-            }
-
-            .name input,
-            .email_user input,
-            .pass input,
-            .select_location select {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .start h2 {
-                font-size: 1.1rem;
-            }
-
-            .start label {
-                font-size: 13px;
-            }
-
-            label {
-                font-size: 1.3rem;
-            }
-
-            .btnn {
-                width: 100%;   
-                font-size: 0.9rem;
-            }
-
-            .log {
-                font-size: 12px;
-            }
-        }
-
        
-        @media screen and (max-width: 400px) {
-            .formheading {
-                font-size: 1.4rem;
-            }
-
-            label {
-                font-size: 1rem;
-            }
-
-            .btnn {
-                font-size: 0.85rem;
-                padding: 10px;
-            }
-        }
-
 
         @media (max-width: 768px) {
         
@@ -1120,7 +1060,7 @@ input[type="button"]{
                 color: white;
             }
 
-            .menu-toggle {
+            #menu-toggle {
                 display: block;
             }
 
