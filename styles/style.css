@@ -864,7 +864,7 @@ input[type="button"]{
     }
     /* form page design*/
  
-        /*formbody and main*/
+    /*formbody and main*/
         
 
     
@@ -1020,6 +1020,207 @@ input[type="button"]{
             color: #333;
         }
 
+        /*  Responsive for mobile */
 
+        @media screen and (max-width: 600px) {
+            .fmf {
+                width: 95%;
+                padding: 25px 20px;
+            }
+
+            .formheading {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+
+            .name,
+            .email_user,
+            .pass {
+                flex-direction: column; 
+                gap: 10px;
+            }
+
+            .name input,
+            .email_user input,
+            .pass input,
+            .select_location select {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .start h2 {
+                font-size: 1.1rem;
+            }
+
+            .start label {
+                font-size: 13px;
+            }
+
+            label {
+                font-size: 1.3rem;
+            }
+
+            .btnn {
+                width: 100%;   
+                font-size: 0.9rem;
+            }
+
+            .log {
+                font-size: 12px;
+            }
+        }
+
+       
+        @media screen and (max-width: 400px) {
+            .formheading {
+                font-size: 1.4rem;
+            }
+
+            label {
+                font-size: 1rem;
+            }
+
+            .btnn {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+        
+            .ul {
+                display: none;
+                flex-direction: column;
+                background: #b7b9bb;
+                position: absolute;
+                top: 70px;   
+                left: 0;
+                width: 100%;
+                padding: 20px 0;
+                z-index: 9999; 
+            }
+
+            .ul.active {
+                display: flex;
+            }
+
+            .ul li {
+                text-align: center;
+                margin: 8px 0;
+            }
+
+            .drpdwn .dropdown-content {
+                position: static; 
+                box-shadow: none;
+                background: #5e6c76;
+            }
+
+            .drpdwn .dropdown-content a {
+                color: white;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            
+            .fmf {
+                width: 95%;
+                padding: 25px 20px;
+            }
+            .formheading {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+            .name, .email_user, .pass {
+                flex-direction: column; 
+                gap: 10px;
+            }
+            .name input,
+            .email_user input,
+            .pass input,
+            .select_location select {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .start h2 {
+                font-size: 1.1rem;
+            }
+            .start label {
+                font-size: 13px;
+            }
+            label {
+                font-size: 1.3rem; 
+            }
+            .btnn {
+                width: 100%;   
+                font-size: 0.9rem;
+            }
+            .log {
+                font-size: 12px;
+            }
+            .specialists_container {
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px;
+            }
+
+
+                .doctor {
+                    padding: 10px;
+                    width: 100%;
+                }
+
+                .specialist h1 {
+                    font-size: 1.8rem; 
+                }
+
+                .specialist p {
+                    font-size: 0.9rem; 
+                }
+
+                .see button {
+                    margin-top: 30px;
+                    font-size: 0.9rem;
+                    padding: 8px 14px;
+                }
+                .emergency-box {
+                flex-direction: column; 
+                width: 90%; 
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .emergency-box img {
+                width: 20%; 
+                margin-bottom: 10px;
+            }
+
+            .section {
+                flex-direction: row; 
+                justify-content: flex-start;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .content {
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .divider {
+                display: none; 
+            }
+
+            .value {
+                font-size: 1rem;
+            }
+
+            .title {
+                font-size: 0.85rem;
+            }
+    }
 
         
+
+                
