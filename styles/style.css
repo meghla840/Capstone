@@ -816,10 +816,10 @@ input[type="button"]{
         
     }
    .foot p{
-    color: #514848;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    font-weight: 500;
+        color: #514848;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        font-weight: 500;
    }
    .foot a{
     color: #392e2e;
@@ -894,12 +894,7 @@ input[type="button"]{
         margin: 10px 0;
         color: #2c3e50
     }
-   
-
-   
-
-
-        /*form part of form page */
+    /*form part of form page */
     .fmf{
         margin-top: 5px;
          display: flex;
@@ -913,7 +908,7 @@ input[type="button"]{
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         width: 90%;
     }
-        .ff {   
+    .ff {   
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -922,7 +917,7 @@ input[type="button"]{
         margin-bottom: 50px;
         }
 
-        .formheading {
+    .formheading {
         text-align: center;
         font-size: 2.2rem;
         font-weight: 900;
@@ -933,50 +928,50 @@ input[type="button"]{
         .name,
         .email_user,
         .pass {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .name input,
         .email_user input,
         .pass input {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        outline: none;
-        font-size: 15px;
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
         }
 
         .select_location select {
-        width: 100%;
-        padding: 10px 14px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 15px;
-        margin-bottom: 15px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            margin-bottom: 15px;
         }
 
         .start {
-        margin: 20px 0;
+            margin: 20px 0;
         }
 
         .start h2 {
-        font-size: 1.3rem;
-        margin-bottom: 10px;
-        color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
         }
 
         .start input[type="radio"] {
-        margin-right: 6px;
-        margin-left: 15px;
+            margin-right: 6px;
+            margin-left: 15px;
         }
 
         .start label {
-        margin-right: 10px;
-        font-size: 14px;
-        color: #444;
+            margin-right: 10px;
+            font-size: 14px;
+            color: #444;
         }
         .btnclass{
             display: flex;
@@ -999,23 +994,23 @@ input[type="button"]{
 
 
         .log {
-        border-top: 1px solid bLACK;
-        width: 100%;
-        text-align: center;
-        margin-top: 18px;
-        font-size: 14px;
+            border-top: 1px solid bLACK;
+            width: 100%;
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
         }
 
         .log a {
-        color: #1e90ff;
-        text-decoration: none;
-        margin-left: 5px;
+            color: #1e90ff;
+            text-decoration: none;
+            margin-left: 5px;
         }
         input[type="radio"] {
-        width: 15px;
-        height: 15px;
-        accent-color: #1e90ff; 
-        cursor: pointer;
+            width: 15px;
+            height: 15px;
+            accent-color: #1e90ff; 
+            cursor: pointer;
         }
         label{
             font-size: 2rem;
@@ -1023,144 +1018,295 @@ input[type="button"]{
             color: #333;
         }
 
-        /*  Responsive for mobile */
-
-       
+        /* responsive for mobile */
+    
 
         @media (max-width: 768px) {
         
-            .ul {
-                display: none;
-                flex-direction: column;
-                background: #b7b9bb;
-                position: absolute;
-                top: 70px;   
-                left: 0;
-                width: 100%;
-                padding: 20px 0;
-                z-index: 9999; 
-            }
-
-            .ul.active {
-                display: flex;
-            }
-
-            .ul li {
-                text-align: center;
-                margin: 8px 0;
-            }
-
-            .drpdwn .dropdown-content {
-                position: static; 
-                box-shadow: none;
-                background: #5e6c76;
-            }
-
-            .drpdwn .dropdown-content a {
-                color: white;
-            }
-
-            #menu-toggle {
-                display: block;
-            }
-
-            
-            .fmf {
-                width: 95%;
-                padding: 25px 20px;
-            }
-            .formheading {
-                font-size: 1.6rem;
-                margin-bottom: 30px;
-            }
-            .name, .email_user, .pass {
-                flex-direction: column; 
-                gap: 10px;
-            }
-            .name input,
-            .email_user input,
-            .pass input,
-            .select_location select {
-                font-size: 14px;
-                padding: 10px;
-            }
-            .start h2 {
-                font-size: 1.1rem;
-            }
-            .start label {
-                font-size: 13px;
-            }
-            label {
-                font-size: 1.3rem; 
-            }
-            .btnn {
-                width: 100%;   
-                font-size: 0.9rem;
-            }
-            .log {
-                font-size: 12px;
-            }
-            .specialists_container {
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 15px;
-            }
-
-
-                .doctor {
-                    padding: 10px;
+                .ul {
+                    display: none;
+                    flex-direction: column;
+                    background: #b7b9bb;
+                    position: absolute;
+                    top: 70px;   
+                    left: 0;
                     width: 100%;
+                    padding: 20px 0;
+                    z-index: 9999; 
                 }
+                .ul.active {
+                    display: flex;
+                }
+                .ul li {
+                    text-align: center;
+                    margin: 8px 0;
+                }
+                .drpdwn .dropdown-content {
+                    position: static; 
+                    box-shadow: none;
+                    background: #5e6c76;
+                }
+                .drpdwn .dropdown-content a {
+                    color: white;
+                }
+                #menu-toggle {
+                    display: block;
+                }
+                .fmf {
+                    width: 95%;
+                    padding: 25px 20px;
+                }
+                .formheading {
+                    font-size: 1.6rem;
+                    margin-bottom: 30px;
+                }
+                .name, .email_user, .pass {
+                    flex-direction: column; 
+                    gap: 10px;
+                }
+                .name input,
+                .email_user input,
+                .pass input,
+                .select_location select {
+                    font-size: 14px;
+                    padding: 10px;
+                }
+                .start h2 {
+                    font-size: 1.1rem;
+                }
+                .start label {
+                    font-size: 13px;
+                }
+                label {
+                    font-size: 1.3rem; 
+                }
+                .btnn {
+                    width: 100%;   
+                    font-size: 0.9rem;
+                }
+                .log {
+                    font-size: 12px;
+                }
+                .specialists_container {
+                    grid-template-columns: repeat(2, 1fr); 
+                    gap: 15px;
+                }
+                .doctor {
+                        padding: 10px;
+                        width: 100%;
+                    }
 
                 .specialist h1 {
                     font-size: 1.8rem; 
+                
                 }
-
                 .specialist p {
                     font-size: 0.9rem; 
+                
                 }
-
                 .see button {
                     margin-top: 30px;
                     font-size: 0.9rem;
                     padding: 8px 14px;
                 }
                 .emergency-box {
-                flex-direction: column; 
-                width: 90%; 
-                padding: 15px;
-                gap: 15px;
-            }
-
-            .emergency-box img {
-                width: 20%; 
-                margin-bottom: 10px;
-            }
-
-            .section {
-                flex-direction: row; 
-                justify-content: flex-start;
-                gap: 10px;
-                width: 100%;
-            }
-
-            .content {
-                align-items: flex-start;
-                text-align: left;
-            }
-
-            .divider {
-                display: none; 
-            }
-
-            .value {
-                font-size: 1rem;
-            }
-
-            .title {
-                font-size: 0.85rem;
-            }
+                    flex-direction: column; 
+                    width: 90%; 
+                    padding: 15px;
+                    gap: 15px;
+                }
+                .emergency-box img {
+                    width: 20%; 
+                    margin-bottom: 10px;
+                }
+                
+                .section {
+                    flex-direction: row; 
+                    justify-content: flex-start;
+                    gap: 10px;
+                    width: 100%;
+                }
+                .content {
+                    align-items: flex-start;
+                    text-align: left;
+                }
+                .divider {
+                    display: none; 
+                }
+                .value {
+                    font-size: 1rem;
+                }
+                .title {
+                    font-size: 0.85rem;
+                }
     }
 
-        
+/* Find Doctor Page */
+    .find{
+        background-color:rgb(73, 70, 91)
+    }
+    
+
+ /* Top Search Bar */
+.search-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    border: #3498db;
+    
+}
+
+.select-type,
+.search-input,
+.search-button {
+  border-radius: 6px;
+  border: none;
+  font-size: .9rem;
+  
+}
+
+.select-type {
+  padding: 10px;
+  width: 230px;
+  background: #fff;
+  color: #333;
+}
+
+.search-box {  
+  flex: 1;
+  gap: 10px;
+  min-width: 550px;
+  position: relative; 
+}
+
+.search-box i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: translateY(-50%);
+  color: #474849;
+  font-size: .7rem;
+}
+
+.search-input {
+  width: 100%;
+  margin-left: 20px;
+  padding: 10px 10px 10px 70px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+.search-button {
+  background-color: #ebeeef;
+  color: rgb(14, 14, 14);
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.filter-container {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  
+}
+.filter-container select {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 150px;
+  outline: none;
+  margin-bottom: 25px;
+}
+.filter-container select option {
+  color: #000;
+}
+     
+
+/* doctorlist */
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4b3a7a;
+  font-size: 28px;
+}
+
+/* Doctor Card Layout */
+.doctor-card {
+  display: flex;
+  gap: 40px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(161, 140, 209, 0.3);
+  padding: 20px;
+  margin-bottom: 25px;
+  transition: 0.3s ease;
+}
+
+.doctor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(161, 140, 209, 0.4);
+}
+
+.doctor-img {
+  width: 140px;
+  height: 190px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.doctor-info h2 {
+  margin: 0;
+  color: #4b3a7a;
+}
+
+.doctor-info p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.doctor-info i {
+  color: #a18cd1;
+  margin-right: 8px;
+}
+
+/* Book Button */
+.btn.book {
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #a18cd1;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.btn.book:hover {
+  background-color: #8b75c7;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .doctor-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .doctor-img {
+    margin-bottom: 15px;
+  }
+}
 
                 
