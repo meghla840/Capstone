@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+    <!--DaisyUI-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--Tailwind-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!--Font Awesome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="hold">
+        <div class="estrip">
+          <div class="scroll">
+            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
+            Anytime!
+          </div>
+        </div>
+        <div class="emergencyData p-3">
+          <ul class="h-12 pr-3">
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-facebook"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-envelope"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-google"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-geo-alt"></i></a>
+            </li>
+          </ul>
+          <a href="join.html"><button class="w-25 flex items-center">+ Join Now</button></a>
+        </div>
+      </div>
+      <nav>
+        <div class="logo">
+          <img src="images/logo.png" alt="Logo" class="h-[50px]" />
+        </div>
+
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+
+        <ul class="ul" id="nav-links">
+          <li class="w-20 text-center"><a href="">Home</a></li>
+
+          <li class="drpdwn w-20 text-center">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="">Find Doctors</a>
+              <a href="">Doctors Available in Location</a>
+              <a href="">Doctors List</a>
+            </div>
+          </li>
+
+          <li class="drpdwn w-20 text-center">
+            <a href="">Hospital</a>
+            <div class="dropdown-content">
+              <a href="find_hospital.html">Find Hospital</a>
+              <a href="">Check around me</a>
+              <a href="">Hospital List</a>
+            </div>
+          </li>
+
+          <li class="drpdwn w-45 text-center">
+            <a href="">Medicine Availability</a>
+            <div class="dropdown-content">
+              <a href="">Medical Store list</a>
+              <a href="">Check Medicine Nearby</a>
+              <a href="">Medicine Details</a>
+            </div>
+          </li>
+
+          <li class="drpdwn w-30 text-center">
+            <a href="">Health Forum</a>
+            <div class="dropdown-content">
+              <a href="">Ask a Question</a>
+              <a href="">Browse Discussions</a>
+            </div>
+          </li>
+
+          <li class="drpdwn w-50 text-center">
+            <a href="">Health Support Services</a>
+            <div class="dropdown-content">
+              <a href="">Latest Health News</a>
+              <a href="">Emergency Action Guide</a>
+              <a href="">Care and Tips For Special Groups</a>
+              <a href="">Our Commitment & Care Promise</a>
+              <a href="">Get in Touch</a>
+            </div>
+          </li>
+
+          <li class="w-30 text-center">
+            <button><i class="bi bi-car-front-fill"></i> Emergency</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="bg-[#eaf0f3] pb-10">
+      <section class="bg-[#49465b] pl-28 pr-28 pb-4">
+        <div class="flex justify-between items-center">
+          <h1 class="text-center font-semibold text-xl text-white">Find Hospital</h1>
+          <div class="p-4 flex w-[50%]">
+            <label class="input text-[.5rem] w-3/4 flex-1 rounded-xl">
+              <svg
+                class="h-[1em] opacity-50"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <g
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  stroke-width="2.5"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </g>
+              </svg>
+              <input type="search" required placeholder="Search Hospitals" />
+            </label>
+            <button class="btn">Search</button>
+          </div>
+        </div>
+
+        
+        <div class="ml-auto w-1/2 flex justify-end gap-3 pr-8">
+          
+          <div class="w-[48%]">
+            <select class="w-full h-10 p-2">
+              <option selected>
+                Select Division<i class="bi bi-chevron-bar-down"></i>
+              </option>
+              <option value="Barishal">Barishal</option>
+              <option value="Chittagong">Chittagong</option>
+              <option value="dhaka">Dhaka</option>
+              <option value="Khulna">Khulna</option>
+              <option value="Mymensingh">Mymensingh</option>
+              <option value="Rangpur">Rangpur</option>
+              <option value="Sylhet">Sylhet</option>
+            </select>
+          </div>
+          <div class="w-[48%]">
+            <select class="w-full  h-10 p-2">
+              <option value="" selected>
+                Select District<i class="bi bi-chevron-bar-down"> </i>
+              </option>
+              <option value="Bagerhat">Bagerhat</option>
+              <option value="Bandarban">Bandarban</option>
+              <option value="Barguna">Barguna</option>
+              <option value="Barisal">Barisal</option>
+              <option value="Bhola">Bhola</option>
+              <option value="Bogura">Bogura</option>
+              <option value="Brahmanbaria">Brahmanbaria</option>
+              <option value="Chandpur">Chandpur</option>
+              <option value="Chattogram">Chattogram</option>
+              <option value="Chuadanga">Chuadanga</option>
+              <option value="Comilla">Comilla</option>
+              <option value="Cox's Bazar">Cox's Bazar</option>
+              <option value="Dhaka">Dhaka</option>
+              <option value="Dinajpur">Dinajpur</option>
+              <option value="Faridpur">Faridpur</option>
+              <option value="Feni">Feni</option>
+              <option value="Gaibandha">Gaibandha</option>
+              <option value="Gazipur">Gazipur</option>
+              <option value="Gopalganj">Gopalganj</option>
+              <option value="Habiganj">Habiganj</option>
+              <option value="Jamalpur">Jamalpur</option>
+              <option value="Jashore">Jashore</option>
+              <option value="Jhalokathi">Jhalokathi</option>
+              <option value="Jhenaidah">Jhenaidah</option>
+              <option value="Joypurhat">Joypurhat</option>
+              <option value="Khagrachari">Khagrachari</option>
+              <option value="Khulna">Khulna</option>
+              <option value="Kishoreganj">Kishoreganj</option>
+              <option value="Kurigram">Kurigram</option>
+              <option value="Kushtia">Kushtia</option>
+              <option value="Lakshmipur">Lakshmipur</option>
+              <option value="Lalmonirhat">Lalmonirhat</option>
+              <option value="Madaripur">Madaripur</option>
+              <option value="Magura">Magura</option>
+              <option value="Manikganj">Manikganj</option>
+              <option value="Meherpur">Meherpur</option>
+              <option value="Moulvibazar">Moulvibazar</option>
+              <option value="Munshiganj">Munshiganj</option>
+              <option value="Mymensingh">Mymensingh</option>
+              <option value="Naogaon">Naogaon</option>
+              <option value="Narail">Narail</option>
+              <option value="Narayanganj">Narayanganj</option>
+              <option value="Narsingdi">Narsingdi</option>
+              <option value="Natore">Natore</option>
+              <option value="Nawabganj">Nawabganj</option>
+              <option value="Netrakona">Netrakona</option>
+              <option value="Nilphamari">Nilphamari</option>
+              <option value="Noakhali">Noakhali</option>
+              <option value="Pabna">Pabna</option>
+              <option value="Panchagarh">Panchagarh</option>
+              <option value="Patuakhali">Patuakhali</option>
+              <option value="Pirojpur">Pirojpur</option>
+              <option value="Rajbari">Rajbari</option>
+              <option value="Rajshahi">Rajshahi</option>
+              <option value="Rangamati">Rangamati</option>
+              <option value="Rangpur">Rangpur</option>
+              <option value="Satkhira">Satkhira</option>
+              <option value="Shariatpur">Shariatpur</option>
+              <option value="Sherpur">Sherpur</option>
+              <option value="Sirajganj">Sirajganj</option>
+              <option value="Sunamganj">Sunamganj</option>
+              <option value="Sylhet">Sylhet</option>
+              <option value="Tangail">Tangail</option>
+              <option value="Thakurgaon">Thakurgaon</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-5/10 mx-auto">
+        <div class="hospitals-container flex flex-col gap-4 mt-6">
+
+          <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">United Hospital Limited</h1>
+              <div class="flex gap-2 "><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl hover:text-blue-600">Gulshan-2, Dhaka</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 19-14001234</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+           <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">Apollo Hospitals Dhaka</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Bashundhara R/A, Dhaka</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1714-090000</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">Dhaka Medical College Hospital (DMCH)</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 2-8626812-26</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">National Heart Institute</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 9122560-72</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">BIRDEM Hospital</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 9661551-60</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+           <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">Epic Health Care</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1984-499600</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+          <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">National Hospital Chittagong</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 031-627913</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+          <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
+            <img class="" src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+              <h1 class="font-semibold pb-2">CSCR Hospital & Diagnostic Center</h1>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
+              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1887-656565</p></div>
+             </div>
+             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="">
+      <section class="">
+        <div class="foot_contain flex justify-between items-center">
+          <div class="foot">
+            <img src="images/logo.png" alt="" height="150px" width="180px" />
+            <p style="text-align: justify">
+              QuickAid provides fast, reliable, and user-friendly access to
+              emergency <br />health services. Whether it's locating medicine,
+              finding a doctor,<br />
+              or alerting responders we’re here when every second counts.
+            </p>
+            <ul class="info pt-5">
+              <li class="h-10 flex items-center">
+                <a href=""
+                  ><i class="bi bi-envelope-at"></i> QuicAid@gmail.com</a
+                >
+              </li>
+              <li class="h-10 flex items-center">
+                <a href=""><i class="bi bi-twitter"></i> Tweet Us</a>
+              </li>
+              <li class="h-10 flex items-center">
+                <a href=""
+                  ><i class="bi bi-linkedin"></i> Visit Our Linkedin Profile</a
+                >
+              </li>
+            </ul>
+            <div class="icon">
+              <i class="bi bi-envelope-at"></i>
+              <i class="bi bi-twitter"></i>
+              <i class="bi bi-linkedin"></i>
+              <i class="bi bi-facebook"></i>
+              <i class="bi bi-geo"></i>
+              <i class="bi bi-browser-chrome"></i>
+            </div>
+          </div>
+
+          <div class="formm">
+            <h3 class="merriweather">Something bothering you?</h3>
+            <p>
+              Submit your complaint below and we’ll get back to you shortly.
+            </p>
+            <form class="flex flex-col">
+              <textarea
+                name="complaint"
+                placeholder="Write your complaint here..."
+                rows="5"
+                required
+                class="bg-white mt-3 mb-3"
+              ></textarea>
+              <button class="send">Send</button>
+            </form>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
+        </div>
+      </section>
+    </footer>
+  </body>
+</html>
