@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Hospital - QuickAid</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+body{margin:0;font-family:Arial,sans-serif;}
+header{background:#007bff;color:white;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
+header nav ul{list-style:none;display:flex;gap:15px;margin:0;padding:0;}
+header nav ul li{margin:0;}
+header nav ul li a{color:white;text-decoration:none;}
+header nav ul li button{background:red;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;}
+section.hero{padding:30px;text-align:center;background:#e9f2ff;}
+section.hero h1{font-size:32px;margin-bottom:10px;}
+section.hero p{font-size:18px;margin-bottom:20px;}
+section.hero button{padding:12px 20px;font-size:16px;cursor:pointer;background:#007bff;color:white;border:none;border-radius:5px;}
+section#map{width:100%;height:500px;border:1px solid #ccc;margin:20px 0;}
+footer{background:#333;color:white;padding:20px;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div style="font-size:24px;font-weight:bold;">QuickAid</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="find_hospital.html">Find Hospital</a></li>
+      <li><a href="hospital_list.html">Hospital List</a></li>
+      <li><button id="emergencyBtn"><i class="bi bi-telephone-fill"></i> Emergency</button></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Locate Hospitals Near You</h1>
+  <p>Click the button below to find hospitals near your current location.</p>
+  <button id="locateHospitalBtn">Locate Nearest Hospitals</button>
+</section>
+
+<!-- Map Section -->
+<section id="map"></section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 QuickAid. All rights reserved.</p>
+</footer>
+
+<script>
+// Emergency button
+document.getElementById('emergencyBtn').addEventListener('click', function() {
+  const emergencyNumber = '+880125460586';
+  if(confirm('Do you want to call emergency number now?')) {
+    window.location.href = 'tel:' + emergencyNumber;
+  }
+});
+
+// Locate hospitals using Geolocation & Google Maps
+document.getElementById('locateHospitalBtn').addEventListener('click', function() {
+  if(!navigator.geolocation){
+    alert('Geolocation not supported by your browser');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(success,error);
+
+  function success(position){
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const mapUrl = `https://www.google.com/maps/search/hospital/@${lat},${lng},14z`;
+    window.open(mapUrl,'_blank');
+  }
+
+  function error(){
+    alert('Unable to retrieve your location');
+  }
+});
+</script>
+
+</body>
+</html>

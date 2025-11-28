@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Merriweather', serif; background:#eaf0f3; margin:0; padding:0; }
+    header { background:#49465b; color:white; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+    header h1 { font-size:1.5rem; margin:0; }
+    .btn-back { background-color:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
+    .btn-back:hover { background-color:#49465b; }
+    main { max-width:800px; margin:2rem auto; background:#fff; padding:2rem; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.1); text-align:center; }
+    h2 { font-size:2rem; margin-bottom:1rem; }
+    .hospital-img { width:250px; border-radius:10px; margin:1rem auto; display:block; }
+    .badges { margin:1rem 0; display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+    .badge { display:inline-block; background:#49465b; color:white; padding:2rem; border-radius:8px; font-size:.9rem; font-weight:600; }
+    .badge.rating { font-size:1.2rem; padding:2rem; }
+    table { width:100%; border-collapse:collapse; margin:1.5rem 0; }
+    table, th, td { border:1px solid #ccc; }
+    th, td { padding:0.6rem 1rem; text-align:center; }
+    th { background:#49465b; color:white; }
+    .label { font-weight:700; }
+    .btn-appointment { background:#49465b; color:white; padding:0.3rem 0.6rem; border-radius:5px; cursor:pointer; }
+    .btn-appointment:hover { background:#6c6a81; }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="btn-back" onclick="goBack()">← Back</button>
+    <h1>Hospital Details</h1>
+    <div></div>
+  </header>
+
+  <main>
+    <img id="hospitalImg" class="hospital-img" src="" alt="Hospital Image">
+    <h2 id="hospitalName"></h2>
+
+    <div class="badges">
+      <span class="badge" id="emergencySeatsBadge"></span>
+      <span class="badge" id="sectorCostBadge"></span>
+      <span class="badge rating" id="ratingBadge"></span>
+    </div>
+
+    <div class="detail-item"><span class="label">Location:</span> <span id="location"></span></div>
+
+    <div class="detail-item">
+      <h3 class="label mb-2">Doctors & Availability</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Doctor Name</th>
+            <th>Speciality</th>
+            <th>Available Time</th>
+            <th>Visit Fee (BDT)</th>
+            <th>Appointment</th> <!-- New Column -->
+          </tr>
+        </thead>
+        <tbody id="doctorsTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="detail-item">
+      <h3 class="label mb-2">Available Tests & Prices</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Test Name</th>
+            <th>Price (BDT)</th>
+          </tr>
+        </thead>
+        <tbody id="testTableBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer style="text-align:center; padding:1rem; background:#49465b; color:white;">
+    &copy; 2025 QuicAid. All rights reserved.
+  </footer>
+
+  <script>
+    function goBack(){ window.history.back(); }
+
+    const hospitalData = {
+      "United Hospital Limited": {
+        location: "Gulshan-2, Dhaka",
+        emergencySeats: 5,
+        rating: 4.5,
+        sectorCost: "Private / High",
+        img: "images/united_hospital.jpg",
+        doctors: [
+          {name:"Dr. A. Rahman", speciality:"Cardiology", time:"10:00-14:00", fee:1000},
+          {name:"Dr. S. Karim", speciality:"Neurology", time:"14:00-18:00", fee:1200},
+          {name:"Dr. L. Ahmed", speciality:"Pediatrics", time:"09:00-13:00", fee:900}
+        ],
+        tests: [
+          {name:"Blood Test", price: 800},
+          {name:"MRI Scan", price: 4500},
+          {name:"X-Ray", price: 1200}
+        ]
+      },
+      "Apollo Hospitals Dhaka": {
+        location: "Bashundhara R/A, Dhaka",
+        emergencySeats: 3,
+        rating: 4.2,
+        sectorCost: "Private / Medium",
+        img: "images/apollo_hospital.jpg",
+        doctors: [
+          {name:"Dr. M. Hasan", speciality:"Orthopedics", time:"09:00-12:00", fee:950},
+          {name:"Dr. R. Chowdhury", speciality:"Dermatology", time:"13:00-17:00", fee:1100}
+        ],
+        tests: [
+          {name:"Blood Test", price: 700},
+          {name:"CT Scan", price: 4000},
+          {name:"ECG", price: 500}
+        ]
+      },
+      "Square Hospitals": {
+        location: "Dhanmondi, Dhaka",
+        emergencySeats: 4,
+        rating: 4.0,
+        sectorCost: "Private / Medium",
+        img: "images/square_hospital.jpg",
+        doctors: [
+          {name:"Dr. N. Hossain", speciality:"General Surgery", time:"10:00-15:00", fee:1000},
+          {name:"Dr. F. Islam", speciality:"Gynecology", time:"12:00-16:00", fee:900}
+        ],
+        tests: [
+          {name:"Blood Test", price: 750},
+          {name:"Ultrasound", price: 1200},
+          {name:"X-Ray", price: 1000}
+        ]
+      }
+    };
+
+    function populateHospital(name){
+      const hospitalNames = Object.keys(hospitalData);
+      let foundName = hospitalNames.find(h => h.toLowerCase() === name.toLowerCase());
+      if(!foundName){
+        document.getElementById('hospitalName').innerText = "Hospital not found!";
+        document.getElementById('hospitalImg').style.display = "none";
+        return;
+      }
+
+      const h = hospitalData[foundName];
+      document.getElementById('hospitalName').innerText = foundName;
+      document.getElementById('location').innerText = h.location;
+      document.getElementById('hospitalImg').src = h.img;
+      document.getElementById('hospitalImg').alt = foundName;
+      document.getElementById('emergencySeatsBadge').innerText = `Emergency Seats: ${h.emergencySeats}`;
+      document.getElementById('sectorCostBadge').innerText = h.sectorCost;
+      document.getElementById('ratingBadge').innerText = "★".repeat(Math.floor(h.rating)) + (h.rating%1?"½":"");
+
+      // Populate doctors
+      const doctorsTable = document.getElementById('doctorsTableBody');
+      doctorsTable.innerHTML = "";
+      h.doctors.forEach(doc=>{
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${doc.name}</td>
+          <td>${doc.speciality}</td>
+          <td>${doc.time}</td>
+          <td>${doc.fee}</td>
+          <td>
+            <button class="btn-appointment" onclick="goToAppointment('${encodeURIComponent(doc.name)}','${encodeURIComponent(foundName)}')">
+              Book
+            </button>
+          </td>
+        `;
+        doctorsTable.appendChild(row);
+      });
+
+      // Populate tests
+      const testTable = document.getElementById('testTableBody');
+      testTable.innerHTML = "";
+      h.tests.forEach(t=>{
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${t.name}</td><td>${t.price}</td>`;
+        testTable.appendChild(row);
+      });
+    }
+
+    // Redirect to appointment page
+    function goToAppointment(doctorName, hospitalName){
+      window.location.href = `appointment.html?doctor=${doctorName}&hospital=${hospitalName}`;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const nameParam = params.get('name');
+    if(nameParam){
+      populateHospital(decodeURIComponent(nameParam));
+    } else {
+      document.getElementById('hospitalName').innerText = "Hospital not found!";
+      document.getElementById('hospitalImg').style.display = "none";
+    }
+  </script>
+</body>
+</html>

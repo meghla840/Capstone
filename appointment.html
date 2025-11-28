@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Merriweather', serif; background:#eaf0f3; margin:0; padding:0; }
+    header { background:#49465b; color:white; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+    header h1 { margin:0; font-size:1.5rem; }
+    .btn-back { background-color:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
+    .btn-back:hover { background-color:#49465b; }
+    main { max-width:600px; margin:2rem auto; background:#fff; padding:2rem; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.1); }
+    h2 { font-size:1.8rem; margin-bottom:1rem; text-align:center; }
+    form { display:flex; flex-direction:column; gap:1rem; }
+    label { font-weight:600; }
+    input, select, textarea { padding:0.5rem; border:1px solid #ccc; border-radius:5px; }
+    button { background:#49465b; color:white; padding:0.7rem; border:none; border-radius:5px; cursor:pointer; font-weight:600; }
+    button:hover { background:#6c6a81; }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="btn-back" onclick="goBack()">← Back</button>
+    <h1>Book Appointment</h1>
+    <div></div>
+  </header>
+
+  <main>
+    <h2 id="formTitle">Book Your Appointment</h2>
+
+    <form id="appointmentForm">
+      <div>
+        <label>Hospital:</label>
+        <input type="text" id="hospitalName" readonly>
+      </div>
+
+      <div>
+        <label>Doctor:</label>
+        <input type="text" id="doctorName" readonly>
+      </div>
+
+      <div>
+        <label>Patient Name:</label>
+        <input type="text" id="patientName" placeholder="Enter patient full name" required>
+      </div>
+
+      <div>
+        <label>Blood Group:</label>
+        <select id="bloodGroup" required>
+          <option value="">Select Blood Group</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Date:</label>
+        <input type="date" id="appointmentDate" required>
+      </div>
+
+      <div>
+        <label>Available Time:</label>
+        <select id="appointmentTime" required></select>
+      </div>
+
+      <div>
+        <label>Contact Number:</label>
+        <input type="tel" id="contactNumber" placeholder="e.g. 01XXXXXXXXX" required>
+      </div>
+
+      <div>
+        <label>Additional Notes:</label>
+        <textarea id="notes" rows="3" placeholder="Any special instructions..."></textarea>
+      </div>
+
+      <button type="submit">Confirm Appointment</button>
+    </form>
+
+    <div id="successMessage" style="display:none; text-align:center; margin-top:1rem; color:green;">
+      Appointment successfully booked!
+    </div>
+  </main>
+
+  <footer style="text-align:center; padding:1rem; background:#49465b; color:white;">
+    &copy; 2025 QuicAid. All rights reserved.
+  </footer>
+
+  <!-- Only the <script> part is updated below -->
+
+<script>
+  function goBack(){ window.history.back(); }
+
+  const hospitalData = {
+    "United Hospital Limited": {
+      doctors: [
+        {name:"Dr. A. Rahman", time:"10:00-14:00"},
+        {name:"Dr. S. Karim", time:"14:00-18:00"},
+        {name:"Dr. L. Ahmed", time:"09:00-13:00"}
+      ]
+    },
+    "Apollo Hospitals Dhaka": {
+      doctors: [
+        {name:"Dr. M. Hasan", time:"09:00-12:00"},
+        {name:"Dr. R. Chowdhury", time:"13:00-17:00"}
+      ]
+    },
+    "Square Hospitals": {
+      doctors: [
+        {name:"Dr. N. Hossain", time:"10:00-15:00"},
+        {name:"Dr. F. Islam", time:"12:00-16:00"}
+      ]
+    }
+  };
+
+  function generateTimeSlots(timeRange, intervalMins = 15){
+    const [startTime, endTime] = timeRange.split('-');
+    const slots = [];
+    let [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+
+    let startDate = new Date(0,0,0,startH,startM);
+    let endDate = new Date(0,0,0,endH,endM);
+
+    while(startDate < endDate){
+      const hh = startDate.getHours().toString().padStart(2,'0');
+      const mm = startDate.getMinutes().toString().padStart(2,'0');
+      slots.push(`${hh}:${mm}`);
+      startDate.setMinutes(startDate.getMinutes() + intervalMins);
+    }
+
+    return slots;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const doctorParam = params.get('doctor') ? decodeURIComponent(params.get('doctor')) : '';
+  const hospitalParam = params.get('hospital') ? decodeURIComponent(params.get('hospital')) : '';
+
+  document.getElementById('doctorName').value = doctorParam;
+  document.getElementById('hospitalName').value = hospitalParam;
+  document.getElementById('formTitle').innerText = `Book Appointment with ${doctorParam}`;
+
+  const appointmentTimeSelect = document.getElementById('appointmentTime');
+  if(hospitalParam && doctorParam){
+    const hospital = hospitalData[hospitalParam];
+    if(hospital){
+      const doctor = hospital.doctors.find(d => d.name === doctorParam);
+      if(doctor){
+        appointmentTimeSelect.innerHTML = '';
+        const slots = generateTimeSlots(doctor.time, 15); // 15-min interval
+        slots.forEach(slot=>{
+          const option = document.createElement('option');
+          option.value = slot;
+          option.textContent = slot;
+          appointmentTimeSelect.appendChild(option);
+        });
+      }
+    }
+  }
+
+  document.getElementById('appointmentForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const patientName = document.getElementById('patientName').value;
+    const bloodGroup = document.getElementById('bloodGroup').value;
+    const date = document.getElementById('appointmentDate').value;
+    const time = document.getElementById('appointmentTime').value;
+    const contact = document.getElementById('contactNumber').value;
+    const notes = document.getElementById('notes').value;
+
+    console.log({
+      hospital: hospitalParam,
+      doctor: doctorParam,
+      patientName,
+      bloodGroup,
+      date,
+      time,
+      contact,
+      notes
+    });
+
+    document.getElementById('appointmentForm').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>

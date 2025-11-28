@@ -21,7 +21,6 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
@@ -32,62 +31,67 @@
       href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
       rel="stylesheet"
     />
+    <title>Find Hospital</title>
+    <style>
+      /* Inline CSS for map and hover buttons */
+      #map {
+        width: 100%;
+        height: 400px;
+        margin-top: 20px;
+        border-radius: 10px;
+      }
+      .btn-details {
+        background-color: #49465b;
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-details:hover {
+        background-color: #6c6a81;
+      }
+    </style>
   </head>
   <body>
+    <!-- NAVBAR: unchanged -->
     <header>
       <div class="hold">
         <div class="estrip">
           <div class="scroll">
-            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
-            Anytime!
+            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!
           </div>
         </div>
         <div class="emergencyData p-3">
           <ul class="h-12 pr-3">
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-facebook"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-envelope"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-google"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-geo-alt"></i></a>
-            </li>
+            <li class="flex items-center w-5"><a href=""><i class="bi bi-facebook"></i></a></li>
+            <li class="flex items-center w-5"><a href=""><i class="bi bi-envelope"></i></a></li>
+            <li class="flex items-center w-5"><a href=""><i class="bi bi-google"></i></a></li>
+            <li class="flex items-center w-5"><a href=""><i class="bi bi-geo-alt"></i></a></li>
           </ul>
           <a href="join.html"><button class="w-25 flex items-center">+ Join Now</button></a>
         </div>
       </div>
       <nav>
-        <div class="logo">
-          <img src="images/logo.png" alt="Logo" class="h-[50px]" />
-        </div>
-
+        <div class="logo"><img src="images/logo.png" alt="Logo" class="h-[50px]" /></div>
         <div class="menu-toggle" id="menu-toggle">☰</div>
-
         <ul class="ul" id="nav-links">
-          <li class="w-20 text-center"><a href="">Home</a></li>
-
+          <li class="w-20 text-center"><a href="index.html">Home</a></li>
           <li class="drpdwn w-20 text-center">
             <a href="">Doctors</a>
             <div class="dropdown-content">
-              <a href="">Find Doctors</a>
+              <a href="findDoctor.html">Find Doctors</a>
               <a href="">Doctors Available in Location</a>
               <a href="">Doctors List</a>
             </div>
           </li>
-
           <li class="drpdwn w-20 text-center">
             <a href="">Hospital</a>
             <div class="dropdown-content">
               <a href="find_hospital.html">Find Hospital</a>
-              <a href="">Check around me</a>
-              <a href="">Hospital List</a>
+              <a href="nearby_hospitals.html">Check around me</a>
+              <a href="hospital_list.html">Hospital List</a>
             </div>
           </li>
-
           <li class="drpdwn w-45 text-center">
             <a href="">Medicine Availability</a>
             <div class="dropdown-content">
@@ -115,52 +119,30 @@
               <a href="">Get in Touch</a>
             </div>
           </li>
-
           <li class="w-30 text-center">
             <button><i class="bi bi-car-front-fill"></i> Emergency</button>
           </li>
         </ul>
       </nav>
     </header>
+
     <main class="bg-[#eaf0f3] pb-10">
+      <!-- Search Section -->
       <section class="bg-[#49465b] pl-28 pr-28 pb-4">
         <div class="flex justify-between items-center">
           <h1 class="text-center font-semibold text-xl text-white">Find Hospital</h1>
           <div class="p-4 flex w-[50%]">
-            <label class="input text-[.5rem] w-3/4 flex-1 rounded-xl">
-              <svg
-                class="h-[1em] opacity-50"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2.5"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </g>
-              </svg>
-              <input type="search" required placeholder="Search Hospitals" />
-            </label>
-            <button class="btn">Search</button>
+            <input type="search" id="searchHospital" placeholder="Search Hospitals" class="w-3/4 rounded-xl p-2"/>
+            <button class="btn" onclick="filterHospitals()">Search</button>
           </div>
         </div>
-
-        
         <div class="ml-auto w-1/2 flex justify-end gap-3 pr-8">
-          
           <div class="w-[48%]">
-            <select class="w-full h-10 p-2">
-              <option selected>
-                Select Division<i class="bi bi-chevron-bar-down"></i>
-              </option>
+            <select id="division" class="w-full h-10 p-2" onchange="filterHospitals()">
+              <option value="" selected>Select Division</option>
               <option value="Barishal">Barishal</option>
               <option value="Chittagong">Chittagong</option>
-              <option value="dhaka">Dhaka</option>
+              <option value="Dhaka">Dhaka</option>
               <option value="Khulna">Khulna</option>
               <option value="Mymensingh">Mymensingh</option>
               <option value="Rangpur">Rangpur</option>
@@ -168,231 +150,182 @@
             </select>
           </div>
           <div class="w-[48%]">
-            <select class="w-full  h-10 p-2">
-              <option value="" selected>
-                Select District<i class="bi bi-chevron-bar-down"> </i>
-              </option>
-              <option value="Bagerhat">Bagerhat</option>
-              <option value="Bandarban">Bandarban</option>
-              <option value="Barguna">Barguna</option>
-              <option value="Barisal">Barisal</option>
-              <option value="Bhola">Bhola</option>
-              <option value="Bogura">Bogura</option>
-              <option value="Brahmanbaria">Brahmanbaria</option>
-              <option value="Chandpur">Chandpur</option>
-              <option value="Chattogram">Chattogram</option>
-              <option value="Chuadanga">Chuadanga</option>
-              <option value="Comilla">Comilla</option>
-              <option value="Cox's Bazar">Cox's Bazar</option>
+            <select id="district" class="w-full h-10 p-2" onchange="filterHospitals()">
+              <option value="" selected>Select District</option>
               <option value="Dhaka">Dhaka</option>
-              <option value="Dinajpur">Dinajpur</option>
-              <option value="Faridpur">Faridpur</option>
-              <option value="Feni">Feni</option>
-              <option value="Gaibandha">Gaibandha</option>
-              <option value="Gazipur">Gazipur</option>
-              <option value="Gopalganj">Gopalganj</option>
-              <option value="Habiganj">Habiganj</option>
-              <option value="Jamalpur">Jamalpur</option>
-              <option value="Jashore">Jashore</option>
-              <option value="Jhalokathi">Jhalokathi</option>
-              <option value="Jhenaidah">Jhenaidah</option>
-              <option value="Joypurhat">Joypurhat</option>
-              <option value="Khagrachari">Khagrachari</option>
-              <option value="Khulna">Khulna</option>
-              <option value="Kishoreganj">Kishoreganj</option>
-              <option value="Kurigram">Kurigram</option>
-              <option value="Kushtia">Kushtia</option>
-              <option value="Lakshmipur">Lakshmipur</option>
-              <option value="Lalmonirhat">Lalmonirhat</option>
-              <option value="Madaripur">Madaripur</option>
-              <option value="Magura">Magura</option>
-              <option value="Manikganj">Manikganj</option>
-              <option value="Meherpur">Meherpur</option>
-              <option value="Moulvibazar">Moulvibazar</option>
-              <option value="Munshiganj">Munshiganj</option>
-              <option value="Mymensingh">Mymensingh</option>
-              <option value="Naogaon">Naogaon</option>
-              <option value="Narail">Narail</option>
-              <option value="Narayanganj">Narayanganj</option>
-              <option value="Narsingdi">Narsingdi</option>
-              <option value="Natore">Natore</option>
-              <option value="Nawabganj">Nawabganj</option>
-              <option value="Netrakona">Netrakona</option>
-              <option value="Nilphamari">Nilphamari</option>
-              <option value="Noakhali">Noakhali</option>
-              <option value="Pabna">Pabna</option>
-              <option value="Panchagarh">Panchagarh</option>
-              <option value="Patuakhali">Patuakhali</option>
-              <option value="Pirojpur">Pirojpur</option>
-              <option value="Rajbari">Rajbari</option>
-              <option value="Rajshahi">Rajshahi</option>
-              <option value="Rangamati">Rangamati</option>
-              <option value="Rangpur">Rangpur</option>
-              <option value="Satkhira">Satkhira</option>
-              <option value="Shariatpur">Shariatpur</option>
-              <option value="Sherpur">Sherpur</option>
-              <option value="Sirajganj">Sirajganj</option>
-              <option value="Sunamganj">Sunamganj</option>
+              <option value="Chittagong">Chittagong</option>
               <option value="Sylhet">Sylhet</option>
-              <option value="Tangail">Tangail</option>
-              <option value="Thakurgaon">Thakurgaon</option>
+              <option value="Khulna">Khulna</option>
+              <option value="Barishal">Barishal</option>
+              <!-- Add more as needed -->
             </select>
           </div>
         </div>
       </section>
 
-      <section class="max-w-5/10 mx-auto">
-        <div class="hospitals-container flex flex-col gap-4 mt-6">
+   
 
-          <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">United Hospital Limited</h1>
-              <div class="flex gap-2 "><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl hover:text-blue-600">Gulshan-2, Dhaka</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 19-14001234</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-           <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">Apollo Hospitals Dhaka</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Bashundhara R/A, Dhaka</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1714-090000</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">Dhaka Medical College Hospital (DMCH)</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 2-8626812-26</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">National Heart Institute</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 9122560-72</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-           <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">BIRDEM Hospital</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Dhaka</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 9661551-60</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-           <div class="bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">Epic Health Care</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1984-499600</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-          <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">National Hospital Chittagong</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 031-627913</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-          <div class="bg-white p-2 rounded-lg  flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103">
-            <img class="" src="images/icons8-hospital-100.png" alt="" />
-            <div class="flex justify-between items-center flex-1">
-              <div>
-              <h1 class="font-semibold pb-2">CSCR Hospital & Diagnostic Center</h1>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p class="text-2xl">Chittagong</p></div>
-              <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p class="text-2xl">+880 1887-656565</p></div>
-             </div>
-             <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Details</button>
-            </div>
-          </div>
-
-        </div>
+      <!-- Map Section -->
+      <section class="px-28 mt-6">
+        <h2 class="text-xl font-semibold mb-2">Nearby Hospitals</h2>
+        <div id="map"></div>
       </section>
+         <!-- Hospital List -->
+      <section class="max-w-5/10 mx-auto">
+  <div class="hospitals-container flex flex-col gap-4 mt-6" id="hospitalList">
+    <!-- Existing hospitals -->
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="United Hospital Limited" data-division="Dhaka" data-district="Dhaka">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">United Hospital Limited</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Gulshan-2, Dhaka</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 19-14001234</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('United Hospital Limited')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Apollo Hospitals Dhaka" data-division="Dhaka" data-district="Dhaka">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Apollo Hospitals Dhaka</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Bashundhara R/A, Dhaka</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 1714-090000</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Apollo Hospitals Dhaka')">Details</button>
+      </div>
+    </div>
+
+    <!-- New hospitals in same design -->
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Square Hospitals Dhaka" data-division="Dhaka" data-district="Dhaka">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Square Hospitals Dhaka</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Dhanmondi, Dhaka</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 1711-111111</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Square Hospitals Dhaka')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Labaid Specialized Hospital" data-division="Dhaka" data-district="Dhaka">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Labaid Specialized Hospital</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Block C, Bashundhara, Dhaka</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 1611-222222</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Labaid Specialized Hospital')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Ibn Sina Hospital" data-division="Dhaka" data-district="Dhaka">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Ibn Sina Hospital</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Mirpur, Dhaka</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 1712-333333</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Ibn Sina Hospital')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Chittagong Medical College Hospital" data-division="Chittagong" data-district="Chittagong">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Chittagong Medical College Hospital</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Chittagong</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 317-444444</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Chittagong Medical College Hospital')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Lab Aid Chittagong" data-division="Chittagong" data-district="Chittagong">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Lab Aid Chittagong</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>GEC Circle, Chittagong</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 317-555555</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Lab Aid Chittagong')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Royal Hospital Khulna" data-division="Khulna" data-district="Khulna">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Royal Hospital Khulna</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Khulna</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 411-666666</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Royal Hospital Khulna')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Barishal Hospital" data-division="Barishal" data-district="Barishal">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Barishal Hospital</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Barishal</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 431-777777</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Barishal Hospital')">Details</button>
+      </div>
+    </div>
+
+    <div class="hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103" data-name="Sylhet MAG Osmani Medical College" data-division="Sylhet" data-district="Sylhet">
+      <img src="images/icons8-hospital-100.png" alt="" />
+      <div class="flex justify-between items-center flex-1">
+        <div>
+          <h1 class="font-semibold pb-2">Sylhet MAG Osmani Medical College</h1>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-location-25.png" alt=""><p>Sylhet</p></div>
+          <div class="flex gap-2"><img class="h-5" src="images/icons8-phone-25.png" alt=""><p>+880 821-888888</p></div>
+        </div>
+        <button class="btn-details" onclick="showDetails('Sylhet MAG Osmani Medical College')">Details</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
     </main>
 
+    <!-- FOOTER: unchanged -->
     <footer class="">
       <section class="">
         <div class="foot_contain flex justify-between items-center">
           <div class="foot">
             <img src="images/logo.png" alt="" height="150px" width="180px" />
             <p style="text-align: justify">
-              QuickAid provides fast, reliable, and user-friendly access to
-              emergency <br />health services. Whether it's locating medicine,
-              finding a doctor,<br />
-              or alerting responders we’re here when every second counts.
+              QuickAid provides fast, reliable, and user-friendly access to emergency <br />health services. Whether it's locating medicine, finding a doctor,<br />or alerting responders we’re here when every second counts.
             </p>
             <ul class="info pt-5">
               <li class="h-10 flex items-center">
-                <a href=""
-                  ><i class="bi bi-envelope-at"></i> QuicAid@gmail.com</a
-                >
+                <a href=""><i class="bi bi-envelope-at"></i> QuicAid@gmail.com</a>
               </li>
               <li class="h-10 flex items-center">
                 <a href=""><i class="bi bi-twitter"></i> Tweet Us</a>
               </li>
               <li class="h-10 flex items-center">
-                <a href=""
-                  ><i class="bi bi-linkedin"></i> Visit Our Linkedin Profile</a
-                >
+                <a href=""><i class="bi bi-linkedin"></i> Visit Our Linkedin Profile</a>
               </li>
             </ul>
-            <div class="icon">
-              <i class="bi bi-envelope-at"></i>
-              <i class="bi bi-twitter"></i>
-              <i class="bi bi-linkedin"></i>
-              <i class="bi bi-facebook"></i>
-              <i class="bi bi-geo"></i>
-              <i class="bi bi-browser-chrome"></i>
-            </div>
           </div>
-
           <div class="formm">
             <h3 class="merriweather">Something bothering you?</h3>
-            <p>
-              Submit your complaint below and we’ll get back to you shortly.
-            </p>
+            <p>Submit your complaint below and we’ll get back to you shortly.</p>
             <form class="flex flex-col">
-              <textarea
-                name="complaint"
-                placeholder="Write your complaint here..."
-                rows="5"
-                required
-                class="bg-white mt-3 mb-3"
-              ></textarea>
+              <textarea name="complaint" placeholder="Write your complaint here..." rows="5" required class="bg-white mt-3 mb-3"></textarea>
               <button class="send">Send</button>
             </form>
           </div>
@@ -402,5 +335,94 @@
         </div>
       </section>
     </footer>
+
+    <!-- Inline JS -->
+   <!-- Replace the Google Maps script and inline JS section at the end of your HTML -->
+
+<!-- Inline JS -->
+<script>
+  // Filter hospitals based on search input, division, and district
+  function filterHospitals() {
+    const name = document.getElementById('searchHospital').value.toLowerCase();
+    const division = document.getElementById('division').value;
+    const district = document.getElementById('district').value;
+    const hospitals = document.querySelectorAll('.hospital-item');
+    hospitals.forEach(h => {
+      const hName = h.getAttribute('data-name').toLowerCase();
+      const hDivision = h.getAttribute('data-division');
+      const hDistrict = h.getAttribute('data-district');
+      if (
+        (hName.includes(name) || !name) &&
+        (hDivision === division || !division) &&
+        (hDistrict === district || !district)
+      ) {
+        h.style.display = 'flex';
+      } else {
+        h.style.display = 'none';
+      }
+    });
+  }
+
+  // Redirect to details page with hospital name
+  function showDetails(name) {
+    window.location.href = `hospital_details.html?name=${encodeURIComponent(name)}`;
+  }
+
+  // Google Maps
+  function initMap() {
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: { lat: 23.8103, lng: 90.4125 } // default Dhaka
+    });
+
+    // Try HTML5 geolocation
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(pos);
+
+          // Example nearby hospitals
+          const hospitals = [
+            {name: 'United Hospital Limited', lat: pos.lat + 0.01, lng: pos.lng + 0.01},
+            {name: 'Apollo Hospitals Dhaka', lat: pos.lat - 0.01, lng: pos.lng - 0.01}
+          ];
+
+          hospitals.forEach(h => {
+            const marker = new google.maps.Marker({
+              position: {lat: h.lat, lng: h.lng},
+              map: map,
+              title: h.name
+            });
+
+            const infowindow = new google.maps.InfoWindow({
+              content: `<div>
+                          <strong>${h.name}</strong><br>
+                          <button onclick="showDetails('${h.name}')">Details</button>
+                        </div>`
+            });
+
+            marker.addListener('click', () => {
+              infowindow.open(map, marker);
+            });
+          });
+        },
+        () => {
+          alert('Geolocation failed. Showing default location.');
+        }
+      );
+    } else {
+      alert('Browser does not support geolocation.');
+    }
+  }
+</script>
+
+<!-- Google Maps API script with your actual API key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD86sQTdR8QLar7KxxLEwaL95h63VS7bwk&callback=initMap&libraries=places" async defer></script>
+
+
   </body>
 </html>
