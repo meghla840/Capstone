@@ -197,6 +197,99 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* ----------------------------------------------------
+     FUNCTIONALITY FOR: medical_store_list.html
+  ---------------------------------------------------- */
+  const storeListContainer = $("#store-list-container");
+  if (storeListContainer) {
+    $$(".view-details-btn", storeListContainer).forEach(button => {
+        button.addEventListener("click", function() {
+            const card = this.closest(".list-item-card");
+            const storeName = $("h3", card).innerText;
+            const storeInfo = $("p", card).innerHTML;
+            
+            // Use the global modal function
+            if(window.openModal) {
+                window.openModal(storeName, `<p>${storeInfo}</p>`);
+            }
+        });
+    });
+  }
+
+  /* ----------------------------------------------------
+     FUNCTIONALITY FOR: medicine_nearby.html
+  ---------------------------------------------------- */
+  const locationFilter = $("#location-filter");
+  if (locationFilter) {
+    locationFilter.addEventListener('change', function() {
+        const selectedLocation = this.value;
+        const storeCards = $$('#stores-list .list-item-card');
+
+        storeCards.forEach(card => {
+            const cardLocation = card.getAttribute('data-location');
+            if (selectedLocation === 'all' || selectedLocation === cardLocation) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    });
+
+    // Add modal functionality for the buttons on this page
+    $$(".check-avail-btn", $("#stores-list")).forEach(button => {
+        button.addEventListener("click", function() {
+            const card = this.closest(".list-item-card");
+            const storeName = $("h3", card).innerText;
+            const title = `Availability at ${storeName}`;
+            const bodyHTML = `<p>Please contact the pharmacy directly for real-time stock information. This is a simulation.</p>
+                              <ul style="list-style-type: none; padding-left: 0;">
+                                  <li>Paracetamol: <span style="color:green; font-weight: bold;">In Stock</span></li>
+                                  <li>Omeprazole: <span style="color:green; font-weight: bold;">In Stock</span></li>
+                                  <li>Amoxicillin: <span style="color:orange; font-weight: bold;">Low Stock</span></li>
+                                  <li>Cetirizine: <span style="color:red; font-weight: bold;">Out of Stock</span></li>
+                              </ul>`;
+            
+            if(window.openModal) window.openModal(title, bodyHTML);
+        });
+    });
+  }
+
+  /* ----------------------------------------------------
+     FUNCTIONALITY FOR: medicine_details.html
+  ---------------------------------------------------- */
+  const medicineSearchInput = $('#medicine-search-input');
+  if (medicineSearchInput) {
+    medicineSearchInput.addEventListener('keyup', function() {
+        const searchQuery = this.value.toLowerCase();
+        const medicineCards = $$('#medicine-list .list-item-card');
+
+        medicineCards.forEach(card => {
+            const medicineName = card.querySelector('.medicine-name').textContent.toLowerCase();
+            if (medicineName.includes(searchQuery)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    });
+
+    // Add modal functionality for the buttons on this page
+    $$(".read-more-btn", $("#medicine-list")).forEach(button => {
+        button.addEventListener("click", function() {
+            const card = this.closest(".list-item-card");
+            const medName = $(".medicine-name", card).innerText;
+            const medInfo = $("p", card).innerHTML;
+            const title = medName;
+            const bodyHTML = `<p>${medInfo}</p>
+                              <p><strong>Description:</strong> This is a sample detailed description for ${medName}. Always consult a doctor before use.</p>
+                              <p><strong>Dosage:</strong> As prescribed by your physician.</p>
+                              <p style="color: red; font-weight: bold; margin-top: 15px;">Disclaimer: Information is for educational purposes only. Consult a healthcare professional for medical advice.</p>`;
+            
+            if(window.openModal) window.openModal(title, bodyHTML);
+        });
+    });
+  }
+
   /* -----------------------------------------
      COMPLAINT FORM
   ------------------------------------------*/
