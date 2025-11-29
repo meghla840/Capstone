@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergency Transport - QuickAid</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+     background-color:  rgb(234, 240, 243);
+    font-family:'Open Sans', sans-serif;
+}
+
+/* HEADER */
+header { background:#49465b; color:white; padding:1rem; display:flex; align-items:center; justify-content:space-between;
+ }
+ h2{
+    font-size: 3rem;
+    margin: 0%;
+ }
+.btn-back { background-color:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
+
+/* CONTAINER */
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
+}
+
+/* Titles */
+h1{
+    font-family:'Merriweather', serif;
+    text-align:center;
+    margin-bottom:40px;
+    font-size:36px;
+    background:linear-gradient(to right,#191819,#2a2f39);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+.section-title{
+    font-family:'Merriweather', serif;
+    font-size:26px;
+    margin-bottom:15px;
+    background:linear-gradient(to right,#121212,#2575fc);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+/* Cards */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:25px;
+}
+.card{
+    background:rgb(224, 225, 240);
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.10);
+    transition:0.3s ease;
+    color:#333;
+    cursor:pointer;
+    transform:scale(0.97);
+    animation:fadeIn 0.6s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Gradient left bar */
+.card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:10px;
+    height:100%;
+    background:linear-gradient(to bottom, #bdb9c2, #b3c4e1);
+    border-radius:18px 0 0 18px;
+}
+
+.card:hover{
+    transform:scale(1.03);
+    box-shadow:0 12px 25px rgba(0,0,0,0.20);
+}
+
+.card h3{
+    font-size:22px;
+    margin:0 0 10px 0;
+}
+.info{
+    font-size:15px;
+    margin:6px 0;
+}
+
+/* See more button */
+.see-more{
+    margin-top:15px;
+    background:linear-gradient(135deg,#e3dee8,#c0c2c5);
+    color:rgb(15, 14, 14);
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    text-align: right;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.see-more:hover{
+    opacity:0.85;
+    transform:scale(1.06);
+    background: linear-gradient(135deg,#d0bfe0,#5b697f);
+}
+
+/* POPUP */
+.popup-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+    animation:fadeIn 0.3s ease;
+}
+.popup{
+    width:400px;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+    color:#333;
+    transform:scale(0.8);
+    animation:popupShow 0.35s ease forwards;
+    position:relative;
+}
+.popup h3{
+    font-size:24px;
+    margin-bottom:10px;
+    background:linear-gradient(to right,#19161b,#212939);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+.popup .detail{
+    text-align:left;
+    margin:8px 0;
+    font-size:16px;
+}
+.popup button{
+    width:45%;
+    padding:10px;
+    margin:5px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    color:white;
+    font-size:16px;
+}
+.confirm-btn{ background:#1dbf4e; }
+.cancel-btn{ background:#ff4d4d; }
+
+/* Animations */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+@keyframes popupShow{
+    from{opacity:0; transform:scale(0.8);}
+    to{opacity:1; transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <button class="btn-back" onclick="goBack()">← Back</button>
+    <h2>Hospital List</h2>
+    <div></div>
+  </header>
+
+<div class="container">
+
+    <h1>Choose Emergency Transport</h1>
+
+    <!-- Available Ambulances -->
+    <div>
+        <h2 class="section-title">🚑 Available Ambulances</h2>
+        <div class="cards" id="ambulanceSection"></div>
+
+        <!-- SEE MORE BUTTON -->
+        <!-- SEE MORE BUTTON -->
+<div style="text-align: center; margin-top: 15px;">
+    <button class="see-more" onclick="window.location.href='available_ambulance.html'">
+        See More ➜
+    </button>
+</div>
+
+    </div>
+
+    <!-- Other Vehicles -->
+    <div style="margin-top:40px;">
+        <h2 class="section-title">Other Transport Options</h2>
+        <div class="cards" id="otherVehicles"></div>
+    </div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup-bg" id="popupBg">
+    <div class="popup">
+        <h3 id="popupName"></h3>
+        <div id="popupDetails"></div>
+        <button class="confirm-btn" onclick="showCallOption()">Confirm</button>
+        <button class="cancel-btn" onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+<footer style="text-align:center; padding:1rem; background:#49465b; color:white;">
+    &copy; 2025 QuicAid. All rights reserved.
+  </footer>
+<script>
+/* ---------- VEHICLE DATA -------------- */
+const vehicles = [
+    {
+        name:"Ambulance - Type A",
+        type:"Ambulance",
+        ambulanceType:"Type A",
+        capacity:3,
+        driver:"Rahim",
+        phone:"01700000001",
+        license:"DL-45230",
+        rating:"4.7 ★",
+        service:"Excellent"
+    },
+    {
+        name:"Ambulance - Type B",
+        type:"Ambulance",
+        ambulanceType:"Type B",
+        capacity:2,
+        driver:"Karim",
+        phone:"01700000002",
+        license:"DL-89521",
+        rating:"4.5 ★",
+        service:"Very Good"
+    },
+    {
+        name:"Ambulance - ICU",
+        type:"Ambulance",
+        ambulanceType:"ICU Supported",
+        capacity:1,
+        driver:"Jamal",
+        phone:"01700000003",
+        license:"DL-32145",
+        rating:"4.9 ★",
+        service:"Premium ICU Facility"
+    },
+    {
+        name:"Private Car - Sedan",
+        type:"Private Car",
+        capacity:4,
+        driver:"Sohel",
+        phone:"01700000004",
+        license:"DL-56987",
+        rating:"4.3 ★",
+        service:"Good Condition"
+    },
+    {
+        name:"Private Car - Noah",
+        type:"Private Car",
+        capacity:6,
+        driver:"Mamun",
+        phone:"01700000005",
+        license:"DL-88544",
+        rating:"4.4 ★",
+        service:"Comfortable"
+    },
+    {
+        name:"CNG Auto",
+        type:"CNG",
+        capacity:2,
+        driver:"Babul",
+        phone:"01700000006",
+        license:"DL-99887",
+        rating:"4.1 ★",
+        service:"Fair"
+    }
+];
+
+/* Render Cards */
+function loadVehicles(){
+    let ambulanceHTML = "";
+    let otherHTML = "";
+
+    vehicles.forEach(v => {
+        const card = `
+            <div class="card" onclick="openPopup('${v.name}')">
+                <h3>${v.name}</h3>
+                <p class="info"><b>Type:</b> ${v.type}</p>
+                <p class="info"><b>Driver:</b> ${v.driver}</p>
+                <p class="info"><b>Capacity:</b> ${v.capacity}</p>
+            </div>
+        `;
+
+        if(v.type === "Ambulance") ambulanceHTML += card;
+        else otherHTML += card;
+    });
+
+    document.getElementById("ambulanceSection").innerHTML = ambulanceHTML;
+    document.getElementById("otherVehicles").innerHTML = otherHTML;
+}
+loadVehicles();
+
+/* Popup System */
+let selectedVehicle = null;
+
+function openPopup(name){
+    selectedVehicle = vehicles.find(v => v.name === name);
+
+    document.getElementById("popupName").innerText = selectedVehicle.name;
+
+    document.getElementById("popupDetails").innerHTML = `
+        <p class="detail"><b>Type:</b> ${selectedVehicle.type}</p>
+        ${selectedVehicle.ambulanceType ? `<p class="detail"><b>Ambulance Type:</b> ${selectedVehicle.ambulanceType}</p>` : ""}
+        <p class="detail"><b>Passenger Capacity:</b> ${selectedVehicle.capacity}</p>
+        <p class="detail"><b>Driver:</b> ${selectedVehicle.driver}</p>
+        <p class="detail"><b>Phone:</b> ${selectedVehicle.phone}</p>
+        <p class="detail"><b>License No:</b> ${selectedVehicle.license}</p>
+        <p class="detail"><b>Rating:</b> ${selectedVehicle.rating}</p>
+        <p class="detail"><b>Service Condition:</b> ${selectedVehicle.service}</p>
+    `;
+
+    document.getElementById("popupBg").style.display = "flex";
+}
+
+function closePopup(){
+    document.getElementById("popupBg").style.display = "none";
+}
+function goBack(){ window.history.back(); }
+/* Show Call Option after Confirm */
+function showCallOption(){
+    const detailsDiv = document.getElementById("popupDetails");
+    if(!document.getElementById("callBtn")){
+        const callBtn = document.createElement("button");
+        callBtn.id = "callBtn";
+        callBtn.className = "confirm-btn";
+        callBtn.innerText = "Call Now";
+        callBtn.onclick = function(){
+            window.location.href = `tel:${selectedVehicle.phone}`;
+        };
+        detailsDiv.appendChild(callBtn);
+    }
+}
+</script>
+
+</body>
+</html>
