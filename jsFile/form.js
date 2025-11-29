@@ -15,7 +15,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
     }
 
-    // Escape HTML
+  
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
         return String(unsafe)
@@ -37,7 +37,7 @@
         return `${Math.floor(hrs / 24)}d`;
     }
 
-    // Convert file to base64
+    
     async function fileToDataUrl(file) {
         if (!file) return null;
         return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@
         });
     }
 
-    // Initialize create post page
+    
     async function initAskPage() {
         const form = document.getElementById('create-post-form');
         if (!form) return;
@@ -91,12 +91,12 @@
         });
     }
 
-    // Render single post card
+    
     function renderPostCard(post) {
         const wrapper = document.createElement('div');
         wrapper.className = 'p-4 mb-4 bg-white shadow rounded-2xl';
 
-        // Header
+        
         const header = document.createElement('div');
         header.className = 'flex items-center justify-between mb-3';
         const left = document.createElement('div');
