@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="shortcut icon" href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    <title>Check Medicine Nearby</title>
+</head>
+<body class="open-sans">
+    <header>
+        <div class="hold">
+            <div class="estrip"><div class="scroll"><i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!</div></div>
+            <div class="emergencyData">
+                <ul>
+                    <li><a href=""><i class="bi bi-facebook"></i></a></li>
+                    <li><a href=""><i class="bi bi-envelope"></i></a></li>
+                    <li><a href=""><i class="bi bi-google"></i></a></li>
+                    <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
+                </ul>
+                <a href="join.html"><button> + Join Now</button></a>
+            </div>
+        </div>
+        <nav>
+            <div class="logo"><img src="images/logo.png" alt="Logo" height="50px" width="auto"></div>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <ul class="ul" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="drpdwn"><a href="">Doctors</a><div class="dropdown-content"><a href="">Find Doctors</a><a href="">Doctors Available in Location</a><a href="">Doctors List</a></div></li>
+                <li class="drpdwn"><a href="">Hospital</a><div class="dropdown-content"><a href="">Find Hospital</a><a href="">Check around me</a><a href="">Hospital List</a></div></li>
+                <li class="drpdwn"><a href="">Medicine Availability</a><div class="dropdown-content"><a href="medical_store_list.html">Medical Store list</a><a href="medicine_nearby.html">Check Medicine Nearby</a><a href="medicine_details.html">Medicine Details</a></div></li>
+                <li class="drpdwn"><a href="">Health Forum</a><div class="dropdown-content"><a href="">Ask a Question</a><a href="">Browse Discussions</a></div></li>
+                <li class="drpdwn"><a href="">Health Support Services</a><div class="dropdown-content"><a href="">Latest Health News</a><a href="">Emergency Action Guide</a><a href="">Care and Tips For Special Groups</a><a href="">Our Commitment & Care Promise</a><a href="">Get in Touch</a></div></li>
+                <li><button><i class="bi bi-car-front-fill"></i> Emergency</button></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="page-content" style="padding: 40px 20px; text-align: center;">
+            <h1 class="merriweather">Check Medicine Nearby</h1>
+            <p>Select a location from the dropdown to instantly filter pharmacies in that area.</p>
+        </section>
+        
+        <div class="Seacrh_Section" style="margin-top: 10px;">
+            <div class="search">
+                <div class="form">
+                    <!-- The button is removed, the dropdown now works on its own -->
+                    <select id="location-filter" name="location" style="width: 300px; padding: 10px;">
+                        <option value="all">Show All Locations</option>
+                        <option value="dhaka">Dhaka</option>
+                        <option value="chittagong">Chittagong</option>
+                        <option value="rajshahi">Rajshahi</option>
+                        <option value="sylhet">Sylhet</option>
+                        <option value="khulna">Khulna</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-container" id="stores-list">
+            <!-- 40 Data Entries with data-location attribute -->
+            <div class="list-item-card" data-location="dhaka"><h3>Lazz Pharma</h3><p>Address: Green Road<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Lazz Pharma')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Agrabad Medical Hall</h3><p>Address: Agrabad<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Agrabad Medical Hall')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Sylhet Drug House</h3><p>Address: Zindabazar<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Sylhet Drug House')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>Rajshahi Pharmacy</h3><p>Address: Shaheb Bazar<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at Rajshahi Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Wellness Pharmacy</h3><p>Address: Banani<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Wellness Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Chattogram Chemists</h3><p>Address: GEC Moor<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Chattogram Chemists')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Popular Medicine Corner</h3><p>Address: Dhanmondi<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Popular Medicine Corner')">Check Availability</button></div>
+            <div class="list-item-card" data-location="khulna"><h3>Khulna Medical Store</h3><p>Address: KDA Avenue<br><span class="location">Khulna</span></p><button onclick="alert('Checking availability at Khulna Medical Store')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Health Guard Pharmacy</h3><p>Address: Uttara<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Health Guard Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Sea View Medicine</h3><p>Address: Cox's Bazar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Sea View Medicine')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Surma Pharmacy</h3><p>Address: Ambarkhana<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Surma Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>North Bengal Drug</h3><p>Address: Bogura Sadar<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at North Bengal Drug')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>City Pharma</h3><p>Address: Gulshan<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at City Pharma')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Central Pharmacy</h3><p>Address: Nasirabad<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Central Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="khulna"><h3>Sundarban Medical</h3><p>Address: Jessore Sadar<br><span class="location">Khulna</span></p><button onclick="alert('Checking availability at Sundarban Medical')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Evercare Pharmacy</h3><p>Address: Bashundhara<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Evercare Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Jalalabad Pharma</h3><p>Address: Shibganj<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Jalalabad Pharma')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>National Pharma</h3><p>Address: Pabna Sadar<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at National Pharma')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Arogga Niketon</h3><p>Address: Gazipur<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Arogga Niketon')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Bay Pharmacy</h3><p>Address: Noakhali Sadar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Bay Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Trust Medico</h3><p>Address: Motijheel<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Trust Medico')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Karnaphuli Medical</h3><p>Address: Kaptai<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Karnaphuli Medical')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Sunrise Medico</h3><p>Address: Beanibazar<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Sunrise Medico')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>Jamuna Medical</h3><p>Address: Sirajganj<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at Jamuna Medical')">Check Availability</button></div>
+            <div class="list-item-card" data-location="khulna"><h3>Bagerhat Pharmacy</h3><p>Address: Bagerhat Sadar<br><span class="location">Khulna</span></p><button onclick="alert('Checking availability at Bagerhat Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Life Care Pharmacy</h3><p>Address: Savar<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Life Care Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>United Pharmacy</h3><p>Address: Halishahar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at United Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Moulvibazar Meds</h3><p>Address: Moulvibazar<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Moulvibazar Meds')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>Varendra Pharmacy</h3><p>Address: Naogaon Sadar<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at Varendra Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Modern Pharmacy</h3><p>Address: Tangail Sadar<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Modern Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Meghna Pharma</h3><p>Address: Chandpur Sadar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Meghna Pharma')">Check Availability</button></div>
+            <div class="list-item-card" data-location="khulna"><h3>Satkhira Drug House</h3><p>Address: Satkhira Sadar<br><span class="location">Khulna</span></p><button onclick="alert('Checking availability at Satkhira Drug House')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Narayanganj Meds</h3><p>Address: Narayanganj Sadar<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Narayanganj Meds')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>Bogra Medical Hall</h3><p>Address: Bogura<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at Bogra Medical Hall')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Al-Shefa Pharmacy</h3><p>Address: Comilla Sadar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Al-Shefa Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="sylhet"><h3>Habiganj Medico</h3><p>Address: Habiganj Sadar<br><span class="location">Sylhet</span></p><button onclick="alert('Checking availability at Habiganj Medico')">Check Availability</button></div>
+            <div class="list-item-card" data-location="dhaka"><h3>Padma Drug House</h3><p>Address: Faridpur Sadar<br><span class="location">Dhaka</span></p><button onclick="alert('Checking availability at Padma Drug House')">Check Availability</button></div>
+            <div class="list-item-card" data-location="khulna"><h3>Jessore Pharmacy</h3><p>Address: Jessore Circle<br><span class="location">Khulna</span></p><button onclick="alert('Checking availability at Jessore Pharmacy')">Check Availability</button></div>
+            <div class="list-item-card" data-location="rajshahi"><h3>Natore Meds</h3><p>Address: Natore Sadar<br><span class="location">Rajshahi</span></p><button onclick="alert('Checking availability at Natore Meds')">Check Availability</button></div>
+            <div class="list-item-card" data-location="chittagong"><h3>Prime Pharmacy</h3><p>Address: Feni Sadar<br><span class="location">Chittagong</span></p><button onclick="alert('Checking availability at Prime Pharmacy')">Check Availability</button></div>
+        </div>
+    </main>
+    <footer>
+        <section>
+            <div class="foot_contain">
+                <div class="foot">
+                <img src="images/logo.png" alt="" height="150px" width="180px">
+                <p style="text-align: justify;">QuickAid provides fast, reliable, and user-friendly access to emergency <br>health services.  Whether it's locating medicine,  finding a doctor,<br> or alerting responders   we’re here when every second counts.</p>
+                <ul class="info">
+                    <li><a href=""><i class="bi bi-envelope-at"></i>  QuicAid@gmail.com</a></li>
+                    <li><a href=""><i class="bi bi-twitter"></i> Tweet Us</a></li>
+                    <li><a href=""><i class="bi bi-linkedin"></i>  Visit Our Linkedin Profile</a></li>
+                </ul>
+                <div class="icon"><i class="bi bi-envelope-at"></i><i class="bi bi-twitter"></i><i class="bi bi-linkedin"></i><i class="bi bi-facebook"></i><i class="bi bi-geo"></i><i class="bi bi-browser-chrome"></i></div>
+            </div>
+            <div class="formm">
+                 <h3 class="merriweather"> Something bothering you?</h3>
+                <p>Submit your complaint below and we’ll get back to you shortly.</p>
+                <form><textarea name="complaint" placeholder="Write your complaint here..." rows="5" required></textarea><button class="send">Send</button></form>
+            </div>
+            </div>
+            <div class="copyright"><p>Copyright  &copy; 2025 QuicAid. All rights reserved.</p></div>
+        </section>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        
+        document.getElementById('location-filter').addEventListener('change', function() {
+            // 'this.value' gets the currently selected location from the dropdown.
+            const selectedLocation = this.value;
+            const storeCards = document.querySelectorAll('#stores-list .list-item-card');
+
+            storeCards.forEach(card => {
+                const cardLocation = card.getAttribute('data-location');
+                
+                // The filtering logic remains the same, but it runs instantly.
+                if (selectedLocation === 'all' || selectedLocation === cardLocation) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

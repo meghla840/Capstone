@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Details - QuickAid</title>
+    <!-- Link to your master CSS file -->
+    <link rel="stylesheet" href="styles/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="shortcut icon" href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+</head>
+<body class="open-sans">
+    <header>
+        <div class="hold">
+            <div class="estrip"><div class="scroll"><i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!</div></div>
+            <div class="emergencyData">
+                <ul>
+                    <li><a href=""><i class="bi bi-facebook"></i></a></li>
+                    <li><a href=""><i class="bi bi-envelope"></i></a></li>
+                    <li><a href=""><i class="bi bi-google"></i></a></li>
+                    <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
+                </ul>
+                <a href="join.html"><button> + Join Now</button></a>
+            </div>
+        </div>
+        <nav>
+            <div class="logo"><img src="images/logo.png" alt="Logo" height="50px" width="auto"></div>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <ul class="ul" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="drpdwn"><a href="">Doctors</a><div class="dropdown-content"><a href="">Find Doctors</a><a href="">Doctors Available in Location</a><a href="">Doctors List</a></div></li>
+                <li class="drpdwn"><a href="">Hospital</a><div class="dropdown-content"><a href="">Find Hospital</a><a href="">Check around me</a><a href="">Hospital List</a></div></li>
+                <li class="drpdwn"><a href="">Medicine Availability</a><div class="dropdown-content"><a href="medical_store_list.html">Medical Store list</a><a href="medicine_nearby.html">Check Medicine Nearby</a><a href="medicine_details.html">Medicine Details</a></div></li>
+                <li class="drpdwn"><a href="">Health Forum</a><div class="dropdown-content"><a href="">Ask a Question</a><a href="">Browse Discussions</a></div></li>
+                <li class="drpdwn"><a href="">Health Support Services</a><div class="dropdown-content"><a href="">Latest Health News</a><a href="">Emergency Action Guide</a><a href="">Care and Tips For Special Groups</a><a href="">Our Commitment & Care Promise</a><a href="">Get in Touch</a></div></li>
+                <li><button><i class="bi bi-car-front-fill"></i> Emergency</button></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="page-content" style="padding: 40px 20px; text-align: center;">
+            <h1 class="merriweather">Medicine Details</h1>
+            <p>Search our database to find details about any medicine.</p>
+        </section>
+
+        <div class="Seacrh_Section" style="margin-top: 10px;">
+            <div class="search">
+                <div class="form"><input type="text" id="medicine-search-input" placeholder="Start typing a medicine name..."></div>
+            </div>
+        </div>
+
+        <div class="list-container" id="medicine-list">
+            <!-- 40 Data Entries with Company Name Added -->
+            <div class="list-item-card"><h3 class="medicine-name">Paracetamol</h3><p>Use: Pain and fever relief<br>Generic: Acetaminophen<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Napa</h3><p>Use: Fever and mild pain<br>Generic: Paracetamol<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Omeprazole</h3><p>Use: Acidity, heartburn, GERD<br>Generic: Omeprazole<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Seclo</h3><p>Use: Stomach ulcers, acid reflux<br>Generic: Omeprazole<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Amoxicillin</h3><p>Use: Bacterial infections<br>Generic: Amoxicillin<br><b>Company:</b> Renata Limited</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Moxacil</h3><p>Use: Antibiotic for infections<br>Generic: Amoxicillin<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Cetirizine</h3><p>Use: Allergy symptoms, runny nose<br>Generic: Cetirizine Dihydrochloride<br><b>Company:</b> Opsonin Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Alatrol</h3><p>Use: Antihistamine for allergies<br>Generic: Cetirizine<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Metformin</h3><p>Use: Type 2 diabetes<br>Generic: Metformin Hydrochloride<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Comet</h3><p>Use: Blood sugar control<br>Generic: Metformin<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Azithromycin</h3><p>Use: Bacterial infections<br>Generic: Azithromycin<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Zimax</h3><p>Use: Antibiotic<br>Generic: Azithromycin<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Amlodipine</h3><p>Use: High blood pressure<br>Generic: Amlodipine Besylate<br><b>Company:</b> Renata Limited</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Salbutamol</h3><p>Use: Asthma, breathing difficulties<br>Generic: Salbutamol Sulphate<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Fexofenadine</h3><p>Use: Allergy relief<br>Generic: Fexofenadine Hydrochloride<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Fexo</h3><p>Use: Antihistamine<br>Generic: Fexofenadine<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Domperidone</h3><p>Use: Nausea and vomiting<br>Generic: Domperidone Maleate<br><b>Company:</b> Opsonin Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Motigut</h3><p>Use: Anti-emetic, bloating<br>Generic: Domperidone<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Ketorolac</h3><p>Use: Short-term pain management<br>Generic: Ketorolac Tromethamine<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Rolanac</h3><p>Use: Painkiller (NSAID)<br>Generic: Ketorolac<br><b>Company:</b> Renata Limited</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Esomeprazole</h3><p>Use: Acid reflux, GERD<br>Generic: Esomeprazole<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Esoral</h3><p>Use: Stomach acidity<br>Generic: Esomeprazole<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Clopidogrel</h3><p>Use: Blood clot prevention<br>Generic: Clopidogrel Bisulfate<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Plavix</h3><p>Use: Antiplatelet agent<br>Generic: Clopidogrel<br><b>Company:</b> Sanofi</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Losartan</h3><p>Use: High blood pressure<br>Generic: Losartan Potassium<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Angilock</h3><p>Use: Hypertension<br>Generic: Losartan<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Montelukast</h3><p>Use: Asthma, allergies<br>Generic: Montelukast Sodium<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Monas</h3><p>Use: Anti-asthmatic<br>Generic: Montelukast<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Ciprofloxacin</h3><p>Use: Bacterial infections<br>Generic: Ciprofloxacin<br><b>Company:</b> Renata Limited</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Ciprocin</h3><p>Use: Antibiotic<br>Generic: Ciprofloxacin<br><b>Company:</b> Opsonin Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Finasteride</h3><p>Use: Hair loss, prostate issues<br>Generic: Finasteride<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Propecia</h3><p>Use: Male pattern baldness<br>Generic: Finasteride<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Tamsulosin</h3><p>Use: Enlarged prostate (BPH)<br>Generic: Tamsulosin Hydrochloride<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Uromax</h3><p>Use: Benign Prostatic Hyperplasia<br>Generic: Tamsulosin<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Ibuprofen</h3><p>Use: Pain, inflammation, fever<br>Generic: Ibuprofen<br><b>Company:</b> Renata Limited</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Advil</h3><p>Use: Pain reliever (NSAID)<br>Generic: Ibuprofen<br><b>Company:</b> Pfizer</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Naproxen</h3><p>Use: Pain and inflammation<br>Generic: Naproxen Sodium<br><b>Company:</b> Square Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Anora</h3><p>Use: Painkiller<br>Generic: Naproxen<br><b>Company:</b> Beximco Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Doxycycline</h3><p>Use: Antibiotic for various infections<br>Generic: Doxycycline<br><b>Company:</b> Incepta Pharma</p><button class="read-more-btn">Read More</button></div>
+            <div class="list-item-card"><h3 class="medicine-name">Doxicap</h3><p>Use: Broad-spectrum antibiotic<br>Generic: Doxycycline<br><b>Company:</b> Eskayef Pharma</p><button class="read-more-btn">Read More</button></div>
+        </div>
+    </main>
+
+    <!-- Modal HTML Structure -->
+    <div id="details-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn">&times;</span>
+            <h2 id="modal-title">Medicine Details</h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <section>
+            <div class="foot_contain">
+                <div class="foot"><img src="images/logo.png" alt="" height="150px" width="180px"><p style="text-align: justify;">QuickAid provides fast, reliable, and user-friendly access to emergency <br>health services.  Whether it's locating medicine,  finding a doctor,<br> or alerting responders   we’re here when every second counts.</p><ul class="info"><li><a href=""><i class="bi bi-envelope-at"></i>  QuicAid@gmail.com</a></li><li><a href=""><i class="bi bi-twitter"></i> Tweet Us</a></li><li><a href=""><i class="bi bi-linkedin"></i>  Visit Our Linkedin Profile</a></li></ul><div class="icon"><i class="bi bi-envelope-at"></i><i class="bi bi-twitter"></i><i class="bi bi-linkedin"></i><i class="bi bi-facebook"></i><i class="bi bi-geo"></i><i class="bi bi-browser-chrome"></i></div></div>
+                <div class="formm"><h3 class="merriweather"> Something bothering you?</h3><p>Submit your complaint below and we’ll get back to you shortly.</p><form><textarea name="complaint" placeholder="Write your complaint here..." rows="5" required></textarea><button class="send">Send</button></form></div>
+            </div>
+            <div class="copyright"><p>Copyright  &copy; 2025 QuicAid. All rights reserved.</p></div>
+        </section>
+    </footer>
+
+    <!-- This can link to the central script.js file -->
+    <script src="scripts/script.js"></script>
+
+</body>
+</html>
