@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Tailwind -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <title>Medical Store List</title>
+    <style>
+      .btn-details {
+        background-color: #49465b;
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-details:hover {
+        background-color: #6c6a81;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR: same as nearby -->
+    <header>
+      <div class="hold">
+        <div class="estrip">
+          <div class="scroll">
+            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
+            Anytime!
+          </div>
+        </div>
+        <div class="emergencyData p-3">
+          <ul class="h-12 pr-3">
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-facebook"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-envelope"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-google"></i></a>
+            </li>
+            <li class="flex items-center w-5">
+              <a href=""><i class="bi bi-geo-alt"></i></a>
+            </li>
+          </ul>
+          <a href="join.html"
+            ><button class="w-25 flex items-center">+ Join Now</button></a
+          >
+        </div>
+      </div>
+      <nav>
+        <div class="logo">
+          <img src="images/logo.png" alt="Logo" class="h-[50px]" />
+        </div>
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+        <ul class="ul" id="nav-links">
+          <li class="w-20 text-center"><a href="index.html">Home</a></li>
+          <li class="drpdwn w-20 text-center">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="">Doctors Available in Location</a>
+              <a href="">Doctors List</a>
+            </div>
+          </li>
+          <li class="drpdwn w-20 text-center">
+            <a href="">Hospital</a>
+            <div class="dropdown-content">
+              <a href="find_hospital.html">Find Hospital</a>
+              <a href="nearby_hospitals.html">Check around me</a>
+              <a href="hospital_list.html">Hospital List</a>
+            </div>
+          </li>
+          <li class="drpdwn w-45 text-center">
+            <a href="">Medicine Availability</a>
+            <div class="dropdown-content">
+              <a href="medical_store_list.html">Medical Store list</a>
+              <a href="medicine_nearby.html">Check Medicine Nearby</a>
+              <a href="medicine_details.html">Medicine Details</a>
+            </div>
+          </li>
+          <li class="drpdwn w-30 text-center">
+            <a href="">Health Forum</a>
+            <div class="dropdown-content">
+              <a href="">Ask a Question</a>
+              <a href="">Browse Discussions</a>
+            </div>
+          </li>
+          <li class="drpdwn w-50 text-center">
+            <a href="">Health Support Services</a>
+            <div class="dropdown-content">
+              <a href="">Latest Health News</a>
+              <a href="">Emergency Action Guide</a>
+              <a href="">Care and Tips For Special Groups</a>
+              <a href="">Our Commitment & Care Promise</a>
+              <a href="">Get in Touch</a>
+            </div>
+          </li>
+          <li class="w-30 text-center">
+            <button><i class="bi bi-car-front-fill"></i> Emergency</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="bg-[#eaf0f3] pb-10">
+      <!-- Title + search (same feel as nearby) -->
+      <section class="bg-[#49465b] pl-28 pr-28 pb-4 pt-4">
+        <div class="flex justify-between items-center">
+          <h1 class="text-center font-semibold text-xl text-white">
+            Medical Store List
+          </h1>
+          <div class="p-4 flex w-[50%]">
+            <input
+              type="search"
+              id="storeSearch"
+              placeholder="Search Stores"
+              class="w-3/4 rounded-xl p-2"
+            />
+            <button class="btn" onclick="applyFilters()">Search</button>
+          </div>
+        </div>
+        <p class="text-right text-xs text-gray-200 pr-8">
+          Total: <span id="storeCount">50</span> stores
+        </p>
+      </section>
+
+      <!-- Store list -->
+      <section class="px-28 mt-6">
+        <h2 class="text-xl font-semibold mb-4">Stores</h2>
+        <div
+          class="flex flex-col gap-4"
+          id="storeList"
+        ></div>
+      </section>
+    </main>
+
+    <!-- FOOTER: same as nearby -->
+    <footer class="">
+      <section class="">
+        <div class="foot_contain flex justify-between items-center">
+          <div class="foot">
+            <img src="images/logo.png" alt="" height="150px" width="180px" />
+            <p style="text-align: justify">
+              QuickAid provides fast, reliable, and user-friendly access to
+              emergency <br />health services. Whether it's locating medicine,
+              finding a doctor,<br />or alerting responders we’re here when
+              every second counts.
+            </p>
+            <ul class="info pt-5">
+              <li class="h-10 flex items-center">
+                <a href=""
+                  ><i class="bi bi-envelope-at"></i> QuicAid@gmail.com</a
+                >
+              </li>
+              <li class="h-10 flex items-center">
+                <a href=""><i class="bi bi-twitter"></i> Tweet Us</a>
+              </li>
+              <li class="h-10 flex items-center">
+                <a href=""
+                  ><i class="bi bi-linkedin"></i> Visit Our Linkedin Profile</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="formm">
+            <h3 class="merriweather">Something bothering you?</h3>
+            <p>Submit your complaint below and we’ll get back to you shortly.</p>
+            <form class="flex flex-col">
+              <textarea
+                name="complaint"
+                placeholder="Write your complaint here..."
+                rows="5"
+                required
+                class="bg-white mt-3 mb-3"
+              ></textarea>
+              <button class="send">Send</button>
+            </form>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
+        </div>
+      </section>
+    </footer>
+
+    <script>
+      // same 50 stores, but only name + location shown in list
+      const stores = [
+        // Dhaka
+        { name: "Green Road Pharmacy", address: "Green Road, Dhaka", city: "Dhaka", contact:"+8801712345001", stock:["Square","Beximco","Incepta"] },
+        { name: "Banani Medical Hall", address: "Banani, Dhaka", city: "Dhaka", contact:"+8801712345002", stock:["Square","Aristopharma"] },
+        { name: "Dhanmondi Health Care", address: "Dhanmondi, Dhaka", city: "Dhaka", contact:"+8801712345003", stock:["Beximco","Renata","Incepta"] },
+        { name: "Mirpur City Pharmacy", address: "Mirpur 10, Dhaka", city: "Dhaka", contact:"+8801712345004", stock:["Square","Opsonin"] },
+        { name: "Uttara Life Pharmacy", address: "Uttara Sector 7, Dhaka", city: "Dhaka", contact:"+8801712345005", stock:["Incepta","ACME"] },
+        { name: "Bashundhara Care", address: "Bashundhara, Dhaka", city: "Dhaka", contact:"+8801712345006", stock:["Square","ACME","Renata"] },
+        { name: "Farmgate Drug House", address: "Farmgate, Dhaka", city: "Dhaka", contact:"+8801712345007", stock:["Beximco","Opsonin"] },
+        { name: "New Market Pharmacy", address: "New Market, Dhaka", city: "Dhaka", contact:"+8801712345008", stock:["Square","Incepta","Popular"] },
+        { name: "Shyamoli Medicos", address: "Shyamoli, Dhaka", city: "Dhaka", contact:"+8801712345009", stock:["Renata","Beximco"] },
+        { name: "Mohammadpur Health", address: "Mohammadpur, Dhaka", city: "Dhaka", contact:"+8801712345010", stock:["Square","Incepta"] },
+
+        // Chittagong
+        { name: "Agrabad Drug House", address: "Agrabad, Chittagong", city: "Chittagong", contact:"+8801712345101", stock:["Square","Beximco"] },
+        { name: "GEC Circle Pharmacy", address: "GEC Circle, Chittagong", city: "Chittagong", contact:"+8801712345102", stock:["Incepta","ACME"] },
+        { name: "Patenga Sea Care", address: "Patenga, Chittagong", city: "Chittagong", contact:"+8801712345103", stock:["Square","Renata"] },
+        { name: "Chawkbazar Medico", address: "Chawkbazar, Chittagong", city: "Chittagong", contact:"+8801712345104", stock:["Beximco","Opsonin"] },
+        { name: "Halishahar Pharmacy", address: "Halishahar, Chittagong", city: "Chittagong", contact:"+8801712345105", stock:["Square","Incepta","ACME"] },
+        { name: "Anderkilla Health", address: "Anderkilla, Chittagong", city: "Chittagong", contact:"+8801712345106", stock:["Renata","Beximco"] },
+        { name: "Nasirabad Care", address: "Nasirabad, Chittagong", city: "Chittagong", contact:"+8801712345107", stock:["Square","Popular"] },
+        { name: "Muradpur Pharmacy", address: "Muradpur, Chittagong", city: "Chittagong", contact:"+8801712345108", stock:["Incepta","ACME"] },
+        { name: "Jamal Khan Pharmacy", address: "Jamal Khan, Chittagong", city: "Chittagong", contact:"+8801712345109", stock:["Square","Beximco","Renata"] },
+        { name: "Oxygen Health Point", address: "Oxygen, Chittagong", city: "Chittagong", contact:"+8801712345110", stock:["Square","Incepta"] },
+
+        // Rajshahi
+        { name: "Natore Sadar Pharmacy", address: "Natore Sadar, Rajshahi", city: "Rajshahi", contact:"+8801712345201", stock:["Square","ACME"] },
+        { name: "Rajshahi City Care", address: "Shaheb Bazar, Rajshahi", city: "Rajshahi", contact:"+8801712345202", stock:["Beximco","Renata"] },
+        { name: "Laxmipur Medico", address: "Laxmipur, Rajshahi", city: "Rajshahi", contact:"+8801712345203", stock:["Square","Incepta"] },
+        { name: "Binodpur Pharmacy", address: "Binodpur, Rajshahi", city: "Rajshahi", contact:"+8801712345204", stock:["ACME","Opsonin"] },
+        { name: "Kazla Health Care", address: "Kazla, Rajshahi", city: "Rajshahi", contact:"+8801712345205", stock:["Square","Beximco"] },
+        { name: "Uposhohor Drug House", address: "Uposhohor, Rajshahi", city: "Rajshahi", contact:"+8801712345206", stock:["Renata","Incepta"] },
+        { name: "Belpukur Pharmacy", address: "Belpukur, Rajshahi", city: "Rajshahi", contact:"+8801712345207", stock:["Square","ACME"] },
+        { name: "Boro Bondor Medico", address: "Boro Bondor, Rajshahi", city: "Rajshahi", contact:"+8801712345208", stock:["Beximco","Opsonin"] },
+        { name: "New Market Health", address: "New Market, Rajshahi", city: "Rajshahi", contact:"+8801712345209", stock:["Square","Popular"] },
+        { name: "Rajshahi Relief Store", address: "Ghoramara, Rajshahi", city: "Rajshahi", contact:"+8801712345210", stock:["Incepta","Renata"] },
+
+        // Khulna
+        { name: "Sonadanga Pharmacy", address: "Sonadanga, Khulna", city: "Khulna", contact:"+8801712345301", stock:["Square","Beximco"] },
+        { name: "KDA Avenue Medico", address: "KDA Avenue, Khulna", city: "Khulna", contact:"+8801712345302", stock:["Incepta","Renata"] },
+        { name: "Khalishpur Drug House", address: "Khalishpur, Khulna", city: "Khulna", contact:"+8801712345303", stock:["Square","ACME"] },
+        { name: "Daulatpur Pharmacy", address: "Daulatpur, Khulna", city: "Khulna", contact:"+8801712345304", stock:["Beximco","Opsonin"] },
+        { name: "Gollamari Health", address: "Gollamari, Khulna", city: "Khulna", contact:"+8801712345305", stock:["Square","Incepta"] },
+        { name: "Boyra Care Pharmacy", address: "Boyra, Khulna", city: "Khulna", contact:"+8801712345306", stock:["Renata","ACME"] },
+        { name: "Notun Rasta Medico", address: "Notun Rasta, Khulna", city: "Khulna", contact:"+8801712345307", stock:["Square","Beximco"] },
+        { name: "Mujgunni Pharmacy", address: "Mujgunni, Khulna", city: "Khulna", contact:"+8801712345308", stock:["Incepta","Opsonin"] },
+        { name: "Tutatala Health Care", address: "Tutatala, Khulna", city: "Khulna", contact:"+8801712345309", stock:["Square","Renata"] },
+        { name: "Rupsha Drug Point", address: "Rupsha, Khulna", city: "Khulna", contact:"+8801712345310", stock:["ACME","Beximco"] },
+
+        // Sylhet
+        { name: "Zindabazar Pharmacy", address: "Zindabazar, Sylhet", city: "Sylhet", contact:"+8801712345401", stock:["Square","Beximco"] },
+        { name: "Ambarkhana Medico", address: "Ambarkhana, Sylhet", city: "Sylhet", contact:"+8801712345402", stock:["Incepta","Renata"] },
+        { name: "Subid Bazar Health", address: "Subid Bazar, Sylhet", city: "Sylhet", contact:"+8801712345403", stock:["Square","ACME"] },
+        { name: "Shibganj Drug House", address: "Shibganj, Sylhet", city: "Sylhet", contact:"+8801712345404", stock:["Beximco","Opsonin"] },
+        { name: "Uposhohor Pharmacy", address: "Uposhohor, Sylhet", city: "Sylhet", contact:"+8801712345405", stock:["Square","Incepta"] },
+        { name: "Mirabazar Care", address: "Mirabazar, Sylhet", city: "Sylhet", contact:"+8801712345406", stock:["Renata","ACME"] },
+        { name: "Madina Market Medico", address: "Madina Market, Sylhet", city: "Sylhet", contact:"+8801712345407", stock:["Square","Beximco"] },
+        { name: "Chowhatta Pharmacy", address: "Chowhatta, Sylhet", city: "Sylhet", contact:"+8801712345408", stock:["Incepta","Popular"] },
+        { name: "Bondor Health Store", address: "Bondor, Sylhet", city: "Sylhet", contact:"+8801712345409", stock:["Square","Renata"] },
+        { name: "Kadamtali Care", address: "Kadamtali, Sylhet", city: "Sylhet", contact:"+8801712345410", stock:["ACME","Beximco"] }
+      ];
+
+      const storeList = document.getElementById("storeList");
+      const storeSearch = document.getElementById("storeSearch");
+      const storeCount = document.getElementById("storeCount");
+      let filteredStores = stores.slice();
+
+      function openStoreDetails(name) {
+        window.location.href =
+          "store_details.html?name=" + encodeURIComponent(name);
+      }
+
+      function renderStores(list) {
+        storeList.innerHTML = "";
+        list.forEach((s) => {
+          const div = document.createElement("div");
+          div.className =
+            "hospital-item bg-white p-2 rounded-lg flex gap-4 items-center shadow-md transition-transform duration-300 hover:scale-103";
+          div.innerHTML = `
+            <img src="images/icons8-hospital-100.png" alt="" />
+            <div class="flex justify-between items-center flex-1">
+              <div>
+                <h1 class="font-semibold pb-2">${s.name}</h1>
+                <div class="flex gap-2">
+                  <img class="h-5" src="images/icons8-location-25.png" alt="" />
+                  <p>${s.address}</p>
+                </div>
+              </div>
+              <button class="btn-details" onclick="openStoreDetails('${s.name.replace(/'/g, "\\'")}')">
+                Details
+              </button>
+            </div>
+          `;
+          storeList.appendChild(div);
+        });
+        storeCount.textContent = list.length;
+      }
+
+      function applyFilters() {
+        const q = storeSearch.value.toLowerCase();
+        filteredStores = stores.filter((s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.address.toLowerCase().includes(q) ||
+          s.city.toLowerCase().includes(q)
+        );
+        renderStores(filteredStores);
+      }
+
+      renderStores(filteredStores);
+    </script>
+  </body>
+</html>

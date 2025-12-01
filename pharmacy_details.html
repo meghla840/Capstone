@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family:'Merriweather',serif;
+      background:#eaf0f3;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background:#49465b; 
+      color:white; 
+      padding:1rem 2rem; 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between;
+    }
+    header h1 { font-size:1.5rem; margin:0; }
+    .btn-back { background:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; border:none; }
+    .btn-back:hover { background:#49465b; }
+
+    main {
+      max-width:800px;
+      margin:2rem auto;
+      background:#fff;
+      padding:2rem;
+      border-radius:15px;
+      box-shadow:0 6px 15px rgba(0,0,0,0.1);
+      text-align:center;
+      flex:1; /* make main take remaining space */
+    }
+
+    h2 { font-size:2rem; margin-bottom:1rem; }
+    .pharmacy-img { width:220px; border-radius:10px; margin:1rem auto; display:block; }
+
+    .badges { margin:1rem 0; display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+    .badge-box { display:inline-block; background:#49465b; color:white; padding:1rem 1.5rem; border-radius:8px; font-size:.9rem; font-weight:600; }
+    .badge-box.rating { font-size:1.1rem; }
+
+    .detail-item { margin:0.5rem 0; font-size:0.95rem; }
+    .label { font-weight:700; display:block; margin-bottom:0.3rem; text-align:left; }
+    
+    table { width:100%; border-collapse:collapse; margin:1.5rem 0; }
+    table, th, td { border:1px solid #ccc; }
+    th, td { padding:0.6rem 1rem; text-align:center; }
+    th { background:#49465b; color:white; }
+    .stock-note { font-size:0.85rem; color:#555; margin-top:0.5rem; }
+
+    footer {
+      width:100%;
+      background:#49465b;
+      color:white;
+      text-align:center;
+      padding:1rem;
+      position:sticky;
+      bottom:0;
+      flex-shrink:0;
+    }
+
+    @media (max-width:600px){
+      main { margin:1rem; padding:1.5rem; }
+      .pharmacy-img { width:180px; }
+      .badge-box { padding:0.7rem 1rem; font-size:.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="btn-back" onclick="goBack()">← Back</button>
+    <h1>Pharmacy Details</h1>
+    <div></div>
+  </header>
+
+  <main>
+    <img id="pharmacyImg" class="pharmacy-img" src="" alt="Pharmacy Image">
+    <h2 id="pharmacyName"></h2>
+
+    <div class="badges">
+      <span class="badge-box" id="locationBadge"></span>
+      <span class="badge-box" id="districtBadge"></span>
+      <span class="badge-box rating" id="ratingBadge"></span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Full Address:</span>
+      <span id="fullAddress"></span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Contact:</span>
+      <span id="contact"></span>
+    </div>
+
+    <div class="detail-item">
+      <h3 class="label mb-2">Medicines in Stock (by company)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Popular Medicines</th>
+          </tr>
+        </thead>
+        <tbody id="stockTableBody"></tbody>
+      </table>
+      <p class="stock-note">Note: Availability may change. Please call the pharmacy to confirm a specific medicine.</p>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 QuickAid. All rights reserved.
+  </footer>
+
+  <script>
+    function goBack(){ window.history.back(); }
+
+    const pharmacyData = {
+      "Dhaka City Care Pharmacy": {
+        district: "Dhaka",
+        area: "Green Road",
+        fullAddress: "Green Road, Dhaka",
+        contact: "+8801711000001",
+        img: "images/medical_store.png",
+        rating: 4.5,
+        stock: [
+          {company:"Square",  meds:"Napa, Seclo, Ceevit"},
+          {company:"Beximco", meds:"Napa Extra, NeoPen"},
+          {company:"Incepta", meds:"Amodis, Monas"}
+        ]
+      },
+      "Dhaka Health Plus Pharmacy": {
+        district: "Dhaka",
+        area: "Banani",
+        fullAddress: "Banani, Dhaka",
+        contact: "+8801711000002",
+        img: "images/medical_store.png",
+        rating: 4.3,
+        stock: [
+          {company:"Square",  meds:"Napa, Seclo"},
+          {company:"ACME",    meds:"Histacin, Omep"},
+          {company:"Renata",  meds:"Fexo, Maxpro"}
+        ]
+      },
+      "Chittagong Agrabad Pharmacy": {
+        district: "Chittagong",
+        area: "Agrabad",
+        fullAddress: "Agrabad, Chittagong",
+        contact: "+8801711000101",
+        img: "images/medical_store.png",
+        rating: 4.1,
+        stock: [
+          {company:"Square",  meds:"Napa, Ceevit"},
+          {company:"Beximco", meds:"NeoPen"},
+          {company:"Incepta", meds:"Mycin"}
+        ]
+      }
+    };
+
+    function populatePharmacy(name){
+      const keys = Object.keys(pharmacyData);
+      let foundName = keys.find(n => n.toLowerCase() === name.toLowerCase());
+
+      if(!foundName){
+        document.getElementById('pharmacyName').innerText = "Pharmacy not found!";
+        document.getElementById('pharmacyImg').style.display = "none";
+        return;
+      }
+
+      const p = pharmacyData[foundName];
+      document.getElementById('pharmacyName').innerText = foundName;
+      document.getElementById('pharmacyImg').src = p.img;
+      document.getElementById('pharmacyImg').alt = foundName;
+
+      document.getElementById('locationBadge').innerText = p.area;
+      document.getElementById('districtBadge').innerText = p.district;
+      document.getElementById('fullAddress').innerText = p.fullAddress;
+      document.getElementById('contact').innerText = p.contact;
+      document.getElementById('ratingBadge').innerText =
+        "★".repeat(Math.floor(p.rating)) + (p.rating % 1 ? "½" : "");
+
+      const stockBody = document.getElementById('stockTableBody');
+      stockBody.innerHTML = "";
+      p.stock.forEach(s => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${s.company}</td><td>${s.meds}</td>`;
+        stockBody.appendChild(row);
+      });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const nameParam = params.get('name');
+    if(nameParam){
+      populatePharmacy(decodeURIComponent(nameParam));
+    } else {
+      document.getElementById('pharmacyName').innerText = "Pharmacy not found!";
+      document.getElementById('pharmacyImg').style.display = "none";
+    }
+  </script>
+</body>
+</html>

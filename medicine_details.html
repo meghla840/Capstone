@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medicine Details</title>
+
+  <!-- same links as other pages -->
+  <link
+    rel="shortcut icon"
+    href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+    type="image/x-icon"
+  />
+  <link rel="stylesheet" href="styles/style.css" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #eaf0f3;
+      color: #170d0d;
+    }
+
+    /* TOP STRIP + NAVBAR (copied style) */
+    .hold {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background-color:#f2f2f2;
+      padding:10px 20px;
+    }
+    .estrip { width:90%; overflow:hidden; }
+    .scroll {
+      white-space:nowrap;
+      display:inline-block;
+      color:#5e3b3b;
+      font-weight:bold;
+      animation:scroll 10s linear infinite;
+      padding-left:100%;
+      font-size:0.85rem;
+    }
+    @keyframes scroll {
+      from { transform:translateX(0); }
+      to { transform:translateX(-100%); }
+    }
+    .emergencyData {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+    }
+    .emergencyData ul {
+      display:flex;
+      list-style:none;
+      gap:8px;
+    }
+    nav {
+      width:100%;
+      margin-top:0;
+      padding:12px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background-color:#ffffff;
+      box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    }
+    .logo img { height:50px; width:auto; }
+    .ul {
+      display:flex;
+      list-style:none;
+      align-items:center;
+      gap:18px;
+      font-size:0.95rem;
+    }
+    .ul a {
+      text-decoration:none;
+      color:#170d0d;
+      font-weight:500;
+    }
+    .dropdown-content {
+      display:none;
+      position:absolute;
+      background-color:white;
+      min-width:160px;
+      box-shadow:0 8px 16px rgba(0,0,0,0.2);
+      z-index:10;
+    }
+    .dropdown-content a {
+      color:#170d0d;
+      padding:10px 14px;
+      display:block;
+      font-size:0.9rem;
+    }
+    .drpdwn { position:relative; display:inline-block; }
+    .drpdwn:hover .dropdown-content { display:block; }
+    .menu-toggle { display:none; font-size:24px; cursor:pointer; }
+    @media (max-width:768px){
+      .ul{
+        display:none;
+        flex-direction:column;
+        background:#ffffff;
+        position:absolute;
+        top:120px;
+        left:0;
+        width:100%;
+        padding:20px 0;
+        z-index:999;
+      }
+      .ul.active{ display:flex; }
+      .drpdwn .dropdown-content{
+        position:static;
+        box-shadow:none;
+        background:#e9e9e9;
+      }
+      .menu-toggle{ display:block; }
+    }
+
+    /* PAGE HEADER BAR (inside main area) */
+    .inner-header {
+      background: #49465b;
+      color: #fff;
+      padding: 16px 28px;
+      text-align: left;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.25);
+      margin-bottom: 18px;
+    }
+    .inner-header h1 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .inner-header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 20px auto 30px;
+      padding: 0 15px 20px;
+    }
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+    .search-box {
+      flex: 1 1 260px;
+      background: #ffffff;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+    }
+    .search-box input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 13px;
+      background: transparent;
+      color: #170d0d;
+    }
+    .count-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #170d0d;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .count-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #d0e2ff;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.15);
+      padding: 10px 11px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.25);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #170d0d;
+    }
+    .price-chip {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #170d0d;
+      border: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+    .company-text {
+      font-size: 11px;
+      color: #4b5563;
+    }
+    .company-text span {
+      font-weight: 600;
+      color: #170d0d;
+    }
+    .card-footer {
+      margin-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      background: #49465b;
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    .btn:hover {
+      background: #6c6a81;
+    }
+
+    /* Modal */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .modal {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 380px;
+      width: 90%;
+      padding: 16px 16px 12px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.45);
+      border: 1px solid #d1d5db;
+    }
+    .modal-header {
+      margin-bottom: 8px;
+    }
+    .modal-header h2 {
+      font-size: 18px;
+      margin: 0;
+      color: #170d0d;
+    }
+    .modal-body p {
+      font-size: 13px;
+      margin: 4px 0;
+      color: #4b5563;
+    }
+    .modal-body span {
+      font-weight: 600;
+      color: #170d0d;
+    }
+    .note-box {
+      margin-top: 6px;
+      border-radius: 8px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 6px 8px;
+      font-size: 12px;
+      color: #9a3412;
+    }
+    .modal-footer {
+      margin-top: 10px;
+      text-align: right;
+    }
+    .btn-close {
+      background: #e5e7eb;
+      color: #111827;
+      border: none;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      background: #d1d5db;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- QuickAid top strip + navbar -->
+  <header>
+    <div class="hold">
+      <div class="estrip">
+        <div class="scroll">
+          <i class="bi bi-telephone"></i> Emergency Number:+880 125460586 -Call Anytime!
+        </div>
+      </div>
+      <div class="emergencyData">
+        <ul>
+          <li><a href="#"><i class="bi bi-facebook"></i></a></li>
+          <li><a href="#"><i class="bi bi-envelope"></i></a></li>
+          <li><a href="#"><i class="bi bi-google"></i></a></li>
+          <li><a href="#"><i class="bi bi-geo-alt"></i></a></li>
+        </ul>
+        <a href="join.html"><button>+ Join Now</button></a>
+      </div>
+    </div>
+
+    <nav>
+      <div class="logo">
+        <img src="images/logo.png" alt="Logo">
+      </div>
+      <div class="menu-toggle" id="menu-toggle">☰</div>
+      <ul class="ul" id="nav-links">
+        <li class="w-20 text-center"><a href="index.html">Home</a></li>
+        <li class="drpdwn w-20 text-center">
+          <a href="">Doctors</a>
+          <div class="dropdown-content">
+            <a href="findDoctor.html">Find Doctors</a>
+            <a href="">Doctors Available in Location</a>
+            <a href="">Doctors List</a>
+          </div>
+        </li>
+        <li class="drpdwn w-20 text-center">
+          <a href="">Hospital</a>
+          <div class="dropdown-content">
+            <a href="find_hospital.html">Find Hospital</a>
+            <a href="nearby_hospitals.html">Check around me</a>
+            <a href="hospital_list.html">Hospital List</a>
+          </div>
+        </li>
+        <li class="drpdwn w-45 text-center">
+          <a href="">Medicine Availability</a>
+          <div class="dropdown-content">
+            <a href="medical_store_list.html">Medical Store list</a>
+            <a href="medicine_nearby.html">Check Medicine Nearby</a>
+            <a href="medicine_details.html">Medicine Details</a>
+          </div>
+        </li>
+        <li class="drpdwn w-30 text-center">
+          <a href="">Health Forum</a>
+          <div class="dropdown-content">
+            <a href="">Ask a Question</a>
+            <a href="">Browse Discussions</a>
+          </div>
+        </li>
+        <li class="drpdwn w-50 text-center">
+          <a href="">Health Support Services</a>
+          <div class="dropdown-content">
+            <a href="">Latest Health News</a>
+            <a href="">Emergency Action Guide</a>
+            <a href="">Care and Tips For Special Groups</a>
+            <a href="">Our Commitment & Care Promise</a>
+            <a href="">Get in Touch</a>
+          </div>
+        </li>
+        <li class="w-30 text-center">
+          <button><i class="bi bi-car-front-fill"></i> Emergency</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="inner-header">
+      <h1>Medicine Details</h1>
+      <p>First see medicine name and price, then open full details safely.</p>
+    </section>
+
+    <div class="top-bar">
+      <div class="search-box">
+        <input id="searchInput" type="text" placeholder="Search by medicine, company or price...">
+      </div>
+      <div class="count-pill">
+        <span class="count-dot"></span>
+        <span id="medCount">50 medicines</span>
+      </div>
+    </div>
+
+    <div id="medicineGrid" class="grid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modalBackdrop" class="backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalName"></h2>
+      </div>
+      <div class="modal-body">
+        <p><span>Use:</span> <span id="modalUse"></span></p>
+        <p><span>Dose limit:</span> <span id="modalDose"></span></p>
+        <div class="note-box">
+          <strong>Awareness:</strong>
+          <span id="modalNote"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-close" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // mobile nav toggle
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+    }
+
+    const baseMedicines = [
+      {
+        name: "Napa",
+        price: "Tk 2.00 / tablet",
+        company: "Beximco Pharma",
+        use: "Helps reduce fever and mild to moderate pain.",
+        dose: "Usually 1–2 tablets every 4–6 hours, maximum 8 tablets in 24 hours for adults.",
+        note: "Do not cross the maximum daily dose. Overdose may seriously damage the liver."
+      },
+      {
+        name: "Ace",
+        price: "Tk 1.80 / tablet",
+        company: "Square Pharma",
+        use: "Used for headache, toothache, body pain and fever.",
+        dose: "Follow doctor’s dose; typical adult dose every 4–6 hours without exceeding daily limit.",
+        note: "Avoid taking with other paracetamol products at the same time."
+      },
+      {
+        name: "Seclo",
+        price: "Tk 7.00 / capsule",
+        company: "Square Pharma",
+        use: "Reduces stomach acid and relieves gastric and reflux symptoms.",
+        dose: "Often once daily before meal, but follow doctor’s instructions.",
+        note: "Long term use should only be done under medical supervision."
+      },
+      {
+        name: "Ceevit",
+        price: "Tk 1.00 / tablet",
+        company: "Square Pharma",
+        use: "Vitamin C supplement for deficiency and general immunity support.",
+        dose: "Usually 1–2 tablets daily, or as advised by doctor.",
+        note: "High doses for long time may cause stomach upset or kidney stone risk in some people."
+      },
+      {
+        name: "Amodis",
+        price: "Tk 25.00 / tablet",
+        company: "Incepta Pharma",
+        use: "Used in the treatment of malaria.",
+        dose: "Dose depends on body weight and type of malaria; strictly follow prescription.",
+        note: "Never self-medicate for malaria; incorrect dose may be dangerous."
+      },
+      {
+        name: "Mycin",
+        price: "Tk 35.00 / capsule",
+        company: "Incepta Pharma",
+        use: "Antibiotic for various bacterial infections.",
+        dose: "Take exactly as prescribed; complete full course even if you feel better.",
+        note: "Unnecessary or incomplete use of antibiotics increases resistance."
+      },
+      {
+        name: "Moxacil",
+        price: "Tk 4.50 / capsule",
+        company: "Eskayef Pharma",
+        use: "Treats different bacterial infections like ear, nose, throat and urinary tract.",
+        dose: "Usually 2–3 times daily as advised; duration decided by doctor.",
+        note: "Stop and contact doctor if rash, breathing difficulty or severe diarrhea occurs."
+      },
+      {
+        name: "Monas",
+        price: "Tk 12.00 / tablet",
+        company: "Incepta Pharma",
+        use: "Helps control asthma and allergy symptoms.",
+        dose: "Often once daily in evening; your doctor sets exact dose.",
+        note: "Not for sudden asthma attack; keep rescue inhaler as advised."
+      },
+      {
+        name: "Losectil",
+        price: "Tk 6.00 / capsule",
+        company: "Eskayef Pharma",
+        use: "Used for hyperacidity and gastric ulcer.",
+        dose: "Typically once daily before food, according to doctor’s advice.",
+        note: "Inform doctor if you need this medicine for a long time continuously."
+      },
+      {
+        name: "NeoPen",
+        price: "Tk 3.00 / tablet",
+        company: "Square Pharma",
+        use: "Pain and inflammation relief in various conditions.",
+        dose: "Dose and duration depend on age and condition; follow doctor only.",
+        note: "May irritate stomach; avoid in ulcer or kidney problem without medical advice."
+      }
+    ];
+
+    const medicines = [];
+    for (let i = 0; i < 50; i++) {
+      const t = baseMedicines[i % baseMedicines.length];
+      medicines.push({
+        name: t.name + " " + (i + 1),
+        price: t.price,
+        company: t.company,
+        use: t.use,
+        dose: t.dose,
+        note: t.note
+      });
+    }
+
+    const medGrid = document.getElementById("medicineGrid");
+    const searchInput = document.getElementById("searchInput");
+    const medCount = document.getElementById("medCount");
+    let filteredMedicines = medicines.slice();
+
+    function renderMedicines(list) {
+      medGrid.innerHTML = "";
+      list.forEach((m, idx) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-header">
+            <h2 class="card-title">${m.name}</h2>
+            <span class="price-chip">${m.price}</span>
+          </div>
+          <p class="company-text"><span>Company:</span> ${m.company}</p>
+          <div class="card-footer">
+            <button class="btn" onclick="openModal(${idx})">View details</button>
+          </div>
+        `;
+        medGrid.appendChild(card);
+      });
+      medCount.textContent = list.length + " medicines";
+    }
+
+    function openModal(index) {
+      const med = filteredMedicines[index];
+      document.getElementById("modalName").textContent =
+        med.name + " (" + med.price + ")";
+      document.getElementById("modalUse").textContent = med.use;
+      document.getElementById("modalDose").textContent = med.dose;
+      document.getElementById("modalNote").textContent = " " + med.note;
+      document.getElementById("modalBackdrop").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").style.display = "none";
+    }
+
+    searchInput.addEventListener("input", function () {
+      const q = this.value.toLowerCase();
+      filteredMedicines = medicines.filter((m) =>
+        m.name.toLowerCase().includes(q) ||
+        m.company.toLowerCase().includes(q) ||
+        m.price.toLowerCase().includes(q)
+      );
+      renderMedicines(filteredMedicines);
+    });
+
+    renderMedicines(filteredMedicines);
+  </script>
+</body>
+</html>
