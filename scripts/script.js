@@ -56,6 +56,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+window.addEventListener("DOMContentLoaded", () => {
+    const userSection = document.getElementById("userSection");
+    const savedUser = JSON.parse(localStorage.getItem("quickAidUser"));
+
+    if(savedUser) {
+        userSection.innerHTML = `
+        <div style="position:relative;">
+            <button id="profileBtn"><i class="bi bi-person-circle"></i> </button>
+            <div id="profileDropdown" style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; border-radius:6px; margin-top:5px; min-width:150px; z-index:1000;">
+                <a href="profile.html" id="goProfile">Profile</a>
+                <a href="#" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+        `;
+
+        const profileBtn = document.getElementById("profileBtn");
+        const profileDropdown = document.getElementById("profileDropdown");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        profileBtn.addEventListener("click", () => {
+            profileDropdown.style.display = profileDropdown.style.display === "block" ? "none" : "block";
+        });
+
+        logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("quickAidUser");
+            location.reload();
+        });
+
+        window.addEventListener("click", (e) => {
+            if(!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)){
+                profileDropdown.style.display = "none";
+            }
+        });
+    }
+});
+
+// Emergency Modal functionality
+const emergencyBtn = document.getElementById("navbarEmergencyBtn");
+const modal = document.getElementById("emergencyModal");
+const confirmBtn = document.getElementById("confirmCall");
+const cancelBtn = document.getElementById("cancelCall");
+const emergencyNumber = "+880125460586";
+
+emergencyBtn.addEventListener("click", () => modal.style.display="flex");
+confirmBtn.addEventListener("click", ()=>{ window.location.href=`tel:${emergencyNumber}`; modal.style.display="none"; });
+cancelBtn.addEventListener("click", ()=>{ modal.style.display="none"; });
+window.addEventListener("click", (e) => { if(e.target===modal) modal.style.display="none"; });
 
   /* -----------------------------------------
      HERO SLIDER

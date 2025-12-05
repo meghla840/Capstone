@@ -1,232 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="styles/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-    <title>Form</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join – QuickAid</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<style>
+    body {
+        font-family: 'Merriweather', serif;
+        background: #eaf0f3;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background: #49465b;
+        color: white;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    header i {
+        font-size: 1.4rem;
+        cursor: pointer;
+        position: absolute;
+        left: 20px;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-align: center;
+        width: 100%;
+    }
+
+    .card {
+        max-width: 600px;
+        margin: 2rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 1.8rem;
+        color: #49465b;
+        margin-bottom: 1.5rem;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: 'Merriweather', serif;
+        font-size: 1rem;
+    }
+
+    button {
+        background: #49465b;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    button:hover {
+        background: #6c6a81;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .login-link a {
+        color: #49465b;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
-<body class="fbody nunito">
-       <header>
-        <div class="hold">
-            <div class="estrip">
-                <div class="scroll">
-                    <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!
-                </div>
-            </div>
-            <div class="emergencyData">
-                <ul>
-                    <li>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                    </li>
-                   <li>
-                    <a href=""><i class="bi bi-envelope"></i>
-                    </a>
-                    </li>
-                    <li>
-                        <a href=""><i class="bi bi-google"></i></a>
-                    </li>
-                    <li>
-                        <a href=""><i class="bi bi-geo-alt"></i></a>
-                    </li>
-                </ul>
-                <a href="join.html"><button> + Join Now</button></a>
-            </div>
+
+<body>
+
+<header>
+    <i class="bi bi-arrow-left" onclick="history.back()"></i>
+    <h1>Create Account</h1>
+</header>
+
+<div class="card">
+    <h2>Join QuickAid</h2>
+
+    <form id="signupForm">
+
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+
+        <input type="password" id="password" placeholder="Create Password" required>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+        <label style="font-weight:700; color:#49465b;">Select Role</label>
+        <select id="role" onchange="showRoleFields()" required>
+            <option value="">Choose</option>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="hospital">Hospital</option>
+            <option value="pharmacy">Pharmacy</option>
+        </select>
+
+        <!-- PATIENT -->
+        <div id="patientFields" class="hidden">
+            <select id="bloodGroup">
+                <option value="">Select Blood Group</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option>
+                <option>O+</option><option>O-</option>
+            </select>
+            <input type="text" id="healthIssues" placeholder="Previous Health Issues">
+            <input type="text" id="address" placeholder="Address">
         </div>
-        <nav>
-    <div class="logo">
-        <img src="images/logo.png" alt="Logo" height="50px" width="auto">
-    </div>
 
-    
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
-
-    <ul class="ul" id="nav-links">
-        <li><a href="">Home</a></li>
-
-        <li class="drpdwn"><a href="">Doctors</a>
-        <div class="dropdown-content">
-            <a href="">Find Doctors</a>
-            <a href="">Doctors Available in Location</a>
-            <a href="">Doctors List</a>
+        <!-- DOCTOR -->
+        <div id="doctorFields" class="hidden">
+            <input type="text" id="specialization" placeholder="Specialization">
+            <input type="text" id="bmdc" placeholder="BMDC Registration Number">
         </div>
-        </li>
 
-        <li class="drpdwn"><a href="">Hospital</a>
-        <div class="dropdown-content">
-            <a href="">Find Hospital</a>
-            <a href="">Check around me</a>
-            <a href="">Hospital List</a>
+        <!-- HOSPITAL -->
+        <div id="hospitalFields" class="hidden">
+            <input type="text" id="hospitalName" placeholder="Hospital Name">
+            <input type="text" id="licenseH" placeholder="Hospital License Number">
         </div>
-        </li>
 
-        <li class="drpdwn"><a href="">Medicine Availability</a>
-        <div class="dropdown-content">
-            <a href="">Medical Store list</a>
-            <a href="">Check Medicine Nearby</a>
-            <a href="">Medicine Details</a>
+        <!-- PHARMACY -->
+        <div id="pharmacyFields" class="hidden">
+            <input type="text" id="pharmacyName" placeholder="Pharmacy Name">
+            <input type="text" id="drugLicense" placeholder="Drug License Number">
         </div>
-        </li>
 
-        <li class="drpdwn"><a href="">Health Forum</a>
-        <div class="dropdown-content">
-            <a href="">Ask a Question</a>
-            <a href="">Browse Discussions</a>
+        <button type="submit">Sign Up</button>
+
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login</a>
         </div>
-        </li>
 
-        <li class="drpdwn"><a href="">Health Support Services</a>
-        <div class="dropdown-content">
-            <a href="">Latest Health News</a>
-            <a href="">Emergency Action Guide</a>
-            <a href="">Care and Tips For Special Groups</a>
-            <a href="">Our Commitment & Care Promise</a>
-            <a href="">Get in Touch</a>
-        </div>
-        </li>
-
-        <li><button><i class="bi bi-car-front-fill"></i> Emergency</button></li>
-    </ul>
-    </nav>
-
-            
-    </header>
-    <main class="fmain">
-        <section class="fSeacrh_Section">
-            <div class="fsearch">
-                <h2 class="merriweather">Start Your Search</h2>
-                <div class="form"><input type="text" name="" id="" placeholder="Seacrh doctors,hospital,medicine,etc.">
-                <select id="location" name="location">
-                <option value="" disabled selected>Select Location<i class="bi bi-chevron-bar-down"> </i></option>
-                <option value="dhaka">Dhaka</option>
-                <option value="chittagong">Chittagong</option>
-                <option value="rajshahi">Rajshahi</option>
-                <option value="sylhet">Sylhet</option>
-                </select>
-                <input type="button" value="&#128269;">
-                </div>
-            </div>
-            
-        </section>
-        <section class="ff">
-            <div class="fmf"><form>
-                <h1 class="formheading">
-                    Join Us & Stay Healthy Together
-                </h1>
-                <div class="name">
-                    <input type="text" name="" id="" placeholder="First Name" required>
-                    <input type="text" name="" id="" placeholder="Last Name" required>
-                </div>
-                <div class="email_user">
-                    <input type="text" name="" id="" placeholder="Userame" required>
-                    <input type="email" name="" id="" placeholder="Email" required>
-                </div>
-                <div class="select_location">
-                    <select name="location" id="location" required>
-                        <option value="">-- Choose a location --</option>
-                        <option value="dhaka">Dhaka</option>
-                        <option value="chattogram">Chattogram</option>
-                        <option value="rajshahi">Rajshahi</option>
-                        <option value="khulna">Khulna</option>
-                        <option value="barishal">Barishal</option>
-                        <option value="sylhet">Sylhet</option>
-                        <option value="rangpur">Rangpur</option>
-                        <option value="mymensingh">Mymensingh</option>
-                    </select>
-
-                </div>
-                <div class="pass">
-                    <input type="password" name="" id="" placeholder="Password" required>
-                    <input type="password" name="" id="" placeholder="Re_Enter Password" required>
-                </div>
-                <div class="start">
-                    <h2>Start As</h2>
-                    <input type="radio" name="role" id="hospital"><label for="Hospital">Hospital</label>
-                    <input type="radio" name="role" id="doctor"><label for="doctor">Doctor</label>
-                    <input type="radio" name="role" id="patient"><label for="patient">Patient</label>
-                    <input type="radio" name="role" id="Pharmacy"><label for="Pharmacy">Pharmacy</label>
-                </div>
-                <div class="btnclass"><button type="button" onclick="window.location.href='login.html'" class="btnn">Signup</button>
+    </form>
 </div>
-                
-            </form>
-            <div class="log">
-                <P>Already Have an Account?<a href="login.html">Login</a></P>
-            </div></div>
-        </section>
-         <section class="emrg">
-            <div class="emergency-box">
-            
-        
-            <div class="section">
-            <img src="images/logo.png" width="150px" height="50px" alt="icon" class="icon">
-            <div class="content">
-                <span class="title">Emergency Call</span>
-                <span class="value"> +880156815648</span>
-            </div>
-            </div>
-            <div class="divider"></div>
-            <div class="section">
-            <img src="https://img.icons8.com/color/48/email.png" alt="icon" class="icon">
-            <div class="content">
-                <span class="title">24/7 Email Support</span>
-                <span class="value">QuidAid@domain.com</span>
-            </div>
-            </div>
 
-            </div>
-        </section>
-    </main>
-    <footer>
-        <section>
-            <div class="foot_contain">
-                <div class="foot">
-                <img src="images/logo.png" alt="" height="150px" width="180px">
-                <p style="text-align: justify;">QuickAid provides fast, reliable, and user-friendly access to emergency <br>health services.  Whether it's locating medicine,  finding a doctor,<br> or alerting responders   we’re here when every second counts.</p>
-                <ul class="info">
-                    <li><a href=""><i class="bi bi-envelope-at"></i>  QuicAid@gmail.com</a></li>
-                    <li><a href=""><i class="bi bi-twitter"></i> Tweet Us</a></li>
-                    <li>
-                        <a href=""><i class="bi bi-linkedin"></i>  Visit Our Linkedin Profile</a>
-                    </li>
-                </ul>
-                <div class="icon">
-                    <i class="bi bi-envelope-at"></i> 
-                    <i class="bi bi-twitter"></i>
-                    <i class="bi bi-linkedin"></i>
-                    <i class="bi bi-facebook"></i>
-                    <i class="bi bi-geo"></i>
-                    <i class="bi bi-browser-chrome"></i>
 
-                </div>
-            </div>
-            
-            <div class="formm">
-                 <h3 class="merriweather"> Something bothering you?</h3>
-                <p>Submit your complaint below and we’ll get back to you shortly.</p>
-                <form >
-                    <textarea name="complaint" placeholder="Write your complaint here..." rows="5" required></textarea>
-                <button class="send">Send</button>
-                </form>
-                
-            </div>
-            
-            </div>
-            <div class="copyright">
-                <p>Copyright  &copy; 2025 QuicAid. All rights reserved.</p>
-            </div>
-        </section>
-    </footer>
-    <script src="script.js"></script>
+<script>
+function showRoleFields() {
+    let role = document.getElementById("role").value;
+
+    document.getElementById("patientFields").classList.add("hidden");
+    document.getElementById("doctorFields").classList.add("hidden");
+    document.getElementById("hospitalFields").classList.add("hidden");
+    document.getElementById("pharmacyFields").classList.add("hidden");
+
+    if (role === "patient") document.getElementById("patientFields").classList.remove("hidden");
+    if (role === "doctor") document.getElementById("doctorFields").classList.remove("hidden");
+    if (role === "hospital") document.getElementById("hospitalFields").classList.remove("hidden");
+    if (role === "pharmacy") document.getElementById("pharmacyFields").classList.remove("hidden");
+}
+
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let pass = document.getElementById("password").value;
+    let confirm = document.getElementById("confirmPassword").value;
+
+    if (pass !== confirm) {
+        alert("❗ Passwords do not match!");
+        return;
+    }
+
+    let user = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        password: pass,
+        role: document.getElementById("role").value
+    };
+
+    localStorage.setItem("quickAidUser", JSON.stringify(user));
+
+    alert("Signup Successful! Redirecting to Login...");
+    window.location.href = "login.html";
+});
+</script>
+
 </body>
 </html>
