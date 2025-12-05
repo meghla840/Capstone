@@ -1,195 +1,445 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile – QuickAid</title>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QuickAid — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
-    body {
-        font-family: 'Merriweather', serif;
-        background: #eaf0f3;
-        margin: 0;
-        padding: 0;
-    }
-    header {
-        background: #49465b;
-        color: white;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-    header i {
-        font-size: 1.4rem;
-        cursor: pointer;
-    }
-    header h1 {
-        margin: 0;
-        font-size: 1.4rem;
-        font-weight: 600;
-    }
-    .card {
-        max-width: 600px;
-        margin: 2rem auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-    h2 {
-        text-align: center;
-        font-size: 1.8rem;
-        color: #49465b;
-        margin-bottom: 1.5rem;
-    }
-    label {
-        display: block;
-        margin: 0.8rem 0 0.3rem 0;
-        font-weight: 700;
-        color: #49465b;
-    }
-    input {
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-family: 'Merriweather', serif;
-        font-size: 1rem;
-    }
-    button {
-        background: #49465b;
-        color: white;
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: 1rem;
-    }
-    button:hover {
-        background: #6c6a81;
-    }
+:root{
+  --brand:#49465b; 
+  --muted:#6b7280; 
+  --bg:#f3f6f9; 
+  --card:#ffffff; 
+  --accent:#2563eb;
+  --header-gradient: linear-gradient(90deg, #49465b, #6e6c80);
+}
+*{box-sizing:border-box;}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); margin:0; color:#0f172a;}
+header{
+  background:var(--header-gradient);
+  color:white;
+  padding:18px 20px;
+  position:sticky; top:0;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+header .back{font-size:20px; cursor:pointer; position:absolute; left:20px;}
+header h1{font-size:18px; margin:0; font-weight:600;}
+.container{max-width:1100px; margin:26px auto; padding:0 18px;}
+.grid{display:grid; grid-template-columns:320px 1fr; gap:22px;}
+
+/* LEFT PANEL */
+.card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06);}
+.avatar{display:flex; align-items:center; gap:14px;}
+.avatar img{width:86px; height:86px; border-radius:50%; object-fit:cover; border:3px solid #fff; box-shadow:0 6px 18px rgba(9,10,11,0.06);}
+.avatar h2{margin:0; font-size:18px;}
+.role-badge{display:inline-block; background:#eef2ff; color:#3730a3; padding:6px 10px; border-radius:999px; font-weight:600; font-size:12px;}
+.meta{margin-top:12px; color:var(--muted); font-size:14px;}
+.left-actions{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;}
+.btn{background:var(--header-gradient); color:white; border:none; padding:10px 12px; border-radius:9px; cursor:pointer; font-weight:600; transition:0.3s;}
+.btn:hover{opacity:0.85;}
+.btn.ghost{background:transparent; color:white; border:1px solid rgba(255,255,255,0.5);}
+.gradient-btn{background: var(--header-gradient); color: white;}
+.gradient-btn:hover{opacity:0.85;}
+
+/* RIGHT PANEL */
+.section{margin-bottom:18px;}
+.section h3{margin:0 0 10px; font-size:16px;}
+label{display:block; font-size:13px; margin-bottom:6px; color:var(--muted);}
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9ef; font-size:14px;}
+textarea{min-height:90px; resize:vertical;}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.field-list{display:flex; flex-direction:column; gap:12px; margin-top:4px;}
+.hospital-card, .pharmacy-card{background:#f9f9f9; border:1px solid #e6e9ef; padding:10px 12px; border-radius:8px; display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:center;}
+.add-btn{background:var(--header-gradient); color:white; font-size:13px; padding:6px 10px; border-radius:8px; cursor:pointer; border:none; margin-top:6px; transition:0.3s;}
+.add-btn:hover{opacity:0.85;}
+
+/* MESSAGE CARD */
+#msgCard{display:none; margin-top:12px;}
+#msgCard .msg-inner{
+  background:#fff; border:1px solid #e5e7eb; border-left:4px solid var(--accent); border-radius:10px; padding:16px; box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+#msgCard .msg-inner.success{border-left-color:#16a34a; color:#166534;}
+#msgCard .msg-inner.error{border-left-color:#b91c1c; color:#b91c1c;}
+
+/* responsive */
+@media(max-width:900px){.grid{grid-template-columns:1fr;} .avatar img{width:76px;height:76px;} .hospital-card,.pharmacy-card{grid-template-columns:1fr; gap:6px;}}
 </style>
 </head>
 <body>
 
 <header>
-    <i class="bi bi-arrow-left" onclick="history.back()"></i>
-    <h1>My Profile</h1>
+  <div class="back" onclick="history.back()"><i class="bi bi-arrow-left"></i></div>
+  <h1>Profile</h1>
 </header>
 
-<div class="card" id="profileCard">
-    <h2>Profile Information</h2>
-    <form id="profileForm">
-        <!-- Dynamic form fields will be added here -->
-    </form>
-    <button id="saveBtn">Save Changes</button>
-    <button id="logoutBtn">Logout</button>
-</div>
+<main class="container">
+  <div class="grid">
+    <!-- LEFT: Summary -->
+    <aside class="card">
+      <div class="avatar">
+        <img id="profilePic" src="https://via.placeholder.com/100" alt="avatar">
+        <div style="flex:1">
+          <h2 id="displayName">—</h2>
+          <div class="role-badge" id="displayRole">—</div>
+          <div class="meta" id="displayEmail">—</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="small"><strong>Phone:</strong> <span id="displayPhone">—</span></div>
+        <div class="small" id="extraFields"></div>
+      </div>
+
+      <div class="left-actions">
+        <button class="btn" id="editBtn"><i class="bi bi-pencil"></i>&nbsp; Edit Profile</button>
+        <button class="btn" id="dashboardBtn"><i class="bi bi-speedometer2"></i>&nbsp; Dashboard</button>
+        <button class="btn gradient-btn" id="logoutBtn"><i class="bi bi-box-arrow-right"></i>&nbsp; Logout</button>
+        <button class="btn gradient-btn" id="deleteBtn"><i class="bi bi-trash"></i>&nbsp; Delete Account</button>
+      </div>
+
+      <!-- Inline Delete Confirmation Card -->
+      <div id="deleteCard" style="display:none; margin-top:12px;">
+        <div style="background:#fff; border:1px solid #e5e7eb; border-left:4px solid #b91c1c; border-radius:10px; padding:16px; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+          <h4 style="margin:0 0 8px; color:#b91c1c; font-size:16px;">Delete Account?</h4>
+          <p style="margin:0 0 12px; font-size:14px; color:#374151;">Are you sure you want to delete your account? This action cannot be undone.</p>
+          <div style="display:flex; gap:10px;">
+            <button id="confirmDeleteInline" style="background:#b91c1c; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">Yes, Delete</button>
+            <button id="cancelDeleteInline" style="background:#e5e7eb; color:#1f2937; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inline Message Card -->
+      <div id="msgCard"><div class="msg-inner"></div></div>
+    </aside>
+
+    <!-- RIGHT: Profile Form -->
+    <section>
+      <div class="card section" id="profileFormCard">
+        <h3>Profile Details</h3>
+
+        <div class="grid-2">
+          <div>
+            <label>Full name</label>
+            <input type="text" id="inpName" placeholder="Full name">
+          </div>
+          <div>
+            <label>Role</label>
+            <input type="text" id="inpRole" readonly>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:12px">
+          <div>
+            <label>Phone</label>
+            <input type="tel" id="inpPhone">
+          </div>
+          <div>
+            <label>Email (readonly)</label>
+            <input type="email" id="inpEmail" readonly>
+          </div>
+        </div>
+
+        <div id="roleFieldsContainer" style="margin-top:12px"></div>
+
+        <div style="margin-top:12px">
+          <label>Profile picture</label>
+          <input type="file" id="inpPic" accept="image/*">
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:10px">
+          <button class="btn" id="saveProfile">Save Profile</button>
+          <button class="btn" id="cancelEdit">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
 
 <script>
-// Get user from localStorage
-let user = JSON.parse(localStorage.getItem("quickAidUser"));
-const form = document.getElementById("profileForm");
+// ------------------- LocalStorage -------------------
+function readUsers(){ return JSON.parse(localStorage.getItem('quickAidUsers')||'[]'); }
+function saveUsers(u){ localStorage.setItem('quickAidUsers', JSON.stringify(u)); }
+function getCurrentId(){ return localStorage.getItem('quickAidCurrent'); }
 
-if(!user){
-    form.innerHTML = '<p>No user logged in. Please <a href="join.html">join</a> or login first.</p>';
-} else {
-    // Build form fields dynamically
-    let html = `
-        <label>Full Name</label>
-        <input type="text" id="name" value="${user.name}" required>
+let users = readUsers();
+let currentId = getCurrentId();
+let currentUser = users.find(u=>u.id===currentId);
 
-        <label>Email</label>
-        <input type="email" id="email" value="${user.email}" required>
-
-        <label>Phone</label>
-        <input type="text" id="phone" value="${user.phone}" required>
-
-        <label>Role</label>
-        <input type="text" value="${user.role.charAt(0).toUpperCase() + user.role.slice(1)}" disabled>
-    `;
-
-    // Role-specific fields
-    if(user.role === "patient"){
-        html += `
-            <label>Blood Group</label>
-            <input type="text" id="bloodGroup" value="${user.bloodGroup || ''}">
-            
-            <label>Health Issues</label>
-            <input type="text" id="healthIssues" value="${user.healthIssues || ''}">
-            
-            <label>Address</label>
-            <input type="text" id="address" value="${user.address || ''}">
-        `;
-    } else if(user.role === "doctor"){
-        html += `
-            <label>Specialization</label>
-            <input type="text" id="specialization" value="${user.specialization || ''}">
-            
-            <label>BMDC Number</label>
-            <input type="text" id="bmdc" value="${user.bmdc || ''}">
-        `;
-    } else if(user.role === "hospital"){
-        html += `
-            <label>Hospital Name</label>
-            <input type="text" id="hospitalName" value="${user.hospitalName || ''}">
-            
-            <label>Hospital License No</label>
-            <input type="text" id="licenseH" value="${user.licenseH || ''}">
-        `;
-    } else if(user.role === "pharmacy"){
-        html += `
-            <label>Pharmacy Name</label>
-            <input type="text" id="pharmacyName" value="${user.pharmacyName || ''}">
-            
-            <label>Drug License No</label>
-            <input type="text" id="drugLicense" value="${user.drugLicense || ''}">
-        `;
-    }
-
-    form.innerHTML = html;
+// If admin login for first time, pre-add admin
+if(!users.some(u=>u.role==='admin')){
+  const admin = { id:'admin_1', name:'Admin', email:'admin@quickaid.com', phone:'0000000000', role:'admin', password:'admin123' };
+  users.push(admin);
+  saveUsers(users);
+  currentUser = admin;
+  localStorage.setItem('quickAidCurrent', admin.id);
 }
 
-// Save changes
-document.getElementById("saveBtn").addEventListener("click", () => {
-    if(!user) return;
+if(!currentUser){
+  alert('No active user. Please login.');
+  window.location.href='join.html';
+}
 
-    user.name = document.getElementById("name").value;
-    user.email = document.getElementById("email").value;
-    user.phone = document.getElementById("phone").value;
+// ------------------- UI Elements -------------------
+const displayName = document.getElementById('displayName');
+const displayRole = document.getElementById('displayRole');
+const displayEmail = document.getElementById('displayEmail');
+const displayPhone = document.getElementById('displayPhone');
+const extraFields = document.getElementById('extraFields');
+const profilePic = document.getElementById('profilePic');
 
-    if(user.role === "patient"){
-        user.bloodGroup = document.getElementById("bloodGroup").value;
-        user.healthIssues = document.getElementById("healthIssues").value;
-        user.address = document.getElementById("address").value;
-    } else if(user.role === "doctor"){
-        user.specialization = document.getElementById("specialization").value;
-        user.bmdc = document.getElementById("bmdc").value;
-    } else if(user.role === "hospital"){
-        user.hospitalName = document.getElementById("hospitalName").value;
-        user.licenseH = document.getElementById("licenseH").value;
-    } else if(user.role === "pharmacy"){
-        user.pharmacyName = document.getElementById("pharmacyName").value;
-        user.drugLicense = document.getElementById("drugLicense").value;
-    }
+const inpName = document.getElementById('inpName');
+const inpRole = document.getElementById('inpRole');
+const inpPhone = document.getElementById('inpPhone');
+const inpEmail = document.getElementById('inpEmail');
+const inpPic = document.getElementById('inpPic');
+const roleFieldsContainer = document.getElementById('roleFieldsContainer');
 
-    localStorage.setItem("quickAidUser", JSON.stringify(user));
-    alert("Profile updated successfully!");
+const editBtn = document.getElementById('editBtn');
+const saveProfileBtn = document.getElementById('saveProfile');
+const cancelEditBtn = document.getElementById('cancelEdit');
+const dashboardBtn = document.getElementById('dashboardBtn');
+
+const logoutBtn = document.getElementById('logoutBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+
+const deleteCard = document.getElementById('deleteCard');
+const confirmDeleteInline = document.getElementById('confirmDeleteInline');
+const cancelDeleteInline = document.getElementById('cancelDeleteInline');
+
+const msgCard = document.getElementById('msgCard');
+const msgInner = msgCard.querySelector('.msg-inner');
+
+// ------------------- Functions -------------------
+function showMessage(text, type='success'){
+  msgInner.textContent = text;
+  msgInner.className = 'msg-inner ' + type;
+  msgCard.style.display='block';
+  msgCard.scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{ msgCard.style.display='none'; }, 4000);
+}
+
+function refreshSummary(){
+  displayName.textContent = currentUser.name||'—';
+  displayRole.textContent = (currentUser.role||'patient').toUpperCase();
+  displayEmail.textContent = currentUser.email||'—';
+  displayPhone.textContent = currentUser.phone||'—';
+  profilePic.src = currentUser.profilePic||profilePic.src;
+
+  let html='';
+
+  if(currentUser.role==='admin'){
+    html=`<div><strong>Admin Access:</strong> Full system privileges</div>
+          <div><strong>Total Users:</strong> ${users.length}</div>
+          <div><strong>Users List:</strong>
+            <ul style="margin:4px 0 0 16px;">${users.map(u=>`<li>${u.name} (${u.role})</li>`).join('')}</ul>
+          </div>`;
+  }
+  else if(currentUser.role==='doctor'){
+    html=`<div><strong>Specialization:</strong> ${currentUser.specialization||'—'}</div>
+          <div><strong>Experience:</strong> ${currentUser.experience||'—'}</div>
+          <div><strong>Qualification:</strong> ${currentUser.qualification||'—'}</div>`;  
+  } 
+  else if(currentUser.role==='hospital'){
+    html=`<div><strong>Hospital Name:</strong> ${currentUser.hospitalName||'—'}</div>
+          <div><strong>License:</strong> ${currentUser.licenseH||'—'}</div>
+          <div><strong>Ambulances:</strong> ${currentUser.ambulances||0}</div>
+          <div><strong>ER Rooms:</strong> ${currentUser.erRooms||0}</div>
+          <div><strong>Doctors Available:</strong> ${currentUser.doctorsAvailable||0}</div>
+          <div><strong>Emergency Contact:</strong> ${currentUser.hphone||'—'}</div>`;  
+  } 
+  else if(currentUser.role==='patient'){
+    html=`<div><strong>Blood Group:</strong> ${currentUser.bloodGroup||'—'}</div>
+          <div><strong>Address:</strong> ${currentUser.address||'—'}</div>
+          <div><strong>Health Issues:</strong> ${currentUser.healthIssues||'None'}</div>
+          <div><strong>Allergies:</strong> ${currentUser.allergies||'None'}</div>
+          <div><strong>Medications:</strong> ${currentUser.medications||'None'}</div>
+          <div><strong>Emergency Contact:</strong> ${currentUser.emergencyContact||'—'}</div>
+          <div><strong>Chronic Conditions:</strong> ${currentUser.conditions||'—'}</div>`;  
+  } 
+  else if(currentUser.role==='pharmacy'){
+    html=`<div><strong>Pharmacy Name:</strong> ${currentUser.pharmacyName||'—'}</div>
+          <div><strong>License Number:</strong> ${currentUser.drugLicense||'—'}</div>
+          <div><strong>Address:</strong> ${currentUser.pharmAddress||'—'}</div>
+          <div><strong>Drugs in Stock:</strong> ${currentUser.drugStock||'—'}</div>
+          <div><strong>Pharmacists Available:</strong> ${currentUser.pharmacistsAvailable||0}</div>`;  
+  }
+
+  extraFields.innerHTML = html;
+}
+
+function renderRoleFields(role){
+  let html='';
+
+  if(role==='admin'){
+    html=`<div style="margin-top:10px">
+            <label>System Access Level</label>
+            <input type="text" value="Full Admin Privileges" readonly>
+          </div>
+          <div style="margin-top:10px">
+            <label>All Users</label>
+            <textarea readonly style="height:120px;">${users.map(u=>u.name+' ('+u.role+')').join('\n')}</textarea>
+          </div>`;  
+  }
+  else if(role==='doctor'){
+    html=`<div class="grid-2">
+            <div><label>Specialization</label><input type="text" id="f_spec" value="${currentUser.specialization||''}"></div>
+            <div><label>Experience</label><input type="text" id="f_exp" value="${currentUser.experience||''}"></div>
+          </div>
+          <div style="margin-top:10px">
+            <label>Qualification</label>
+            <input type="text" id="f_qual" value="${currentUser.qualification||''}" placeholder="Degree / University">
+          </div>`;
+  } 
+  else if(role==='hospital'){
+    html=`<div class="grid-2">
+            <div><label>Hospital Name</label><input type="text" id="f_hname" value="${currentUser.hospitalName||''}" readonly></div>
+            <div><label>License Number</label><input type="text" id="f_license" value="${currentUser.licenseH||''}" readonly></div>
+          </div>
+          <div class="grid-2" style="margin-top:10px">
+            <div><label>Number of Ambulances</label><input type="number" id="f_ambulances" value="${currentUser.ambulances||0}"></div>
+            <div><label>Emergency Rooms Available</label><input type="number" id="f_errooms" value="${currentUser.erRooms||0}"></div>
+          </div>
+          <div class="grid-2" style="margin-top:10px">
+            <div><label>Doctors Available</label><input type="number" id="f_docavail" value="${currentUser.doctorsAvailable||0}"></div>
+            <div><label>Emergency Contact</label><input type="tel" id="f_hphone" value="${currentUser.hphone||''}"></div>
+          </div>`;
+  } 
+  else if(role==='patient'){
+    html=`<div class="grid-2" style="margin-top:12px">
+            <div>
+              <label>Blood Group</label>
+              <input type="text" id="f_blood" value="${currentUser.bloodGroup||''}">
+            </div>
+            <div>
+              <label>Emergency Contact</label>
+              <input type="tel" id="f_emergency" value="${currentUser.emergencyContact||''}">
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <label>Health Issues</label>
+            <textarea id="f_health">${currentUser.healthIssues||''}</textarea>
+          </div>
+          <div style="margin-top:10px">
+            <label>Allergies</label>
+            <textarea id="f_allergies">${currentUser.allergies||''}</textarea>
+          </div>
+          <div style="margin-top:10px">
+            <label>Current Medications</label>
+            <textarea id="f_meds">${currentUser.medications||''}</textarea>
+          </div>
+          <div style="margin-top:10px">
+            <label>Chronic Conditions / BP</label>
+            <textarea id="f_conditions">${currentUser.conditions||''}</textarea>
+          </div>`;
+  } 
+  else if(role==='pharmacy'){
+    html=`<div class="grid-2">
+            <div><label>Pharmacy Name</label><input type="text" value="${currentUser.pharmacyName||''}" readonly></div>
+            <div><label>License Number</label><input type="text" value="${currentUser.drugLicense||''}" readonly></div>
+          </div>
+          <div class="grid-2" style="margin-top:10px">
+            <div><label>Drugs in Stock</label><input type="text" id="f_drugstock" value="${currentUser.drugStock||''}"></div>
+            <div><label>Pharmacists Available</label><input type="number" id="f_pharmavail" value="${currentUser.pharmacistsAvailable||0}"></div>
+          </div>
+          <div style="margin-top:10px">
+            <label>Address</label>
+            <input type="text" id="f_pharmaddress" value="${currentUser.pharmAddress||''}">
+          </div>`;
+  }
+
+  roleFieldsContainer.innerHTML = html;
+}
+
+function populateForm(){
+  inpName.value = currentUser.name||'';
+  inpRole.value = currentUser.role||'';
+  inpPhone.value = currentUser.phone||'';
+  inpEmail.value = currentUser.email||'';
+  renderRoleFields(currentUser.role);
+}
+
+function saveCurrent(){
+  const idx = users.findIndex(u=>u.id===currentUser.id);
+  if(idx>-1){ users[idx]=currentUser; saveUsers(users); refreshSummary(); }
+}
+
+// ------------------- Event Listeners -------------------
+inpPic.addEventListener('change', e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload=function(){ currentUser.profilePic=reader.result; saveCurrent(); showMessage('Profile picture updated','success'); }
+  reader.readAsDataURL(f);
 });
 
-// Logout
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("quickAidUser");
-    window.location.href = "join.html";
+saveProfileBtn.addEventListener('click', ()=>{
+  currentUser.name = inpName.value.trim();
+  currentUser.phone = inpPhone.value.trim();
+
+  if(currentUser.role==='doctor'){
+    currentUser.specialization = document.getElementById('f_spec').value.trim();
+    currentUser.experience = document.getElementById('f_exp').value.trim();
+    currentUser.qualification = document.getElementById('f_qual').value.trim();
+  } else if(currentUser.role==='hospital'){
+    currentUser.ambulances = parseInt(document.getElementById('f_ambulances').value) || 0;
+    currentUser.erRooms = parseInt(document.getElementById('f_errooms').value) || 0;
+    currentUser.doctorsAvailable = parseInt(document.getElementById('f_docavail').value) || 0;
+    currentUser.hphone = document.getElementById('f_hphone').value.trim();
+  } else if(currentUser.role==='patient'){
+    currentUser.bloodGroup = document.getElementById('f_blood').value.trim();
+    currentUser.emergencyContact = document.getElementById('f_emergency').value.trim();
+    currentUser.healthIssues = document.getElementById('f_health').value.trim();
+    currentUser.allergies = document.getElementById('f_allergies').value.trim();
+    currentUser.medications = document.getElementById('f_meds').value.trim();
+    currentUser.conditions = document.getElementById('f_conditions').value.trim();
+  } else if(currentUser.role==='pharmacy'){
+    currentUser.drugStock = document.getElementById('f_drugstock').value.trim();
+    currentUser.pharmacistsAvailable = parseInt(document.getElementById('f_pharmavail').value) || 0;
+    currentUser.pharmAddress = document.getElementById('f_pharmaddress').value.trim();
+  }
+
+  saveCurrent();
+  showMessage('Profile saved successfully!','success');
 });
+
+cancelEditBtn.addEventListener('click', populateForm);
+editBtn.addEventListener('click', ()=>{ window.scrollTo({top:0, behavior:'smooth'}); profileFormCard.scrollIntoView(); });
+
+dashboardBtn.addEventListener('click', ()=>{
+  if(currentUser.role==='admin'){
+    window.location.href='admin-dashboard.html';
+  } else {
+    window.location.href='dashboard.html';
+  }
+});
+// HIDE DELETE BUTTON FOR ADMIN
+if(currentUser.role === 'admin'){
+  deleteBtn.style.display = 'none';
+}
+
+
+logoutBtn.addEventListener('click', ()=>{ localStorage.removeItem('quickAidCurrent'); window.location.href = 'join.html'; });
+
+deleteBtn.addEventListener('click', ()=>{ deleteCard.style.display='block'; deleteCard.scrollIntoView({behavior:'smooth'}); });
+cancelDeleteInline.addEventListener('click', ()=>{ deleteCard.style.display='none'; });
+confirmDeleteInline.addEventListener('click', ()=>{
+  users = users.filter(u => u.id !== currentUser.id);
+  saveUsers(users);
+  localStorage.removeItem('quickAidCurrent');
+  showMessage('Account deleted successfully!','success');
+  setTimeout(()=>{ window.location.href='join.html'; }, 1500);
+});
+
+// ------------------- Initialize -------------------
+populateForm();
+refreshSummary();
 </script>
 
 </body>

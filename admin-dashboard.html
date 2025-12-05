@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickAid — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+:root{
+  --brand:#49465b; 
+  --muted:#6b7280; 
+  --bg:#f3f6f9; 
+  --card:#ffffff; 
+  --accent:#2563eb;
+  --header-gradient: linear-gradient(90deg, #49465b, #6e6c80);
+}
+*{box-sizing:border-box;}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); margin:0; color:#0f172a;}
+header{
+  background:var(--header-gradient);
+  color:white;
+  padding:18px 20px;
+  position:sticky; top:0;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+header h1{font-size:18px; margin:0; font-weight:600;}
+header .back-btn{
+  background:rgba(255,255,255,0.2);
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:500;
+  transition:0.3s;
+}
+header .back-btn:hover{opacity:0.85;}
+.container{max-width:1200px; margin:26px auto; padding:0 18px;}
+.card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06); margin-bottom:20px;}
+.user-card{border:1px solid #e6e9ef; padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+.user-info{display:flex; gap:12px; align-items:center;}
+.user-info img{width:50px;height:50px;border-radius:50%; object-fit:cover; border:2px solid #fff; box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+.btn{background:var(--header-gradient); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; transition:0.3s;}
+.btn:hover{opacity:0.85;}
+input, textarea, select{width:100%; padding:8px 10px; margin-bottom:10px; border-radius:6px; border:1px solid #e6e9ef;}
+textarea{resize:vertical;}
+#msgCard{display:none; margin-bottom:12px;}
+#msgCard .msg-inner{padding:12px; border-radius:8px; border-left:4px solid var(--accent); background:#f9f9f9;}
+#msgCard .msg-inner.success{border-left-color:#16a34a; color:#166534;}
+#msgCard .msg-inner.error{border-left-color:#b91c1c; color:#b91c1c;}
+.modal{display:none; background:#fff; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 20px rgba(0,0,0,0.08);}
+.modal h3{margin-top:0;}
+.close-btn{float:right; cursor:pointer; color:#b91c1c; font-weight:bold;}
+.modal-field{margin-bottom:12px;}
+.modal-field label{font-size:13px; color:var(--muted);}
+.modal-field input, .modal-field textarea, .modal-field select{margin-top:4px;}
+#infoPanel{display:none; margin-bottom:20px; position:relative;}
+#infoPanel .close-btn{position:absolute; top:10px; right:12px;}
+#searchInput{width:100%; padding:8px 12px; margin-bottom:16px; border-radius:6px; border:1px solid #e6e9ef;}
+table{width:100%; border-collapse:collapse;}
+th, td{padding:10px; text-align:left; border-bottom:1px solid #e6e9ef;}
+th{background:#f3f6f9;}
+.img-thumb{width:50px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="back-btn" onclick="window.history.back()">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h1>Admin Dashboard</h1>
+  <div></div>
+</header>
+
+<main class="container">
+
+<div id="msgCard"><div class="msg-inner"></div></div>
+
+<input type="text" id="searchInput" placeholder="Search users by name, email, or phone...">
+
+<div id="infoPanel" class="card">
+  <span id="closeInfo" class="close-btn">&times;</span>
+  <div id="infoContent"></div>
+</div>
+
+<h2>All Users</h2>
+<div id="usersList" class="card"></div>
+
+<!-- Edit User Modal -->
+<div id="editModal" class="modal">
+  <span class="close-btn" id="closeModal">&times;</span>
+  <h3>Edit User</h3>
+  <div class="modal-field">
+    <label>Full Name</label>
+    <input type="text" id="modalName" readonly>
+  </div>
+  <div class="modal-field">
+    <label>Email</label>
+    <input type="email" id="modalEmail" readonly>
+  </div>
+  <div class="modal-field">
+    <label>Phone</label>
+    <input type="tel" id="modalPhone">
+  </div>
+  <div id="roleFieldsModal"></div>
+  <button class="btn" id="saveUserBtn">Save Changes</button>
+</div>
+
+<h2>Emergency Transport</h2>
+<button class="btn" onclick="showTransportModal()">+ Add New Transport</button>
+<div id="transportList" class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Contact</th>
+        <th>Status</th>
+        <th>Vehicle No</th>
+        <th>Driver</th>
+        <th>Location</th>
+        <th>Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="transportTableBody"></tbody>
+  </table>
+</div>
+
+<!-- Transport Modal -->
+<div id="transportModal" class="modal">
+  <span class="close-btn" id="closeTransportModal">&times;</span>
+  <h3>Add / Edit Transport</h3>
+  <div class="modal-field">
+    <label>Name</label>
+    <input type="text" id="modalTransportName">
+  </div>
+  <div class="modal-field">
+    <label>Type</label>
+    <select id="modalTransportType">
+      <option value="Ambulance">Ambulance</option>
+      <option value="ER Vehicle">ER Vehicle</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div class="modal-field">
+    <label>Contact</label>
+    <input type="tel" id="modalTransportContact">
+  </div>
+  <div class="modal-field">
+    <label>Vehicle No</label>
+    <input type="text" id="modalTransportVehicle">
+  </div>
+  <div class="modal-field">
+    <label>Driver</label>
+    <input type="text" id="modalTransportDriver">
+  </div>
+  <div class="modal-field">
+    <label>Location</label>
+    <input type="text" id="modalTransportLocation">
+  </div>
+  <div class="modal-field">
+    <label>Photo</label>
+    <input type="file" id="modalTransportPhoto" accept="image/*">
+  </div>
+  <div class="modal-field">
+    <label>Status</label>
+    <select id="modalTransportStatus">
+      <option value="Available">Available</option>
+      <option value="Busy">Busy</option>
+      <option value="Maintenance">Maintenance</option>
+    </select>
+  </div>
+  <button class="btn" id="saveTransportBtn">Save</button>
+</div>
+
+<script>
+// ------------------ USERS ------------------
+let users = JSON.parse(localStorage.getItem('quickAidUsers')||'[]');
+const usersList = document.getElementById('usersList');
+const editModal = document.getElementById('editModal');
+const closeModal = document.getElementById('closeModal');
+const modalName = document.getElementById('modalName');
+const modalEmail = document.getElementById('modalEmail');
+const modalPhone = document.getElementById('modalPhone');
+const roleFieldsModal = document.getElementById('roleFieldsModal');
+const saveUserBtn = document.getElementById('saveUserBtn');
+const msgCard = document.getElementById('msgCard');
+const msgInner = msgCard.querySelector('.msg-inner');
+const infoPanel = document.getElementById('infoPanel');
+const infoContent = document.getElementById('infoContent');
+const closeInfo = document.getElementById('closeInfo');
+const searchInput = document.getElementById('searchInput');
+
+function showMessage(text,type='success'){
+  msgInner.textContent=text;
+  msgInner.className='msg-inner '+type;
+  msgCard.style.display='block';
+  msgCard.scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{ msgCard.style.display='none'; },4000);
+}
+
+function saveUsers(u){ localStorage.setItem('quickAidUsers', JSON.stringify(u)); }
+
+let editingUser=null;
+
+function renderUsers(filter=''){
+  usersList.innerHTML='';
+  users.filter(u=>((u.name+u.email+u.phone).toLowerCase().includes(filter.toLowerCase()))).forEach(u=>{
+    const div=document.createElement('div');
+    div.className='user-card';
+    div.innerHTML=`
+      <div class="user-info">
+        <img src="${u.profilePic||'https://via.placeholder.com/50'}">
+        <div>
+          <div><strong>${u.name}</strong> (${u.role}) ${u.blocked?'[Blocked]':''}</div>
+          <div style="font-size:12px; color:#6b7280">${u.email}</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn viewBtn" data-id="${u.id}"><i class="bi bi-eye"></i> View</button>
+        <button class="btn editBtn" data-id="${u.id}"><i class="bi bi-pencil"></i> Edit</button>
+        <button class="btn" style="background:#b91c1c;" onclick="toggleBlock('${u.id}')">
+          ${u.blocked?'Unblock':'Block'}
+        </button>
+      </div>`;
+    usersList.appendChild(div);
+  });
+  document.querySelectorAll('.viewBtn').forEach(b=>b.addEventListener('click',()=>viewUserInline(b.dataset.id)));
+  document.querySelectorAll('.editBtn').forEach(b=>b.addEventListener('click',()=>editUserInline(b.dataset.id)));
+}
+
+function viewUserInline(id){
+  const u = users.find(x=>x.id===id);
+  if(!u) return;
+  let html=`<h3>${u.name} (${u.role}) ${u.blocked?'[Blocked]':''}</h3>
+            <p><strong>Email:</strong> ${u.email}</p>
+            <p><strong>Phone:</strong> ${u.phone||'—'}</p>`;
+  if(u.role==='doctor'){ html+=`<p><strong>Specialization:</strong> ${u.specialization||'—'}</p>`; }
+  else if(u.role==='hospital'){ html+=`<p><strong>Ambulances:</strong> ${u.ambulances||0}</p>`; }
+  else if(u.role==='patient'){ html+=`<p><strong>Blood Group:</strong> ${u.bloodGroup||'—'}</p>`; }
+  else if(u.role==='pharmacy'){ html+=`<p><strong>Drugs in Stock:</strong> ${u.drugStock||'—'}</p>`; }
+  html+=`<button class="btn" onclick="editUserInline('${id}')">Edit</button>`;
+  infoContent.innerHTML = html;
+  infoPanel.style.display='block';
+  infoPanel.scrollIntoView({behavior:'smooth'});
+}
+
+function editUserInline(id){
+  const u = users.find(x=>x.id===id); if(!u) return; editingUser = u;
+  modalName.value=u.name; modalEmail.value=u.email; modalPhone.value=u.phone||'';
+  let html='';
+  if(u.role==='doctor'){ html=`<div class="modal-field"><label>Specialization</label><input type="text" id="modalSpec" value="${u.specialization||''}"></div>`;}
+  else if(u.role==='hospital'){ html=`<div class="modal-field"><label>Ambulances</label><input type="number" id="modalAmb" value="${u.ambulances||0}"></div>`;}
+  else if(u.role==='patient'){ html=`<div class="modal-field"><label>Blood Group</label><input type="text" id="modalBlood" value="${u.bloodGroup||''}"></div>`;}
+  else if(u.role==='pharmacy'){ html=`<div class="modal-field"><label>Drugs in Stock</label><input type="text" id="modalStock" value="${u.drugStock||''}"></div>`;}
+  roleFieldsModal.innerHTML = html;
+  editModal.style.display='block';
+  editModal.scrollIntoView({behavior:'smooth'});
+}
+
+saveUserBtn.addEventListener('click',()=>{
+  if(!editingUser) return;
+  editingUser.phone = modalPhone.value.trim();
+  if(editingUser.role==='doctor'){ editingUser.specialization=document.getElementById('modalSpec').value.trim(); }
+  else if(editingUser.role==='hospital'){ editingUser.ambulances=parseInt(document.getElementById('modalAmb').value)||0; }
+  else if(editingUser.role==='patient'){ editingUser.bloodGroup=document.getElementById('modalBlood').value.trim(); }
+  else if(editingUser.role==='pharmacy'){ editingUser.drugStock=document.getElementById('modalStock').value.trim(); }
+  saveUsers(users); editModal.style.display='none'; showMessage('User updated successfully!'); renderUsers(searchInput.value);
+});
+
+function toggleBlock(id){
+  const u=users.find(x=>x.id===id); if(!u) return;
+  if(confirm(u.blocked?'Unblock this user?':'Block this user?')){ u.blocked=!u.blocked; saveUsers(users); showMessage(`User ${u.blocked?'blocked':'unblocked'} successfully!`); renderUsers(searchInput.value);}
+}
+
+closeModal.addEventListener('click',()=>{editModal.style.display='none';});
+closeInfo.addEventListener('click',()=>{infoPanel.style.display='none';});
+searchInput.addEventListener('input',()=>{renderUsers(searchInput.value);});
+renderUsers();
+
+// ------------------ TRANSPORTS ------------------
+let transports = JSON.parse(localStorage.getItem('quickAidTransports')||'[]');
+let editingTransportIndex = null;
+
+const transportTableBody = document.getElementById('transportTableBody');
+const transportModal = document.getElementById('transportModal');
+const closeTransportModal = document.getElementById('closeTransportModal');
+const modalTransportName = document.getElementById('modalTransportName');
+const modalTransportType = document.getElementById('modalTransportType');
+const modalTransportContact = document.getElementById('modalTransportContact');
+const modalTransportVehicle = document.getElementById('modalTransportVehicle');
+const modalTransportDriver = document.getElementById('modalTransportDriver');
+const modalTransportLocation = document.getElementById('modalTransportLocation');
+const modalTransportPhoto = document.getElementById('modalTransportPhoto');
+const modalTransportStatus = document.getElementById('modalTransportStatus');
+const saveTransportBtn = document.getElementById('saveTransportBtn');
+
+function renderTransportTable(){
+  transportTableBody.innerHTML='';
+  if(transports.length===0){ transportTableBody.innerHTML=`<tr><td colspan="9" style="text-align:center;">No transports added yet.</td></tr>`; return; }
+  transports.forEach((t,i)=>{
+    transportTableBody.innerHTML += `<tr>
+      <td>${t.name}</td>
+      <td>${t.type}</td>
+      <td>${t.contact}</td>
+      <td>${t.status}</td>
+      <td>${t.vehicle||''}</td>
+      <td>${t.driver||''}</td>
+      <td>${t.location||''}</td>
+      <td>${t.photo?`<img src="${t.photo}" class="img-thumb" onclick="window.open('${t.photo}','_blank')">`:'—'}</td>
+      <td>
+        <button class="btn" onclick="editTransport(${i})"><i class="bi bi-pencil"></i></button>
+        <button class="btn" style="background:#b91c1c;" onclick="deleteTransport(${i})"><i class="bi bi-trash"></i></button>
+      </td>
+    </tr>`;
+  });
+  localStorage.setItem('quickAidTransports', JSON.stringify(transports));
+}
+
+function showTransportModal(){
+  editingTransportIndex = null;
+  transportModal.style.display='block';
+  modalTransportName.value=''; modalTransportType.value='Ambulance'; modalTransportContact.value='';
+  modalTransportVehicle.value=''; modalTransportDriver.value=''; modalTransportLocation.value='';
+  modalTransportPhoto.value=''; modalTransportStatus.value='Available';
+}
+
+closeTransportModal.onclick = ()=>{ transportModal.style.display='none'; }
+
+saveTransportBtn.onclick = ()=>{
+  const file = modalTransportPhoto.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      saveTransportData(e.target.result);
+    }
+    reader.readAsDataURL(file);
+  } else {
+    saveTransportData(editingTransportIndex!==null ? transports[editingTransportIndex].photo : '');
+  }
+};
+
+function saveTransportData(photoBase64){
+  const t = {
+    name: modalTransportName.value.trim(),
+    type: modalTransportType.value,
+    contact: modalTransportContact.value.trim(),
+    vehicle: modalTransportVehicle.value.trim(),
+    driver: modalTransportDriver.value.trim(),
+    location: modalTransportLocation.value.trim(),
+    photo: photoBase64,
+    status: modalTransportStatus.value
+  };
+  if(!t.name || !t.contact){ alert('Name and Contact are required'); return; }
+  if(editingTransportIndex!==null){ transports[editingTransportIndex]=t; } else { transports.push(t); }
+  transportModal.style.display='none';
+  renderTransportTable();
+}
+
+function editTransport(i){
+  editingTransportIndex = i;
+  const t = transports[i];
+  transportModal.style.display='block';
+  modalTransportName.value=t.name;
+  modalTransportType.value=t.type;
+  modalTransportContact.value=t.contact;
+  modalTransportVehicle.value=t.vehicle||'';
+  modalTransportDriver.value=t.driver||'';
+  modalTransportLocation.value=t.location||'';
+  modalTransportPhoto.value=''; // Clear file input
+  modalTransportStatus.value=t.status||'Available';
+}
+
+function deleteTransport(i){
+  if(confirm('Remove this transport?')){ transports.splice(i,1); renderTransportTable(); }
+}
+
+renderTransportTable();
+</script>
+</body>
+</html>

@@ -9,97 +9,21 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <style>
-    body {
-        font-family: 'Merriweather', serif;
-        background: #eaf0f3;
-        margin: 0;
-        padding: 0;
-    }
-
-    header {
-        background: #49465b;
-        color: white;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    header i {
-        font-size: 1.4rem;
-        cursor: pointer;
-        position: absolute;
-        left: 20px;
-    }
-
-    header h1 {
-        margin: 0;
-        font-size: 1.4rem;
-        font-weight: 600;
-        text-align: center;
-        width: 100%;
-    }
-
-    .card {
-        max-width: 500px;
-        margin: 2rem auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        text-align: center;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-        color: #49465b;
-        margin-bottom: 1.5rem;
-    }
-
-    input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-family: 'Merriweather', serif;
-        font-size: 1rem;
-    }
-
-    button {
-        background: #49465b;
-        color: white;
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: 10px;
-    }
-
-    button:hover {
-        background: #6c6a81;
-    }
-
-    .signup-link {
-        text-align: center;
-        margin-top: 1rem;
-    }
-
-    .signup-link a {
-        color: #49465b;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    .signup-link a:hover {
-        text-decoration: underline;
-    }
+    body { font-family: 'Merriweather', serif; background: #eaf0f3; margin: 0; padding: 0; }
+    header { background: #49465b; color: white; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: center; position: sticky; top: 0; z-index: 1000; }
+    header i { font-size: 1.4rem; cursor: pointer; position: absolute; left: 20px; }
+    header h1 { margin: 0; font-size: 1.4rem; font-weight: 600; text-align: center; width: 100%; }
+    .card { max-width: 500px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); text-align: center; }
+    h2 { font-size: 1.8rem; color: #49465b; margin-bottom: 1.5rem; }
+    input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Merriweather', serif; font-size: 1rem; }
+    button { background: #49465b; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; font-weight: 600; margin-top: 10px; }
+    button:hover { background: #6c6a81; }
+    .signup-link { text-align: center; margin-top: 1rem; }
+    .signup-link a { color: #49465b; font-weight: 700; text-decoration: none; }
+    .signup-link a:hover { text-decoration: underline; }
+    .message { margin-top: 10px; font-weight: 600; }
+    .error { color: #e74c3c; }
+    .success { color: #27ae60; }
 </style>
 </head>
 
@@ -116,9 +40,8 @@
     <form id="loginForm">
         <input type="text" id="loginId" placeholder="Email or Phone" required>
         <input type="password" id="loginPassword" placeholder="Password" required>
-
         <button type="submit">Login</button>
-
+        <div class="message" id="loginMessage"></div>
         <div class="signup-link">
             Don't have an account? <a href="join.html">Join Now</a>
         </div>
@@ -126,24 +49,49 @@
 </div>
 
 <script>
-document.getElementById("loginForm").addEventListener("submit", function(e){
+// ----------------- Utility Functions -----------------
+function readUsers() { return JSON.parse(localStorage.getItem('quickAidUsers')||'[]'); }
+function saveUsers(users) { localStorage.setItem('quickAidUsers', JSON.stringify(users)); }
+
+// ----------------- Ensure Admin Exists -----------------
+let users = readUsers();
+if(!users.some(u=>u.email==='admin@quickaid.com')) {
+    const admin = { 
+        id: 'admin_1', name: 'Admin', email: 'admin@quickaid.com', phone: '0000000000', 
+        password: 'admin123', role: 'admin' 
+    };
+    users.push(admin);
+    saveUsers(users);
+}
+
+// ----------------- Login Logic -----------------
+document.getElementById('loginForm').addEventListener('submit', function(e){
     e.preventDefault();
 
-    const savedUser = JSON.parse(localStorage.getItem("quickAidUser"));
+    const loginId = document.getElementById('loginId').value.trim();
+    const loginPass = document.getElementById('loginPassword').value.trim();
+    const messageDiv = document.getElementById('loginMessage');
 
-    if (!savedUser) {
-        alert("❗ No account found! Please Sign Up first.");
-        return;
-    }
+    users = readUsers();
+    let loggedUser = users.find(u => (u.email===loginId || u.phone===loginId) && u.password===loginPass);
 
-    const loginId = document.getElementById("loginId").value.trim();
-    const loginPass = document.getElementById("loginPassword").value.trim();
+    if(loggedUser) {
+        // Ensure user has an id
+        if(!loggedUser.id) loggedUser.id = 'user_' + Date.now();
+        const idx = users.findIndex(u => u.email===loggedUser.email);
+        if(idx!==-1) users[idx]=loggedUser;
+        saveUsers(users);
 
-    if ((loginId === savedUser.email || loginId === savedUser.phone) && loginPass === savedUser.password) {
-        alert("✅ Login Successful! Redirecting...");
-        window.location.href = "index.html";
+        // Save current session id
+        localStorage.setItem('quickAidCurrent', loggedUser.id);
+
+        messageDiv.textContent = "✅ Login Successful! Redirecting...";
+        messageDiv.className = "message success";
+
+        setTimeout(()=>{ window.location.href='profile.html'; }, 800);
     } else {
-        alert("❌ Invalid Email/Phone or Password!");
+        messageDiv.textContent = "❌ Invalid Email/Phone or Password!";
+        messageDiv.className = "message error";
     }
 });
 </script>

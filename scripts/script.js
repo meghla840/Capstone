@@ -55,42 +55,41 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
+  // profile
 window.addEventListener("DOMContentLoaded", () => {
     const userSection = document.getElementById("userSection");
+
+    // LocalStorage theke login user load
     const savedUser = JSON.parse(localStorage.getItem("quickAidUser"));
 
-    if(savedUser) {
+    // ---------------------------------------
+    // CASE 1: Logged-in (Admin or Normal user)
+    // ---------------------------------------
+    if (savedUser && savedUser.username) {
+
         userSection.innerHTML = `
-        <div style="position:relative;">
-            <button id="profileBtn"><i class="bi bi-person-circle"></i> </button>
-            <div id="profileDropdown" style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; border-radius:6px; margin-top:5px; min-width:150px; z-index:1000;">
-                <a href="profile.html" id="goProfile">Profile</a>
-                <a href="#" id="logoutBtn">Logout</a>
+            <div style="position:relative;">
+                <button id="profileBtn">
+                    <i class="bi bi-person-circle" style="font-size:22px;"></i>
+                </button>
             </div>
-        </div>
         `;
 
         const profileBtn = document.getElementById("profileBtn");
-        const profileDropdown = document.getElementById("profileDropdown");
-        const logoutBtn = document.getElementById("logoutBtn");
 
         profileBtn.addEventListener("click", () => {
-            profileDropdown.style.display = profileDropdown.style.display === "block" ? "none" : "block";
+            window.location.href = "profile.html";  // Direct to profile
         });
 
-        logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("quickAidUser");
-            location.reload();
-        });
-
-        window.addEventListener("click", (e) => {
-            if(!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)){
-                profileDropdown.style.display = "none";
-            }
-        });
+        return; 
     }
+
+    // ------------------------------
+    // CASE 2: No active user → hide
+    // ------------------------------
+    userSection.innerHTML = "";
 });
+
 
 // Emergency Modal functionality
 const emergencyBtn = document.getElementById("navbarEmergencyBtn");

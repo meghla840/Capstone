@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QuickAid — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+:root{
+  --brand:#49465b; 
+  --muted:#6b7280; 
+  --bg:#f3f6f9; 
+  --card:#ffffff; 
+  --accent:#2563eb;
+  --header-gradient: linear-gradient(90deg, #49465b, #6e6c80);
+}
+body{font-family:Inter,sans-serif; margin:0; background:var(--bg); color:#0f172a;}
+header{background:var(--header-gradient); color:white; padding:18px 20px; position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;}
+header h1{margin:0; font-size:18px;}
+header button{padding:6px 10px; border:none; border-radius:6px; background:white; color:var(--brand); cursor:pointer;}
+header button:hover{opacity:0.85;}
+.container{max-width:1200px; margin:26px auto; padding:0 18px;}
+.card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06); margin-bottom:18px;}
+table{width:100%; border-collapse:collapse;}
+table th, table td{border:1px solid #e6e9ef; padding:8px; text-align:left;}
+table th{background:#f3f4f6;}
+input, select, textarea{width:100%; padding:6px 8px; border-radius:6px; border:1px solid #d1d5db;}
+button{padding:6px 10px; border:none; border-radius:6px; background:var(--header-gradient); color:white; cursor:pointer;}
+button:hover{opacity:0.85;}
+span.star{cursor:pointer; font-size:18px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QuickAid — Dashboard</h1>
+  <button onclick="history.back()">← Back</button>
+</header>
+
+<main class="container">
+  <div id="dashboardContent"></div>
+</main>
+
+<script>
+// ------------------- Load users -------------------
+let users = JSON.parse(localStorage.getItem('quickAidUsers')||'[]');
+let currentId = localStorage.getItem('quickAidCurrent');
+let currentUser = users.find(u=>u.id===currentId);
+
+if(!currentUser){ 
+    alert('No active user. Please login.'); 
+    window.location.href='join.html'; 
+}
+
+// ------------------- Save function -------------------
+function saveUsers(u){ localStorage.setItem('quickAidUsers', JSON.stringify(u)); }
+
+// ------------------- Dashboard Rendering -------------------
+const dashboardContent = document.getElementById('dashboardContent');
+
+function renderDashboard(){
+  dashboardContent.innerHTML = ''; // clear
+
+  if(currentUser.role==='hospital'){
+    renderHospitalDashboard();
+  } else if(currentUser.role==='doctor'){
+    renderDoctorDashboard();
+  } else if(currentUser.role==='patient'){
+    renderPatientDashboard();
+  } else if(currentUser.role==='pharmacy'){
+    renderPharmacyDashboard();
+  }
+}
+
+// ------------------- Hospital -------------------
+function renderHospitalDashboard(){
+  let infoCard = document.createElement('div'); infoCard.className='card';
+  infoCard.innerHTML = `<h3>Hospital Info</h3>
+    <p><strong>Name:</strong> ${currentUser.hospitalName}</p>
+    <p><strong>License:</strong> ${currentUser.licenseH}</p>
+    <p><strong>Ambulances:</strong> ${currentUser.ambulances||0}</p>
+    <p><strong>ER Rooms:</strong> ${currentUser.erRooms||0}</p>
+    <p><strong>Doctors Available:</strong> ${currentUser.doctorsAvailable||0}</p>
+    <p><strong>Emergency Contact:</strong> ${currentUser.hphone||'—'}</p>`;
+  dashboardContent.appendChild(infoCard);
+
+  // Emergency Transport Table
+  let emCard = document.createElement('div'); emCard.className='card';
+  emCard.innerHTML = `<h3>Emergency Transport</h3>
+    <table>
+      <thead><tr><th>Vehicle</th><th>Available</th><th>Driver</th></tr></thead>
+      <tbody id="hospitalEmergencyTable"></tbody>
+    </table>
+    <button onclick="addEmergencyTransport()">+ Add Transport</button>`;
+  dashboardContent.appendChild(emCard);
+  renderEmergencyTransport();
+
+  // Doctors Table
+  let doctorsCard = document.createElement('div'); doctorsCard.className='card';
+  doctorsCard.innerHTML = `<h3>Doctors Associated</h3>
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Specialization</th><th>Experience</th><th>Actions</th></tr></thead>
+      <tbody id="hospitalDoctorsTable"></tbody>
+    </table>
+    <button onclick="addDoctor()">+ Add Doctor</button>`;
+  dashboardContent.appendChild(doctorsCard);
+  renderHospitalDoctors();
+
+  // Services Table
+  let servicesCard = document.createElement('div'); servicesCard.className='card';
+  servicesCard.innerHTML = `<h3>Hospital Services</h3>
+    <table>
+      <thead><tr><th>Service Type</th><th>Price</th><th>Available Units</th><th>Actions</th></tr></thead>
+      <tbody id="hospitalServicesTable"></tbody>
+    </table>
+    <button onclick="addHospitalService()">+ Add Service</button>`;
+  dashboardContent.appendChild(servicesCard);
+  renderHospitalServices();
+}
+
+// --- Emergency transport ---
+function renderEmergencyTransport(){
+  const tbody = document.getElementById('hospitalEmergencyTable');
+  tbody.innerHTML='';
+  currentUser.transports=currentUser.transports||[];
+  currentUser.transports.forEach((t,i)=>{
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable="true" oninput="updateTransport(${i},'vehicle',this.textContent)">${t.vehicle}</td>
+                  <td contenteditable="true" oninput="updateTransport(${i},'available',this.textContent)">${t.available}</td>
+                  <td contenteditable="true" oninput="updateTransport(${i},'driver',this.textContent)">${t.driver}</td>
+                  <td><button onclick="deleteTransport(${i})">Delete</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function addEmergencyTransport(){
+  currentUser.transports=currentUser.transports||[];
+  currentUser.transports.push({vehicle:'',available:0,driver:''});
+  saveUsers(users);
+  renderEmergencyTransport();
+}
+function updateTransport(index,field,value){
+  if(field==='available') value=parseInt(value)||0;
+  currentUser.transports[index][field]=value;
+  saveUsers(users);
+}
+function deleteTransport(index){
+  if(confirm('Delete this transport?')){
+    currentUser.transports.splice(index,1);
+    saveUsers(users);
+    renderEmergencyTransport();
+  }
+}
+
+// --- Doctors ---
+function renderHospitalDoctors(){
+  const tbody=document.getElementById('hospitalDoctorsTable');
+  tbody.innerHTML='';
+  const doctors=users.filter(u=>u.role==='doctor' && u.hospitalId===currentUser.id);
+  doctors.forEach((d,i)=>{
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable="true" oninput="updateDoctor(${i},'name',this.textContent)">${d.name}</td>
+                  <td>${d.email}</td>
+                  <td contenteditable="true" oninput="updateDoctor(${i},'specialization',this.textContent)">${d.specialization||'—'}</td>
+                  <td contenteditable="true" oninput="updateDoctor(${i},'experience',this.textContent)">${d.experience||'—'}</td>
+                  <td><button onclick="deleteDoctor(${i})">Delete</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function addDoctor(){
+  let id='d'+Date.now();
+  let newDoc={id,name:'',email:'',role:'doctor',hospitalId:currentUser.id,appointments:[],specialization:'',experience:''};
+  users.push(newDoc);
+  saveUsers(users);
+  renderHospitalDoctors();
+}
+function updateDoctor(index,field,value){
+  const doctors = users.filter(u=>u.role==='doctor' && u.hospitalId===currentUser.id);
+  const docIndex = users.findIndex(u=>u.id===doctors[index].id);
+  users[docIndex][field]=value;
+  saveUsers(users);
+}
+function deleteDoctor(index){
+  const doctors = users.filter(u=>u.role==='doctor' && u.hospitalId===currentUser.id);
+  const docIndex = users.findIndex(u=>u.id===doctors[index].id);
+  if(confirm('Delete this doctor?')){ users.splice(docIndex,1); saveUsers(users); renderHospitalDoctors();}
+}
+
+// --- Services ---
+function renderHospitalServices(){
+  const tbody = document.getElementById('hospitalServicesTable');
+  tbody.innerHTML='';
+  currentUser.services=currentUser.services||[];
+  currentUser.services.forEach((s,i)=>{
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable="true" oninput="updateService(${i},'type',this.textContent)">${s.type}</td>
+                  <td contenteditable="true" oninput="updateService(${i},'price',this.textContent)">${s.price}</td>
+                  <td contenteditable="true" oninput="updateService(${i},'units',this.textContent)">${s.units}</td>
+                  <td><button onclick="deleteService(${i})">Delete</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function addHospitalService(){
+  currentUser.services=currentUser.services||[];
+  currentUser.services.push({type:'',price:0,units:0});
+  saveUsers(users);
+  renderHospitalServices();
+}
+function updateService(index,field,value){
+  if(field==='price'||field==='units') value=parseFloat(value)||0;
+  currentUser.services[index][field]=value;
+  saveUsers(users);
+}
+function deleteService(index){
+  if(confirm('Delete this service?')){
+    currentUser.services.splice(index,1);
+    saveUsers(users);
+    renderHospitalServices();
+  }
+}
+
+// ------------------- Doctor -------------------
+function renderDoctorDashboard(){
+  dashboardContent.innerHTML='';
+  let infoCard=document.createElement('div'); infoCard.className='card';
+  infoCard.innerHTML=`<h3>Doctor Info</h3>
+    <p><strong>Name:</strong> ${currentUser.name}</p>
+    <p><strong>Specialization:</strong> ${currentUser.specialization||'—'}</p>
+    <p><strong>Experience:</strong> ${currentUser.experience||'—'}</p>
+    <p><strong>Qualification:</strong> ${currentUser.qualification||'—'}</p>`;
+  dashboardContent.appendChild(infoCard);
+
+  let appCard=document.createElement('div'); appCard.className='card';
+  appCard.innerHTML=`<h3>Appointments</h3>
+    <table>
+      <thead><tr><th>Patient</th><th>Email</th><th>Date</th><th>Prescription</th><th>Follow Up</th></tr></thead>
+      <tbody id="doctorAppointmentsTable"></tbody>
+    </table>`;
+  dashboardContent.appendChild(appCard);
+
+  const tbody=document.getElementById('doctorAppointmentsTable');
+  (currentUser.appointments||[]).forEach(a=>{
+    let patient=users.find(u=>u.id===a.patientId);
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td>${patient?.name||'—'}</td><td>${patient?.email||'—'}</td><td>${a.date}</td>
+      <td><textarea onchange="updatePrescription('${a.patientId}',this.value)">${a.prescription||''}</textarea></td>
+      <td><input type="date" value="${a.followup||''}" onchange="updateFollowup('${a.patientId}',this.value)"></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function updatePrescription(pid,val){ 
+  let idx=currentUser.appointments.findIndex(a=>a.patientId===pid); 
+  if(idx>-1){ currentUser.appointments[idx].prescription=val; saveUsers(users); } 
+}
+function updateFollowup(pid,val){ 
+  let idx=currentUser.appointments.findIndex(a=>a.patientId===pid); 
+  if(idx>-1){ currentUser.appointments[idx].followup=val; saveUsers(users); } 
+}
+
+// ------------------- Patient -------------------
+function renderPatientDashboard(){
+  dashboardContent.innerHTML='';
+  let infoCard=document.createElement('div'); infoCard.className='card';
+  infoCard.innerHTML=`<h3>Patient Info</h3>
+    <p><strong>Name:</strong> ${currentUser.name}</p>
+    <p><strong>Blood Group:</strong> ${currentUser.bloodGroup||'—'}</p>
+    <p><strong>Health Issues:</strong> ${currentUser.healthIssues||'None'}</p>`;
+  dashboardContent.appendChild(infoCard);
+
+  let appCard=document.createElement('div'); appCard.className='card';
+  appCard.innerHTML=`<h3>My Appointments</h3>
+    <table>
+      <thead><tr><th>Doctor</th><th>Date</th><th>Prescription</th><th>Follow Up</th></tr></thead>
+      <tbody id="patientAppointmentsTable"></tbody>
+    </table>`;
+  dashboardContent.appendChild(appCard);
+
+  const tbody=document.getElementById('patientAppointmentsTable');
+  users.filter(u=>u.role==='doctor').forEach(d=>{
+    (d.appointments||[]).forEach(a=>{
+      if(a.patientId===currentUser.id){
+        let tr=document.createElement('tr');
+        tr.innerHTML=`<td>${d.name}</td><td>${a.date}</td><td>${a.prescription||''}</td><td>${a.followup||''}</td>`;
+        tbody.appendChild(tr);
+      }
+    });
+  });
+}
+
+// ------------------- Pharmacy -------------------
+function renderPharmacyDashboard(){
+  dashboardContent.innerHTML='';
+  let infoCard=document.createElement('div'); infoCard.className='card';
+  infoCard.innerHTML=`<h3>Pharmacy Info</h3>
+    <p><strong>Name:</strong> ${currentUser.pharmacyName}</p>
+    <p><strong>License:</strong> ${currentUser.drugLicense}</p>
+    <p><strong>Address:</strong> ${currentUser.pharmAddress||'—'}</p>`;
+  dashboardContent.appendChild(infoCard);
+
+  let medsCard=document.createElement('div'); medsCard.className='card';
+  medsCard.innerHTML=`<h3>Medicines</h3>
+    <table>
+      <thead><tr><th>Company</th><th>Medicine Name</th><th>Stock</th><th>Price</th><th>Stored Amount</th><th>Rating</th><th>Actions</th></tr></thead>
+      <tbody id="pharmacyMedicinesTable"></tbody>
+    </table>
+    <button onclick="addMedicine()">+ Add Medicine</button>`;
+  dashboardContent.appendChild(medsCard);
+
+  renderPharmacyMedicines();
+}
+
+function renderPharmacyMedicines(){
+  const tbody=document.getElementById('pharmacyMedicinesTable');
+  tbody.innerHTML='';
+  currentUser.medicines=currentUser.medicines||[];
+
+  currentUser.medicines.forEach((m,i)=>{
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable="true" oninput="updateMedicine(${i},'company',this.textContent)">${m.company}</td>
+                  <td contenteditable="true" oninput="updateMedicine(${i},'name',this.textContent)">${m.name}</td>
+                  <td contenteditable="true" oninput="updateMedicine(${i},'stock',this.textContent)">${m.stock}</td>
+                  <td contenteditable="true" oninput="updateMedicine(${i},'price',this.textContent)">${m.price}</td>
+                  <td>${m.stock*m.price}</td>
+                  <td>${renderStars(i)}</td>
+                  <td><button onclick="deleteMedicine(${i})">Delete</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function addMedicine(){
+  currentUser.medicines=currentUser.medicines||[];
+  currentUser.medicines.push({company:'',name:'',stock:0,price:0,rating:0});
+  saveUsers(users);
+  renderPharmacyMedicines();
+}
+function updateMedicine(index,field,value){
+  if(field==='stock'||field==='price') value=parseFloat(value)||0;
+  currentUser.medicines[index][field]=value;
+  saveUsers(users);
+}
+function deleteMedicine(index){
+  if(confirm('Delete this medicine?')){
+    currentUser.medicines.splice(index,1);
+    saveUsers(users);
+    renderPharmacyMedicines();
+  }
+}
+
+function renderStars(index){
+  let r=currentUser.medicines[index].rating||0;
+  let html='';
+  for(let i=1;i<=5;i++){
+    html+=`<span class="star" style="color:${i<=r?'gold':'#ccc'};" onclick="setMedicineRating(${index},${i})">&#9733;</span>`;
+  }
+  return html;
+}
+function setMedicineRating(index,rating){
+  currentUser.medicines[index].rating=rating;
+  saveUsers(users);
+  renderPharmacyMedicines();
+}
+
+// ------------------- Initialize -------------------
+renderDashboard();
+</script>
+</body>
+</html>
