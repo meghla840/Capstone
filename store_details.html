@@ -12,6 +12,7 @@
   --success:#16a34a;
   --danger:#dc2626;
   --muted:#6b7280;
+  --light-bg:#f8f9fa;
 }
 body{
   margin:0;
@@ -50,258 +51,271 @@ main{ max-width:920px; margin:22px auto; padding:0 16px 60px; }
 .btn-call{ background:var(--accent); }
 .btn-wh{ background:#25d366; }
 .map-box{ margin-top:14px; height:280px; border-radius:10px; overflow:hidden; border:1px solid #dfe7f5; }
-/* reviews */
-.review-section{ margin-top:18px; }
+
+/* Professional review design */
+.review-section{ margin-top:24px; }
 .review-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
-.review-list{ margin-top:12px; }
-.review-item{ background:#fbfdff; border-radius:10px; padding:12px; border:1px solid #e6eefc; margin-bottom:10px; display:flex; justify-content:space-between; gap:12px; }
+.review-list{ margin-top:12px; display:flex; flex-direction:column; gap:12px; }
+.review-item{ background:#fff; border-radius:12px; padding:14px; box-shadow:0 3px 10px rgba(0,0,0,0.05); border:1px solid #e6eefc; display:flex; flex-direction:column; gap:8px; transition:transform .15s; }
+.review-item:hover{ transform:translateY(-2px); }
+.review-top{ display:flex; gap:12px; align-items:flex-start; }
+.review-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; }
 .review-left{ flex:1; }
-.review-meta{ color:var(--muted); font-size:13px; margin-bottom:6px; display:flex; gap:8px; align-items:center; }
-.review-text{ font-size:14px; color:#0f172a; }
+.review-meta{ color:var(--muted); font-size:13px; display:flex; gap:8px; align-items:center; }
+.review-text{ font-size:14px; color:#0f172a; white-space:pre-wrap; }
 .review-actions{ display:flex; gap:8px; align-items:center; color:var(--muted); }
-.icon-btn{ background:transparent; border:none; cursor:pointer; padding:6px; border-radius:8px; }
+.icon-btn{ background:transparent; border:none; cursor:pointer; padding:6px; border-radius:8px; transition:background .2s; }
 .icon-btn:hover{ background:#f1f5f9; color:#111827; }
-@keyframes pop { 0%{ transform:scale(.6); opacity:0; } 60%{ transform:scale(1.05); opacity:1; } 100%{ transform:scale(1); opacity:1; } }
-.anim-pop { animation: pop .45s cubic-bezier(.2,.9,.3,1); }
-.review-input{ margin-top:14px; background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e6eefc; }
+.reply-box{ background:var(--light-bg); padding:10px; border-radius:8px; border:1px solid #e6eefc; margin-top:8px; }
+.reply-meta{ font-size:13px; color:var(--muted); margin-bottom:6px; display:flex; gap:8px; align-items:center; }
+.reply-text{ font-size:14px; color:#065f46; }
+.review-input{ margin-top:14px; background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e6eefc; display:flex; flex-direction:column; gap:8px; }
 textarea{ width:100%; padding:10px; border-radius:8px; border:1px solid #d1d5db; font-size:14px; resize:vertical; min-height:80px; max-height:220px; }
 .stars-input{ display:inline-flex; gap:6px; align-items:center; cursor:pointer; }
 .stars-input .s{ font-size:20px; color:#cbd5e1; transition:transform .12s ease, color .12s ease; }
 .stars-input .s.hovered, .stars-input .s.selected{ color:#f59e0b; transform:scale(1.07); }
-.submit-btn{ margin-top:10px; padding:10px 12px; border-radius:8px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:700; }
+.submit-btn{ padding:10px 12px; border-radius:8px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:700; }
+.message-box{ margin-top:8px; font-size:13px; color:var(--danger); }
 .see-more-btn{ margin-top:8px; width:100%; padding:10px; border-radius:8px; border:1px dashed #cbd5e1; background:white; cursor:pointer; }
 .small-muted{ color:var(--muted); font-size:13px; }
-footer{ margin-top:28px; background:var(--brand); color:white; text-align:center; padding:14px 8px; border-radius:6px; }
+.footer{ margin-top:28px; background:var(--brand); color:white; text-align:center; padding:14px 8px; border-radius:6px; }
 @media (max-width:720px){ .info-grid{ grid-template-columns: 1fr; } .btn-row{ flex-direction:column; } }
 </style>
 </head>
 <body>
 <header class="topbar">
-<button onclick="history.back()" style="background:transparent; border:1px solid rgba(255,255,255,.12); color:white; padding:6px 10px; border-radius:8px; cursor:pointer;">
-<i class="bi bi-arrow-left"></i> Back</button>
-<h3>Store Details</h3>
-<div></div>
+  <button onclick="history.back()" style="background:transparent; border:1px solid rgba(255,255,255,.12); color:white; padding:6px 10px; border-radius:8px; cursor:pointer;">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h3>Store Details</h3>
+  <div></div>
 </header>
 <main>
-<section class="card" id="cardRoot"></section>
-<footer>© 2025 QuickAid · All Rights Reserved</footer>
+  <section class="card" id="cardRoot"></section>
+  <footer class="footer">© 2025 QuickAid · All Rights Reserved</footer>
 </main>
 
 <script>
-// Example: Current logged-in user (replace with your auth system)
-window.currentUser = { name: "Khadiza Rahmani" };
+// =======================
+// Current user (from profile.html)
+// =======================
+window.currentUser = window.currentUser || { name:"Guest", profileImg:"https://via.placeholder.com/40", role:"user" };
 
+// =======================
+// Store data
+// =======================
 const storeData = {
-"Green Road Pharmacy":{
-address:"Green Road, Dhaka",
-city:"Dhaka",
-contact:"+8801712345001",
-stock:["Square","Beximco","Incepta"],
-hours:"8:00 AM - 11:00 PM",
-openDays:"Everyday",
-pharmacyID:"PH-10234",
-reviews:[],
-inStock:true,
-rating:0,
-map_url:"https://www.google.com/maps?q=Green+Road+Dhaka&output=embed"
-}
+  "Green Road Pharmacy":{
+    address:"Green Road, Dhaka",
+    city:"Dhaka",
+    contact:"+8801712345001",
+    stock:["Square","Beximco","Incepta"],
+    hours:"8:00 AM - 11:00 PM",
+    openDays:"Everyday",
+    pharmacyID:"PH-10234",
+    inStock:true,
+    rating:0,
+  }
 };
 
+function storageKeyFor(storeName){ return "quickAid_store_reviews_" + encodeURIComponent(storeName); }
+function loadReviews(storeName){ try{ const r=JSON.parse(localStorage.getItem(storageKeyFor(storeName))); return Array.isArray(r)?r:[]; }catch(e){return[];} }
+function saveReviews(storeName,reviews){ localStorage.setItem(storageKeyFor(storeName), JSON.stringify(reviews)); }
 function genId(){ return "r_"+Math.random().toString(36).slice(2,9); }
 function getStoreName(){ const p=new URLSearchParams(window.location.search); return p.get("name")?decodeURIComponent(p.get("name")):"Green Road Pharmacy"; }
-function computeAverage(reviews){ if(!reviews||reviews.length===0) return 0; const sum=reviews.reduce((s,r)=>s+(Number(r.stars)||0),0); return Math.round((sum/reviews.length)*10)/10; }
+function computeAverage(reviews){ if(!reviews.length) return 0; const sum=reviews.reduce((s,r)=>s+(Number(r.stars)||0),0); return Math.round((sum/reviews.length)*10)/10; }
 function timeAgo(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60)return s+"s ago"; const m=Math.floor(s/60); if(m<60)return m+"m ago"; const h=Math.floor(m/60); if(h<24)return h+"h ago"; const d=Math.floor(h/24); return d+"d ago"; }
+function escapeHtml(s){ if(!s&&s!==0) return ""; return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function renderStars(n){ return "★".repeat(n)+"☆".repeat(Math.max(0,5-n)); }
 
+// =======================
+// App state
+// =======================
 let visibleCount=4;
 let currentStoreName=getStoreName();
 let editingId=null;
 
-// ✅ Get reviewer name dynamically
-function getCurrentUserName(){
-    if(window.currentUser && window.currentUser.name) return window.currentUser.name;
-    return "User";
-}
-
+// =======================
+// Render
+// =======================
 function render(){
-const store=storeData[currentStoreName];
-if(!store){document.getElementById("cardRoot").innerHTML="<p>Store not found.</p>"; return;}
-store.rating=computeAverage(store.reviews);
-const companiesHTML=store.stock.map(c=>`<span class="pill">${escapeHtml(c)}</span>`).join("");
-const headerHtml=`
-<div class="title-row">
-<div class="title-left">
-<div>
-<p class="store-name">${escapeHtml(currentStoreName)}</p>
-<div class="rating-row">
-<div class="stars" id="storeStars">${renderStars(Math.round(store.rating))}</div>
-<div class="small-muted" id="storeRatingText">${store.rating} • ${store.reviews.length} reviews</div>
-</div>
-</div>
-<div style="margin-left:12px;">
-<div class="city-pill">${escapeHtml(store.city)}</div>
-</div>
-</div>
-<div style="text-align:right">
-<div class="stock-badge ${store.inStock?"in-stock":"out-stock"}">${store.inStock?"✔ In Stock":"✘ Out of Stock"}</div>
-</div>
-</div>
-<div class="info-grid">
-<div class="info-item"><strong>Address:</strong> ${escapeHtml(store.address)}</div>
-<div class="info-item"><strong>Contact:</strong> <a href="tel:${encodeURIComponent(store.contact)}">${escapeHtml(store.contact)}</a></div>
-<div class="info-item"><strong>Opening:</strong> ${escapeHtml(store.hours)}</div>
-<div class="info-item"><strong>Open Days:</strong> ${escapeHtml(store.openDays)}</div>
-<div class="info-item"><strong>Pharmacy ID:</strong> ${escapeHtml(store.pharmacyID)}</div>
-</div>
-<div class="companies">${companiesHTML}</div>
-<div class="btn-row">
-<button class="btn btn-call" onclick="window.location.href='tel:${encodeURIComponent(store.contact)}'"><i class="bi bi-telephone"></i> Call</button>
-<button class="btn btn-wh" onclick="openWhatsApp()"><i class="bi bi-whatsapp"></i> WhatsApp</button>
-</div>
-<div class="map-box" style="margin-top:12px;">
-<iframe src="${store.map_url}" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
-</div>
-`;
-document.getElementById("cardRoot").innerHTML = headerHtml + renderReviewsArea(store);
-attachStarsInputHandlers();
-updateStoreRatingDisplay();
+  const store=storeData[currentStoreName];
+  if(!store){ document.getElementById("cardRoot").innerHTML="<p>Store not found.</p>"; return; }
+  store.reviews = store.reviews || loadReviews(currentStoreName);
+  store.rating = computeAverage(store.reviews);
+
+  const companiesHTML = store.stock.map(c=>`<span class="pill">${escapeHtml(c)}</span>`).join("");
+  const headerHtml = `
+    <div class="title-row">
+      <div class="title-left">
+        <div>
+          <p class="store-name">${escapeHtml(currentStoreName)}</p>
+          <div class="rating-row">
+            <div class="stars" id="storeStars">${renderStars(Math.round(store.rating))}</div>
+            <div class="small-muted" id="storeRatingText">${store.rating} • ${store.reviews.length} reviews</div>
+          </div>
+        </div>
+        <div style="margin-left:12px;">
+          <div class="city-pill">${escapeHtml(store.city)}</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="stock-badge ${store.inStock ? "in-stock" : "out-stock"}">${store.inStock ? "✔ In Stock" : "✘ Out of Stock"}</div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><strong>Address:</strong> ${escapeHtml(store.address)}</div>
+      <div class="info-item"><strong>Contact:</strong> <a href="tel:${encodeURIComponent(store.contact)}">${escapeHtml(store.contact)}</a></div>
+      <div class="info-item"><strong>Opening:</strong> ${escapeHtml(store.hours)}</div>
+      <div class="info-item"><strong>Open Days:</strong> ${escapeHtml(store.openDays)}</div>
+      <div class="info-item"><strong>Pharmacy ID:</strong> ${escapeHtml(store.pharmacyID)}</div>
+    </div>
+    <div class="companies">${companiesHTML}</div>
+    <div class="btn-row">
+      <button class="btn btn-call" onclick="window.location.href='tel:${encodeURIComponent(store.contact)}'"><i class="bi bi-telephone"></i> Call</button>
+      <button class="btn btn-wh" onclick="openWhatsApp()"><i class="bi bi-whatsapp"></i> WhatsApp</button>
+    </div>
+    <div class="map-box" style="margin-top:12px;">
+      <iframe src="https://www.google.com/maps?q=${encodeURIComponent(store.address)}&output=embed" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
+    </div>
+  `;
+  document.getElementById("cardRoot").innerHTML = headerHtml + renderReviewsArea(store);
+  attachStarsInputHandlers();
 }
 
-function renderStars(n){ return "★".repeat(n)+"☆".repeat(Math.max(0,5-n)); }
-function escapeHtml(s){ if(!s&&s!==0)return""; return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
-
+// =======================
+// Reviews Area
+// =======================
 function renderReviewsArea(store){
-visibleCount=Math.min(visibleCount,Math.max(4,store.reviews.length));
-const sorted=[...store.reviews].sort((a,b)=>b.time-b.time);
-const showing=sorted.slice(0,visibleCount);
-const items=showing.map(r=>`
-<div class="review-item" data-id="${r.id}">
-<div class="review-left">
-<div class="review-meta">
-<div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
-<div class="small-muted"><strong>${escapeHtml(r.name)}</strong> • ${timeAgo(r.time)}</div>
-</div>
-<div class="review-text">${escapeHtml(r.text)}</div>
-</div>
-<div class="review-actions" style="min-width:84px;">
-<button class="icon-btn" title="Edit" onclick="startEdit('${r.id}')"><i class="bi bi-pencil"></i></button>
-<button class="icon-btn" title="Delete" onclick="deleteReview('${r.id}')"><i class="bi bi-trash"></i></button>
-</div>
-</div>
-`).join("");
-let ctrlBtn="";
-if(sorted.length>4){
-  if(visibleCount<sorted.length){ ctrlBtn=`<button class="see-more-btn" onclick="loadMore()">See more reviews</button>`; }
-  else{ ctrlBtn=`<button class="see-more-btn" onclick="seeLess()">See less</button>`; }
-}
-const inputArea=`
-<div class="review-section">
-<div class="review-header">
-<div><strong>Customer Reviews</strong></div>
-<div class="small-muted">Showing ${Math.min(sorted.length,visibleCount)} of ${sorted.length}</div>
-</div>
-<div class="review-list">${items}${ctrlBtn}</div>
-<div class="review-input" id="reviewInputBox">
-<div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
-<div class="stars-input" id="starsInput" title="Select rating">
-${[1,2,3,4,5].map(i=>`<span class="s" data-val="${i}">★</span>`).join("")}
-</div>
-<div class="small-muted" id="currentStarsText">5 stars</div>
-</div>
-<textarea id="rText" placeholder="Write your review..."></textarea>
-<div style="display:flex; gap:8px; margin-top:10px;">
-<button class="submit-btn" id="submitReviewBtn" onclick="submitReview()"><i class="bi bi-send"></i> Post review</button>
-<button class="submit-btn" id="cancelEditBtn" style="background:#94a3b8; display:none;" onclick="cancelEdit()">Cancel Edit</button>
-</div>
-</div>
-</div>
-`;
-return inputArea;
+  visibleCount=Math.min(visibleCount, Math.max(4, store.reviews.length));
+  const sorted = [...store.reviews].sort((a,b)=>b.time-a.time).slice(0,visibleCount);
+
+  const items = sorted.map(r=>{
+    const isAuthor = r.name===window.currentUser.name;
+    const replyHtml = r.reply ? `<div class="reply-box"><div class="reply-meta">Owner • ${timeAgo(r.reply.time)}</div><div class="reply-text">${escapeHtml(r.reply.text)}</div></div>` : "";
+    return `
+      <div class="review-item" data-id="${r.id}">
+        <div class="review-top">
+          <img src="${r.profileImg||'https://via.placeholder.com/40'}" class="review-avatar"/>
+          <div class="review-left">
+            <div class="review-meta">
+              <div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
+              <div class="small-muted"><strong>${escapeHtml(r.name)}</strong> • ${timeAgo(r.time)}</div>
+            </div>
+            <div class="review-text">${escapeHtml(r.text)}</div>
+          </div>
+          <div class="review-actions">
+            ${isAuthor?`<button class="icon-btn" onclick="startEdit('${r.id}')"><i class="bi bi-pencil"></i></button>
+            <button class="icon-btn" onclick="deleteReview('${r.id}')"><i class="bi bi-trash"></i></button>`:""}
+          </div>
+        </div>
+        ${replyHtml}
+        <div id="replyFormContainer_${r.id}"></div>
+      </div>
+    `;
+  }).join("");
+
+  const inputArea = `
+    <div class="review-section">
+      <div class="review-header">
+        <div><strong>Customer Reviews</strong></div>
+        <div class="small-muted">Showing ${Math.min(store.reviews.length,visibleCount)} of ${store.reviews.length}</div>
+      </div>
+      <div class="review-list">${items}</div>
+      <div class="review-input">
+        <div class="stars-input" id="starsInput">${[1,2,3,4,5].map(i=>`<span class="s" data-val="${i}">★</span>`).join("")}</div>
+        <div class="small-muted" id="currentStarsText">5 stars</div>
+        <textarea id="rText" placeholder="Write your review..."></textarea>
+        <div class="message-box" id="reviewMsg"></div>
+        <button class="submit-btn" onclick="submitReview()">Submit Review</button>
+      </div>
+    </div>
+  `;
+  return inputArea;
 }
 
+// =======================
+// Stars input
+// =======================
+let selectedStars=5;
 function attachStarsInputHandlers(){
-const stars=document.querySelectorAll("#starsInput .s");
-let selected=5;
-stars.forEach(s=>{
-s.addEventListener("mouseenter",()=>{ highlightStars(Number(s.dataset.val)); });
-s.addEventListener("mouseleave",()=>{ highlightStars(selected); });
-s.addEventListener("click",()=>{ selected=Number(s.dataset.val); highlightStars(selected); document.getElementById("currentStarsText").textContent=selected+" star"+(selected>1?"s":""); document.getElementById("submitReviewBtn").dataset.selected=selected; });
-});
-document.getElementById("submitReviewBtn").dataset.selected=5;
+  const stars = document.querySelectorAll("#starsInput .s");
+  stars.forEach(s=>{
+    s.addEventListener("mouseover", ()=>{ stars.forEach(x=>x.classList.remove("hovered")); for(let i=0;i<s.dataset.val;i++){ stars[i].classList.add("hovered"); } });
+    s.addEventListener("mouseout", ()=>{ stars.forEach(x=>x.classList.remove("hovered")); updateStarsInputDisplay(); });
+    s.addEventListener("click", ()=>{ selectedStars=Number(s.dataset.val); updateStarsInputDisplay(); });
+  });
 }
-function highlightStars(n){ const stars=document.querySelectorAll("#starsInput .s"); stars.forEach(s=>{ const v=Number(s.dataset.val); s.classList.toggle("hovered",v<=n); s.classList.toggle("selected",v<=n); }); }
+function updateStarsInputDisplay(){
+  const stars = document.querySelectorAll("#starsInput .s");
+  stars.forEach((s,i)=>{ s.classList.remove("selected"); if(i<selectedStars) s.classList.add("selected"); });
+  document.getElementById("currentStarsText").innerText = selectedStars + " stars";
+}
 
-function loadMore(){ const store=storeData[currentStoreName]; visibleCount=Math.min(store.reviews.length,visibleCount+5); renderReviewsOnly(); }
-function seeLess(){ visibleCount=4; renderReviewsOnly(); }
-function renderReviewsOnly(){ const store=storeData[currentStoreName]; const oldSection=document.querySelector(".review-section"); if(oldSection) oldSection.remove(); document.getElementById("cardRoot").insertAdjacentHTML("beforeend", renderReviewsArea(store)); attachStarsInputHandlers(); }
-
+// =======================
+// Submit review
+// =======================
 function submitReview(){
-const textIn = document.getElementById("rText");
-const btn = document.getElementById("submitReviewBtn");
-const stars = Number(btn.dataset.selected || 5);
-const text = (textIn.value || "").trim();
-if(!text){ alert("Write something in the review first."); textIn.focus(); return; }
-const store = storeData[currentStoreName];
-const reviewerName = getCurrentUserName();
+  const text = document.getElementById("rText").value.trim();
+  const msgEl = document.getElementById("reviewMsg");
+  msgEl.innerText="";
+  if(!text){ msgEl.innerText="Review cannot be empty."; return; }
 
-if(editingId){
-    const idx = store.reviews.findIndex(r => r.id === editingId);
-    if(idx !== -1){ store.reviews[idx].text = text; store.reviews[idx].stars = stars; store.reviews[idx].time = Date.now(); store.reviews[idx].name = reviewerName; }
-    editingId = null;
-    document.getElementById("cancelEditBtn").style.display = "none";
-    btn.innerHTML = '<i class="bi bi-send"></i> Post review';
-} else {
-    store.reviews.push({id: genId(), name: reviewerName, text, stars, time: Date.now()});
-    visibleCount = Math.max(visibleCount,4);
+  const store=storeData[currentStoreName];
+  const reviewerName = window.currentUser.name||"Guest";
+  const profileImg = window.currentUser.profileImg||"https://via.placeholder.com/40";
+
+  if(editingId){
+    const idx = store.reviews.findIndex(r=>r.id===editingId);
+    if(idx>=0 && store.reviews[idx].name===reviewerName){
+      store.reviews[idx].text=text;
+      store.reviews[idx].stars=selectedStars;
+      store.reviews[idx].time=Date.now();
+    }
+    editingId=null;
+  }else{
+    store.reviews.push({ id:genId(), name:reviewerName, profileImg, text, stars:selectedStars, time:Date.now() });
+  }
+
+  saveReviews(currentStoreName, store.reviews);
+  selectedStars=5; updateStarsInputDisplay();
+  document.getElementById("rText").value="";
+  render();
 }
 
-textIn.value = "";
-document.getElementById("submitReviewBtn").dataset.selected = 5;
-store.rating = computeAverage(store.reviews);
-updateStoreRatingDisplay();
-renderReviewsOnly();
-
-setTimeout(()=>{
-    const storeSorted=[...store.reviews].sort((a,b)=>b.time-a.time); 
-    const topId=storeSorted[0] && storeSorted[0].id; 
-    if(topId){ 
-        const el=document.querySelector(`.review-item[data-id="${topId}"]`); 
-        if(el){ el.classList.add("anim-pop"); setTimeout(()=>el.classList.remove("anim-pop"),700);} 
-    } 
-},120);
-}
-
+// =======================
+// Edit/Delete
+// =======================
 function startEdit(id){
-const r=findReviewById(id);
-if(!r) return;
-editingId=id;
-document.getElementById("rText").value=r.text;
-document.getElementById("submitReviewBtn").dataset.selected=r.stars;
-renderReviewsOnly();
-setTimeout(()=>{
-    document.getElementById("cancelEditBtn").style.display="inline-block"; 
-    document.getElementById("submitReviewBtn").innerHTML='<i class="bi bi-save"></i> Save changes'; 
-    const stars=document.querySelectorAll("#starsInput .s"); 
-    stars.forEach(s=>{ s.classList.toggle("selected",Number(s.dataset.val)<=r.stars); }); 
-    document.getElementById("currentStarsText").textContent=r.stars+" star"+(r.stars>1?"s":""); 
-},80);
+  const store=storeData[currentStoreName];
+  const r=store.reviews.find(x=>x.id===id);
+  if(!r || r.name!==window.currentUser.name) return;
+  editingId=id;
+  document.getElementById("rText").value=r.text;
+  selectedStars=r.stars||5;
+  updateStarsInputDisplay();
+  document.getElementById("rText").focus();
+}
+function deleteReview(id){
+  if(!confirm("Are you sure you want to delete this review?")) return;
+  const store=storeData[currentStoreName];
+  store.reviews = store.reviews.filter(r=>r.id!==id);
+  saveReviews(currentStoreName, store.reviews);
+  render();
 }
 
-function cancelEdit(){ editingId=null; document.getElementById("rText").value=""; document.getElementById("cancelEditBtn").style.display="none"; document.getElementById("submitReviewBtn").innerHTML='<i class="bi bi-send"></i> Post review'; document.getElementById("submitReviewBtn").dataset.selected=5; renderReviewsOnly(); }
-
-function deleteReview(id){ if(!confirm("Are you sure you want to delete this review?")) return; const store=storeData[currentStoreName]; store.reviews=store.reviews.filter(r=>r.id!==id); store.rating=computeAverage(store.reviews); updateStoreRatingDisplay(); renderReviewsOnly(); }
-
-function findReviewById(id){ const store=storeData[currentStoreName]; return store.reviews.find(r=>r.id===id); }
-
-function updateStoreRatingDisplay(){
-const store=storeData[currentStoreName];
-const starsEl=document.getElementById("storeStars");
-const txtEl=document.getElementById("storeRatingText");
-if(starsEl) starsEl.innerHTML=renderStars(Math.round(store.rating));
-if(txtEl) txtEl.textContent=store.rating+" • "+store.reviews.length+" reviews";
+// =======================
+// WhatsApp
+// =======================
+function openWhatsApp(){
+  const store=storeData[currentStoreName];
+  const number = store.contact.replace(/\D/g,'');
+  window.open(`https://wa.me/${number}`, "_blank");
 }
 
-function openWhatsApp(){ const store=storeData[currentStoreName]; window.open("https://wa.me/"+store.contact.replace(/\D/g,'')); }
-
+// =======================
+// Init
+// =======================
 render();
 </script>
 </body>

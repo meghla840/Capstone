@@ -56,17 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   // profile
+
 window.addEventListener("DOMContentLoaded", () => {
     const userSection = document.getElementById("userSection");
-
-    // LocalStorage theke login user load
     const savedUser = JSON.parse(localStorage.getItem("quickAidUser"));
 
-    // ---------------------------------------
-    // CASE 1: Logged-in (Admin or Normal user)
-    // ---------------------------------------
-    if (savedUser && savedUser.username) {
-
+    if (savedUser) {
         userSection.innerHTML = `
             <div style="position:relative;">
                 <button id="profileBtn">
@@ -75,19 +70,15 @@ window.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        const profileBtn = document.getElementById("profileBtn");
-
+      const profileBtn = document.getElementById("profileBtn");
         profileBtn.addEventListener("click", () => {
-            window.location.href = "profile.html";  // Direct to profile
+            // Admin or normal user → direct profile.html
+            window.location.href = "profile.html";
         });
-
-        return; 
+    } else {
+        // Kono user login nai → profile button show hobe na
+        userSection.innerHTML = "";
     }
-
-    // ------------------------------
-    // CASE 2: No active user → hide
-    // ------------------------------
-    userSection.innerHTML = "";
 });
 
 

@@ -50,16 +50,27 @@
 
 <script>
 // ----------------- Utility Functions -----------------
-function readUsers() { return JSON.parse(localStorage.getItem('quickAidUsers')||'[]'); }
-function saveUsers(users) { localStorage.setItem('quickAidUsers', JSON.stringify(users)); }
+function readUsers() { 
+    return JSON.parse(localStorage.getItem('quickAidUsers') || '[]'); 
+}
+function saveUsers(users) { 
+    localStorage.setItem('quickAidUsers', JSON.stringify(users)); 
+}
 
 // ----------------- Ensure Admin Exists -----------------
 let users = readUsers();
-if(!users.some(u=>u.email==='admin@quickaid.com')) {
+if (!users.some(u => u.email === 'admin@quickaid.com')) {
+
     const admin = { 
-        id: 'admin_1', name: 'Admin', email: 'admin@quickaid.com', phone: '0000000000', 
-        password: 'admin123', role: 'admin' 
+        id: 'admin_1',
+        name: 'Admin',
+        email: 'admin@quickaid.com',
+        phone: '0000000000',
+        password: 'admin123',
+        role: 'Admin',
+        pic: "", 
     };
+
     users.push(admin);
     saveUsers(users);
 }
@@ -73,28 +84,46 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
     const messageDiv = document.getElementById('loginMessage');
 
     users = readUsers();
-    let loggedUser = users.find(u => (u.email===loginId || u.phone===loginId) && u.password===loginPass);
 
-    if(loggedUser) {
-        // Ensure user has an id
-        if(!loggedUser.id) loggedUser.id = 'user_' + Date.now();
-        const idx = users.findIndex(u => u.email===loggedUser.email);
-        if(idx!==-1) users[idx]=loggedUser;
+    let loggedUser = users.find(u => 
+        (u.email === loginId || u.phone === loginId) && u.password === loginPass
+    );
+
+    if (loggedUser) {
+
+        // Ensure ID exists
+        if (!loggedUser.id) loggedUser.id = 'user_' + Date.now();
+
+        // Save updated users list
+        const idx = users.findIndex(u => u.email === loggedUser.email);
+        if (idx !== -1) users[idx] = loggedUser;
         saveUsers(users);
 
-        // Save current session id
-        localStorage.setItem('quickAidCurrent', loggedUser.id);
+        // ---- ✔ FIX: Save Logged User as quickAidUser for UI toggle ----
+        const quickUser = {
+            username: loggedUser.name,
+            position: loggedUser.role || "User",
+            pic: loggedUser.pic || "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+            id: loggedUser.id
+        };
+
+        localStorage.setItem("quickAidUser", JSON.stringify(quickUser));
+
+        // Also save "current session"
+        localStorage.setItem("quickAidCurrent", loggedUser.id);
 
         messageDiv.textContent = "✅ Login Successful! Redirecting...";
         messageDiv.className = "message success";
 
-        setTimeout(()=>{ window.location.href='profile.html'; }, 800);
+        setTimeout(()=>{ window.location.href='index.html'; }, 800);
+
     } else {
         messageDiv.textContent = "❌ Invalid Email/Phone or Password!";
         messageDiv.className = "message error";
     }
 });
 </script>
+
 
 </body>
 </html>
