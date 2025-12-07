@@ -69,6 +69,10 @@ textarea{min-height:90px; resize:vertical;}
 
 /* responsive */
 @media(max-width:900px){.grid{grid-template-columns:1fr;} .avatar img{width:76px;height:76px;} .hospital-card,.pharmacy-card{grid-template-columns:1fr; gap:6px;}}
+
+/* small helper */
+.kv {margin:6px 0;}
+.kv strong{display:inline-block; width:140px; color:#374151;}
 </style>
 </head>
 <body>
@@ -163,7 +167,7 @@ textarea{min-height:90px; resize:vertical;}
 </main>
 
 <script>
-// ------------------- LocalStorage -------------------
+// ------------------- LocalStorage helpers -------------------
 function readUsers(){ return JSON.parse(localStorage.getItem('quickAidUsers')||'[]'); }
 function saveUsers(u){ localStorage.setItem('quickAidUsers', JSON.stringify(u)); }
 function getCurrentId(){ return localStorage.getItem('quickAidCurrent'); }
@@ -172,13 +176,20 @@ let users = readUsers();
 let currentId = getCurrentId();
 let currentUser = users.find(u=>u.id===currentId);
 
-// If admin login for first time, pre-add admin
+// Support older/newer join pages that might have used 'userId' as key
+if(!currentUser && currentId){
+  currentUser = users.find(u=>u.userId===currentId || u.id===currentId);
+}
+
+// If admin login for first time, pre-add admin (keep same behavior)
 if(!users.some(u=>u.role==='admin')){
   const admin = { id:'admin_1', name:'Admin', email:'admin@quickaid.com', phone:'0000000000', role:'admin', password:'admin123' };
   users.push(admin);
   saveUsers(users);
-  currentUser = admin;
-  localStorage.setItem('quickAidCurrent', admin.id);
+  if(!currentUser){
+    currentUser = admin;
+    localStorage.setItem('quickAidCurrent', admin.id);
+  }
 }
 
 if(!currentUser){
@@ -216,6 +227,19 @@ const cancelDeleteInline = document.getElementById('cancelDeleteInline');
 const msgCard = document.getElementById('msgCard');
 const msgInner = msgCard.querySelector('.msg-inner');
 
+// ------------------- Utility: safe getter for transport/driver fields -------------------
+function getDriverField() {
+  // return an object mapping canonical keys -> possible existing values
+  return {
+    driverName: currentUser.driverName || currentUser.name || currentUser.transportName || currentUser.fullName || '',
+    vehicleType: currentUser.vehicleType || currentUser.driverType || currentUser.vehicleType || '',
+    numberPlate: currentUser.numberPlate || currentUser.vehicleNumber || currentUser.vehicleNo || '',
+    drivingLicense: currentUser.drivingLicense || currentUser.licenseNumber || currentUser.license || '',
+    nidNumber: currentUser.nidNumber || currentUser.nid || '',
+    address: currentUser.address || currentUser.transportAddress || currentUser.addr || ''
+  };
+}
+
 // ------------------- Functions -------------------
 function showMessage(text, type='success'){
   msgInner.textContent = text;
@@ -226,7 +250,7 @@ function showMessage(text, type='success'){
 }
 
 function refreshSummary(){
-  displayName.textContent = currentUser.name||'—';
+  displayName.textContent = currentUser.name||currentUser.driverName||'—';
   displayRole.textContent = (currentUser.role||'patient').toUpperCase();
   displayEmail.textContent = currentUser.email||'—';
   displayPhone.textContent = currentUser.phone||'—';
@@ -238,7 +262,7 @@ function refreshSummary(){
     html=`<div><strong>Admin Access:</strong> Full system privileges</div>
           <div><strong>Total Users:</strong> ${users.length}</div>
           <div><strong>Users List:</strong>
-            <ul style="margin:4px 0 0 16px;">${users.map(u=>`<li>${u.name} (${u.role})</li>`).join('')}</ul>
+            <ul style="margin:4px 0 0 16px;">${users.map(u=>`<li>${u.name || u.driverName || '—'} (${u.role})</li>`).join('')}</ul>
           </div>`;
   }
   else if(currentUser.role==='doctor'){
@@ -270,10 +294,23 @@ function refreshSummary(){
           <div><strong>Drugs in Stock:</strong> ${currentUser.drugStock||'—'}</div>
           <div><strong>Pharmacists Available:</strong> ${currentUser.pharmacistsAvailable||0}</div>`;  
   }
+  else if(currentUser.role==='transport' || currentUser.role==='driver'){
+    // driver/transport single-person view
+    const d = getDriverField();
+    html = `
+      <div class="kv"><strong>Driver Name:</strong> ${escapeHtml(d.driverName || '—')}</div>
+      <div class="kv"><strong>Vehicle Type:</strong> ${escapeHtml(d.vehicleType || '—')}</div>
+      <div class="kv"><strong>Number Plate:</strong> ${escapeHtml(d.numberPlate || '—')}</div>
+      <div class="kv"><strong>Driving License:</strong> ${escapeHtml(d.drivingLicense || '—')}</div>
+      <div class="kv"><strong>NID / ID:</strong> ${escapeHtml(d.nidNumber || '—')}</div>
+      <div class="kv"><strong>Address:</strong> ${escapeHtml(d.address || '—')}</div>
+    `;
+  }
 
   extraFields.innerHTML = html;
 }
 
+// render role-specific fields in the edit form (right panel)
 function renderRoleFields(role){
   let html='';
 
@@ -289,18 +326,18 @@ function renderRoleFields(role){
   }
   else if(role==='doctor'){
     html=`<div class="grid-2">
-            <div><label>Specialization</label><input type="text" id="f_spec" value="${currentUser.specialization||''}"></div>
-            <div><label>Experience</label><input type="text" id="f_exp" value="${currentUser.experience||''}"></div>
+            <div><label>Specialization</label><input type="text" id="f_spec" value="${escapeAttr(currentUser.specialization||'')}"></div>
+            <div><label>Experience</label><input type="text" id="f_exp" value="${escapeAttr(currentUser.experience||'')}"></div>
           </div>
           <div style="margin-top:10px">
             <label>Qualification</label>
-            <input type="text" id="f_qual" value="${currentUser.qualification||''}" placeholder="Degree / University">
+            <input type="text" id="f_qual" value="${escapeAttr(currentUser.qualification||'')}" placeholder="Degree / University">
           </div>`;
   } 
   else if(role==='hospital'){
     html=`<div class="grid-2">
-            <div><label>Hospital Name</label><input type="text" id="f_hname" value="${currentUser.hospitalName||''}" readonly></div>
-            <div><label>License Number</label><input type="text" id="f_license" value="${currentUser.licenseH||''}" readonly></div>
+            <div><label>Hospital Name</label><input type="text" id="f_hname" value="${escapeAttr(currentUser.hospitalName||'')}" readonly></div>
+            <div><label>License Number</label><input type="text" id="f_license" value="${escapeAttr(currentUser.licenseH||'')}" readonly></div>
           </div>
           <div class="grid-2" style="margin-top:10px">
             <div><label>Number of Ambulances</label><input type="number" id="f_ambulances" value="${currentUser.ambulances||0}"></div>
@@ -308,66 +345,130 @@ function renderRoleFields(role){
           </div>
           <div class="grid-2" style="margin-top:10px">
             <div><label>Doctors Available</label><input type="number" id="f_docavail" value="${currentUser.doctorsAvailable||0}"></div>
-            <div><label>Emergency Contact</label><input type="tel" id="f_hphone" value="${currentUser.hphone||''}"></div>
+            <div><label>Emergency Contact</label><input type="tel" id="f_hphone" value="${escapeAttr(currentUser.hphone||'')}"></div>
           </div>`;
   } 
   else if(role==='patient'){
     html=`<div class="grid-2" style="margin-top:12px">
             <div>
               <label>Blood Group</label>
-              <input type="text" id="f_blood" value="${currentUser.bloodGroup||''}">
+              <input type="text" id="f_blood" value="${escapeAttr(currentUser.bloodGroup||'')}">
             </div>
             <div>
               <label>Emergency Contact</label>
-              <input type="tel" id="f_emergency" value="${currentUser.emergencyContact||''}">
+              <input type="tel" id="f_emergency" value="${escapeAttr(currentUser.emergencyContact||'')}">
             </div>
           </div>
           <div style="margin-top:10px">
             <label>Health Issues</label>
-            <textarea id="f_health">${currentUser.healthIssues||''}</textarea>
+            <textarea id="f_health">${escapeHtml(currentUser.healthIssues||'')}</textarea>
           </div>
           <div style="margin-top:10px">
             <label>Allergies</label>
-            <textarea id="f_allergies">${currentUser.allergies||''}</textarea>
+            <textarea id="f_allergies">${escapeHtml(currentUser.allergies||'')}</textarea>
           </div>
           <div style="margin-top:10px">
             <label>Current Medications</label>
-            <textarea id="f_meds">${currentUser.medications||''}</textarea>
+            <textarea id="f_meds">${escapeHtml(currentUser.medications||'')}</textarea>
           </div>
           <div style="margin-top:10px">
             <label>Chronic Conditions / BP</label>
-            <textarea id="f_conditions">${currentUser.conditions||''}</textarea>
+            <textarea id="f_conditions">${escapeHtml(currentUser.conditions||'')}</textarea>
           </div>`;
   } 
   else if(role==='pharmacy'){
     html=`<div class="grid-2">
-            <div><label>Pharmacy Name</label><input type="text" value="${currentUser.pharmacyName||''}" readonly></div>
-            <div><label>License Number</label><input type="text" value="${currentUser.drugLicense||''}" readonly></div>
+            <div><label>Pharmacy Name</label><input type="text" value="${escapeAttr(currentUser.pharmacyName||'')}" readonly></div>
+            <div><label>License Number</label><input type="text" value="${escapeAttr(currentUser.drugLicense||'')}" readonly></div>
           </div>
           <div class="grid-2" style="margin-top:10px">
-            <div><label>Drugs in Stock</label><input type="text" id="f_drugstock" value="${currentUser.drugStock||''}"></div>
+            <div><label>Drugs in Stock</label><input type="text" id="f_drugstock" value="${escapeAttr(currentUser.drugStock||'')}"></div>
             <div><label>Pharmacists Available</label><input type="number" id="f_pharmavail" value="${currentUser.pharmacistsAvailable||0}"></div>
           </div>
           <div style="margin-top:10px">
             <label>Address</label>
-            <input type="text" id="f_pharmaddress" value="${currentUser.pharmAddress||''}">
+            <input type="text" id="f_pharmaddress" value="${escapeAttr(currentUser.pharmAddress||'')}">
           </div>`;
+  }
+  else if(role==='transport' || role==='driver'){
+    // Transport / Driver single-person fields (editable)
+    const d = getDriverField();
+    html = `
+      <div class="grid-2">
+        <div>
+          <label>Driver Name</label>
+          <input type="text" id="f_driverName" value="${escapeAttr(d.driverName||'')}">
+        </div>
+        <div>
+          <label>Vehicle Type</label>
+          <input type="text" id="f_vehicleType" value="${escapeAttr(d.vehicleType||'')}" placeholder="Bike / Car / Ambulance">
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:10px">
+        <div>
+          <label>Number Plate</label>
+          <input type="text" id="f_numberPlate" value="${escapeAttr(d.numberPlate||'')}">
+        </div>
+        <div>
+          <label>Driving License</label>
+          <input type="text" id="f_drivingLicense" value="${escapeAttr(d.drivingLicense||'')}">
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:10px">
+        <div>
+          <label>NID / National ID</label>
+          <input type="text" id="f_nid" value="${escapeAttr(d.nidNumber||'')}">
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" id="f_address" value="${escapeAttr(d.address||'')}">
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <label>Location Sharing</label>
+        <select id="f_locationShare">
+          <option value="ON" ${((currentUser.locationShare==='ON' || currentUser.locationShare==='on')?'selected':'')}>ON</option>
+          <option value="OFF" ${((currentUser.locationShare==='OFF' || currentUser.locationShare==='off')?'selected':'')}>OFF</option>
+        </select>
+      </div>
+    `;
   }
 
   roleFieldsContainer.innerHTML = html;
 }
 
+// escape helpers to avoid breaking injected values in attributes/textareas
+function escapeAttr(str){
+  if(!str && str!==0) return '';
+  return String(str).replace(/"/g, '&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escapeHtml(str){
+  if(!str && str!==0) return '';
+  return String(str).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 function populateForm(){
-  inpName.value = currentUser.name||'';
-  inpRole.value = currentUser.role||'';
-  inpPhone.value = currentUser.phone||'';
-  inpEmail.value = currentUser.email||'';
+  inpName.value = currentUser.name || currentUser.driverName || '';
+  inpRole.value = currentUser.role || '';
+  inpPhone.value = currentUser.phone || '';
+  inpEmail.value = currentUser.email || '';
   renderRoleFields(currentUser.role);
 }
 
 function saveCurrent(){
-  const idx = users.findIndex(u=>u.id===currentUser.id);
-  if(idx>-1){ users[idx]=currentUser; saveUsers(users); refreshSummary(); }
+  const idx = users.findIndex(u=> (u.id && u.id===currentUser.id) || (u.userId && u.userId===currentUser.userId) );
+  if(idx>-1){
+    users[idx]=currentUser;
+    saveUsers(users);
+    refreshSummary();
+  } else {
+    // fallback - try to update by matching email
+    const byEmail = users.findIndex(u => u.email && currentUser.email && u.email === currentUser.email);
+    if(byEmail>-1){ users[byEmail]=currentUser; saveUsers(users); refreshSummary(); }
+  }
 }
 
 // ------------------- Event Listeners -------------------
@@ -380,38 +481,53 @@ inpPic.addEventListener('change', e=>{
 });
 
 saveProfileBtn.addEventListener('click', ()=>{
+  // Basic fields
   currentUser.name = inpName.value.trim();
   currentUser.phone = inpPhone.value.trim();
 
+  // Role specific
   if(currentUser.role==='doctor'){
-    currentUser.specialization = document.getElementById('f_spec').value.trim();
-    currentUser.experience = document.getElementById('f_exp').value.trim();
-    currentUser.qualification = document.getElementById('f_qual').value.trim();
+    currentUser.specialization = (document.getElementById('f_spec') || {}).value?.trim() || currentUser.specialization;
+    currentUser.experience = (document.getElementById('f_exp') || {}).value?.trim() || currentUser.experience;
+    currentUser.qualification = (document.getElementById('f_qual') || {}).value?.trim() || currentUser.qualification;
   } else if(currentUser.role==='hospital'){
-    currentUser.ambulances = parseInt(document.getElementById('f_ambulances').value) || 0;
-    currentUser.erRooms = parseInt(document.getElementById('f_errooms').value) || 0;
-    currentUser.doctorsAvailable = parseInt(document.getElementById('f_docavail').value) || 0;
-    currentUser.hphone = document.getElementById('f_hphone').value.trim();
+    currentUser.ambulances = parseInt((document.getElementById('f_ambulances') || {}).value) || currentUser.ambulances || 0;
+    currentUser.erRooms = parseInt((document.getElementById('f_errooms') || {}).value) || currentUser.erRooms || 0;
+    currentUser.doctorsAvailable = parseInt((document.getElementById('f_docavail') || {}).value) || currentUser.doctorsAvailable || 0;
+    currentUser.hphone = (document.getElementById('f_hphone') || {}).value?.trim() || currentUser.hphone;
   } else if(currentUser.role==='patient'){
-    currentUser.bloodGroup = document.getElementById('f_blood').value.trim();
-    currentUser.emergencyContact = document.getElementById('f_emergency').value.trim();
-    currentUser.healthIssues = document.getElementById('f_health').value.trim();
-    currentUser.allergies = document.getElementById('f_allergies').value.trim();
-    currentUser.medications = document.getElementById('f_meds').value.trim();
-    currentUser.conditions = document.getElementById('f_conditions').value.trim();
+    currentUser.bloodGroup = (document.getElementById('f_blood') || {}).value?.trim() || currentUser.bloodGroup;
+    currentUser.emergencyContact = (document.getElementById('f_emergency') || {}).value?.trim() || currentUser.emergencyContact;
+    currentUser.healthIssues = (document.getElementById('f_health') || {}).value?.trim() || currentUser.healthIssues;
+    currentUser.allergies = (document.getElementById('f_allergies') || {}).value?.trim() || currentUser.allergies;
+    currentUser.medications = (document.getElementById('f_meds') || {}).value?.trim() || currentUser.medications;
+    currentUser.conditions = (document.getElementById('f_conditions') || {}).value?.trim() || currentUser.conditions;
   } else if(currentUser.role==='pharmacy'){
-    currentUser.drugStock = document.getElementById('f_drugstock').value.trim();
-    currentUser.pharmacistsAvailable = parseInt(document.getElementById('f_pharmavail').value) || 0;
-    currentUser.pharmAddress = document.getElementById('f_pharmaddress').value.trim();
+    currentUser.drugStock = (document.getElementById('f_drugstock') || {}).value?.trim() || currentUser.drugStock;
+    currentUser.pharmacistsAvailable = parseInt((document.getElementById('f_pharmavail') || {}).value) || currentUser.pharmacistsAvailable || 0;
+    currentUser.pharmAddress = (document.getElementById('f_pharmaddress') || {}).value?.trim() || currentUser.pharmAddress;
+  } else if(currentUser.role==='transport' || currentUser.role==='driver'){
+    // Save canonical driver keys (so future code can rely on these)
+    currentUser.driverName = (document.getElementById('f_driverName') || {}).value?.trim() || currentUser.driverName || currentUser.name;
+    currentUser.vehicleType = (document.getElementById('f_vehicleType') || {}).value?.trim() || currentUser.vehicleType;
+    currentUser.numberPlate = (document.getElementById('f_numberPlate') || {}).value?.trim() || currentUser.numberPlate;
+    currentUser.drivingLicense = (document.getElementById('f_drivingLicense') || {}).value?.trim() || currentUser.drivingLicense;
+    currentUser.nidNumber = (document.getElementById('f_nid') || {}).value?.trim() || currentUser.nidNumber;
+    currentUser.address = (document.getElementById('f_address') || {}).value?.trim() || currentUser.address;
+    currentUser.locationShare = (document.getElementById('f_locationShare') || {}).value || currentUser.locationShare || 'OFF';
   }
 
   saveCurrent();
   showMessage('Profile saved successfully!','success');
 });
 
+// Cancel => re-populate values (discard edits)
 cancelEditBtn.addEventListener('click', populateForm);
+
+// scroll-to-edit
 editBtn.addEventListener('click', ()=>{ window.scrollTo({top:0, behavior:'smooth'}); profileFormCard.scrollIntoView(); });
 
+// Dashboard button
 dashboardBtn.addEventListener('click', ()=>{
   if(currentUser.role==='admin'){
     window.location.href='admin-dashboard.html';
@@ -419,18 +535,20 @@ dashboardBtn.addEventListener('click', ()=>{
     window.location.href='dashboard.html';
   }
 });
+
 // HIDE DELETE BUTTON FOR ADMIN
 if(currentUser.role === 'admin'){
   deleteBtn.style.display = 'none';
 }
 
-
+// Logout
 logoutBtn.addEventListener('click', ()=>{ localStorage.removeItem('quickAidCurrent'); window.location.href = 'join.html'; });
 
+// Delete inline card actions
 deleteBtn.addEventListener('click', ()=>{ deleteCard.style.display='block'; deleteCard.scrollIntoView({behavior:'smooth'}); });
 cancelDeleteInline.addEventListener('click', ()=>{ deleteCard.style.display='none'; });
 confirmDeleteInline.addEventListener('click', ()=>{
-  users = users.filter(u => u.id !== currentUser.id);
+  users = users.filter(u => u.id !== currentUser.id && u.userId !== currentUser.userId);
   saveUsers(users);
   localStorage.removeItem('quickAidCurrent');
   showMessage('Account deleted successfully!','success');

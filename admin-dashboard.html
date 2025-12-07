@@ -27,6 +27,70 @@ header{
   align-items:center;
   justify-content:space-between;
 }
+/* Full Message Overlay Card - Professional Style */
+#fullMsgPopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9fafb; /* Light elegant background */
+  border-radius: 18px;
+  padding: 28px 32px;
+  width: 90%;
+  max-width: 520px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  z-index: 100;
+  animation: popupFade 0.3s ease;
+  font-family: Inter, system-ui, sans-serif;
+  border: 1px solid #e5e7eb;
+}
+@keyframes popupFade {
+  from {opacity:0; transform: translate(-50%, -48%) scale(0.95);}
+  to {opacity:1; transform: translate(-50%, -50%) scale(1);}
+}
+#fullMsgPopup .close-full-msg {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ef4444;
+  transition: 0.2s;
+}
+#fullMsgPopup .close-full-msg:hover {opacity:0.85;}
+#fullMsgPopup h4 {
+  margin: 0 0 4px 0;
+  font-size: 21px;
+  font-weight: 700;
+  color: #111827; /* Dark professional */
+}
+#fullMsgPopup .email {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6b7280; /* Muted professional */
+  margin-bottom: 16px;
+}
+#fullMsgPopup p {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #374151;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Optional: dim background when popup is open */
+body.popup-open::before {
+  content: "";
+  position: fixed;
+  inset:0;
+  background: rgba(0,0,0,0.28);
+  z-index: 90;
+  backdrop-filter: blur(1px);
+}
+
 header h1{font-size:18px; margin:0; font-weight:600;}
 header .back-btn{
   background:rgba(255,255,255,0.2);
@@ -135,6 +199,30 @@ th{background:#f3f6f9;}
   </table>
 </div>
 
+<h2>Messages</h2>
+<input type="text" id="searchMessagesInput" placeholder="Search messages by name, email, or content..." style="width:100%; padding:8px 12px; margin-bottom:12px; border-radius:6px; border:1px solid #e6e9ef;">
+<button class="btn" id="deleteAllMessagesBtn" style="background:#b91c1c; margin-bottom:12px;">Delete All Messages</button>
+<div id="messagesList" class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="messagesTableBody"></tbody>
+  </table>
+</div>
+<!-- Full Message Popup -->
+<div id="fullMsgPopup">
+  <span class="close-full-msg">&times;</span>
+  <h4 id="fullMsgName"></h4>
+  <div class="email" id="fullMsgEmail"></div>
+  <p id="fullMsgContent"></p>
+</div>
 <!-- Transport Modal -->
 <div id="transportModal" class="modal">
   <span class="close-btn" id="closeTransportModal">&times;</span>
@@ -287,6 +375,79 @@ closeInfo.addEventListener('click',()=>{infoPanel.style.display='none';});
 searchInput.addEventListener('input',()=>{renderUsers(searchInput.value);});
 renderUsers();
 
+
+
+// ------------------ MESSAGES ------------------
+let messages = JSON.parse(localStorage.getItem('quickAidMessages') || '[]');
+
+function renderMessages(filter='') {
+  const body = document.getElementById('messagesTableBody');
+  const searchVal = filter.toLowerCase();
+  body.innerHTML = '';
+  const filtered = messages.filter(m => 
+    m.name.toLowerCase().includes(searchVal) ||
+    m.email.toLowerCase().includes(searchVal) ||
+    m.message.toLowerCase().includes(searchVal)
+  );
+  if (filtered.length === 0) {
+    body.innerHTML = `<tr><td colspan="5" style="text-align:center;">No messages found.</td></tr>`;
+    return;
+  }
+  filtered.forEach((m,i) => {
+    body.innerHTML += `
+      <tr>
+        <td>${m.name}</td>
+        <td>${m.email}</td>
+        <td><span style="color:#2563eb; cursor:pointer;" onclick="showFullMessage(${i})">View Message</span></td>
+        <td>${m.date}</td>
+        <td>
+          <button class="btn" style="background:#b91c1c;" onclick="deleteMessage(${i})"><i class="bi bi-trash"></i></button>
+        </td>
+      </tr>`;
+  });
+}
+
+function showFullMessage(index){
+  const m = messages[index];
+  document.getElementById('fullMsgName').textContent = m.name;
+  document.getElementById('fullMsgEmail').textContent = m.email;
+  document.getElementById('fullMsgContent').textContent = m.message;
+  document.getElementById('fullMsgPopup').style.display='block';
+  document.body.classList.add('popup-open');
+}
+
+// Close full message popup
+document.querySelector('#fullMsgPopup .close-full-msg').addEventListener('click', ()=>{
+  document.getElementById('fullMsgPopup').style.display='none';
+  document.body.classList.remove('popup-open');
+});
+
+function deleteMessage(index){
+  if(confirm('Delete this message?')){
+    messages.splice(index,1);
+    localStorage.setItem('quickAidMessages', JSON.stringify(messages));
+    renderMessages(document.getElementById('searchMessagesInput').value);
+  }
+}
+
+// Bulk delete
+const deleteAllMessagesBtn = document.getElementById('deleteAllMessagesBtn');
+deleteAllMessagesBtn.addEventListener('click', ()=>{
+  if(messages.length === 0){
+    alert('No messages to delete.');
+    return;
+  }
+  if(confirm('Are you sure you want to delete all messages?')){
+    messages = [];
+    localStorage.setItem('quickAidMessages', JSON.stringify(messages));
+    renderMessages();
+  }
+});
+
+const searchMessagesInput = document.getElementById('searchMessagesInput');
+searchMessagesInput.addEventListener('input', ()=>{ renderMessages(searchMessagesInput.value); });
+
+renderMessages();
 // ------------------ TRANSPORTS ------------------
 let transports = JSON.parse(localStorage.getItem('quickAidTransports')||'[]');
 let editingTransportIndex = null;

@@ -1,20 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get in Touch - QuickAid</title>
-    <link rel="stylesheet" href="styles/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get in Touch - QuickAid</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: #f7f7fc; color: #1f2937; }
+
+/* Sticky Header */
+.header { 
+    position: sticky;
+    top: 0;
+    background: rgba(75, 75, 113, 0.85); /* semi-transparent purple-ish */
+    color: white; 
+    text-align: center; 
+    padding: 15px 15px; /* reduced padding */
+    z-index: 100;
+    border-radius: 0 0 20px 20px;
+    backdrop-filter: blur(6px); /* optional: makes background blur slightly for better readability */
+}
+.header h1 { font-size: 1.6rem; } /* smaller */
+.header h1 span { color: #f7d774; }
+.header p { opacity: 0.85; margin-top: 6px; font-weight: 400; font-size: 0.9rem; }
+
+/* Back button */
+.back-btn { 
+    position: absolute; 
+    left: 15px; 
+    top: 15px; 
+    background: transparent; 
+    color: white; 
+    border: none; 
+    padding: 6px 12px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.45); }
+
+/* Contact cards */
+.contact-grid { 
+    margin: 25px auto; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 20px; 
+    max-width: 1200px;
+}
+.contact-card { 
+    background: white; 
+    padding: 25px 20px; 
+    border-radius: 18px; 
+    text-align: center; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08); 
+    transition: all 0.3s ease;
+    border-top: 4px solid #4b5563;
+}
+.contact-card:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14); 
+}
+.contact-card i { font-size: 2.2rem; color: #4b5563; margin-bottom: 12px; }
+.contact-card h3 { margin-bottom: 8px; font-weight: 600; font-size: 1.1rem; color: #111827; }
+.contact-card p { font-size: 0.95rem; color: #4b5563; margin-bottom: 10px; }
+.contact-card a { text-decoration: none; font-weight: 900; color: #081c38; transition: 0.3s; }
+.contact-card a:hover { color: #2c2f3b; }
+
+/* Highlight text in card */
+.highlight { color: #4b5563; font-weight: 700; } /* bold */
+
+/* Form */
+.message-box { 
+    background: white; 
+    padding: 35px; 
+    margin: 40px auto; 
+    border-radius: 18px; 
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07); 
+    max-width: 700px; 
+}
+.message-box h2 { margin-bottom: 20px; font-size: 1.75rem; font-weight: 600; color: #111827; text-align: center; }
+
+.form-group { margin-bottom: 16px; }
+input, textarea { 
+    width: 100%; 
+    padding: 13px; 
+    border-radius: 10px; 
+    border: 1px solid #dcdce7; 
+    outline: none; 
+    font-size: 0.95rem; 
+    background-color: #f9fafb;
+}
+input:focus, textarea:focus { border-color: #4b5563; box-shadow: 0 0 6px rgba(75,85,99,0.2); }
+textarea { height: 140px; resize: vertical; }
+
+.btn { 
+    width: 100%; 
+    padding: 14px; 
+    background: #4b4b71; 
+    border: none; 
+    color: white; 
+    font-size: 1rem; 
+    font-weight: 600;
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+.btn:hover { background: #3a3a5a; }
+
+.success { 
+    margin-top: 12px; 
+    color: #0f9d58; 
+    text-align: center; 
+    font-weight: 600; 
+    font-size: 0.95rem;
+}
+
+/* Footer sticky */
+.footer { 
+    text-align: center; 
+    padding: 20px; 
+    color: white; 
+    font-size: 0.9rem; 
+    background: #4b4b71; 
+    position: sticky; 
+    bottom: 0; 
+    width: 100%;
+}
+
+/* Chat popup center */
+.chat-popup { 
+    display: none; 
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc; 
+    border-radius: 12px; 
+    width: 350px; 
+    max-height: 450px;
+    background: white; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12); 
+    z-index: 1000; 
+    flex-direction: column; 
+}
+.chat-header { 
+    background: #4b5563; 
+    color: white; 
+    padding: 10px; 
+    border-radius: 12px 12px 0 0; 
+    font-weight: 600; 
+    text-align: center; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.chat-header button { 
+    background: #ef4444; 
+    color: white; 
+    border: none; 
+    padding: 4px 8px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-size: 1.2rem; 
+    line-height: 1;
+}
+.chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 0.9rem; }
+.chat-input { display: flex; padding: 8px; border-top: 1px solid #ddd; }
+.chat-input input { flex: 1; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 0.9rem; }
+.chat-input button { background: #4b5563; color: white; border: none; padding: 6px 10px; margin-left: 5px; border-radius: 6px; cursor: pointer; }
+
+/* Responsive */
+@media(max-width:480px){
+    .header h1 { font-size: 1.6rem; }
+    .message-box { padding: 25px 20px; }
+    .contact-card i { font-size: 2rem; }
+    .chat-popup { width: 90%; right: 5%; bottom: 50%; }
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Get in Touch</h1>
-    </header>
-    <main>
-        <p>Contact us via email, phone, or our support form. We're here to help!</p>
-    </main>
-    <footer>
-        <p>&copy; 2025 QuickAid. All rights reserved.</p>
-    </footer>
+
+<header class="header">
+    <button class="back-btn" onclick="window.history.back()"><i class="bi bi-arrow-left"></i> Back</button>
+    <div class="container">
+        <h1>Contact <span>QuickAid</span></h1>
+        <p>Your health & emergency support partner — always ready to help.</p>
+    </div>
+</header>
+
+<main class="container">
+
+<section class="contact-grid">
+
+    <div class="contact-card">
+        <i class="bi bi-envelope-fill"></i>
+        <h3>Email Us</h3>
+        <p>We respond within <span class="highlight">24 hours</span>.</p>
+        <a href="mailto:support@quickaid.com">support@quickaid.com</a>
+    </div>
+
+    <div class="contact-card">
+        <i class="bi bi-telephone-fill"></i>
+        <h3>Call Support</h3>
+        <p>Emergency help <span class="highlight">24/7</span>.</p>
+        <a href="tel:+880125460586">+880 1254-60586</a>
+    </div>
+
+    <div class="contact-card">
+        <i class="bi bi-chat-dots-fill"></i>
+        <h3>Live Chat</h3>
+        <p>Chat with our support team or AI assistant.</p>
+        <a href="#" id="openChat">Start Chat</a>
+    </div>
+
+</section>
+
+<section class="message-box">
+    <h2>Send us a message</h2>
+    <form id="contactForm">
+        <div class="form-group">
+            <input id="name" type="text" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+            <input id="email" type="email" placeholder="Email Address" required>
+        </div>
+        <div class="form-group">
+            <textarea id="message" placeholder="Write your message..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+        <p id="successMsg" class="success"></p>
+    </form>
+</section>
+
+</main>
+
+<footer class="footer">
+    <p>&copy; 2025 QuickAid. All rights reserved.</p>
+</footer>
+
+<!-- Chat Popup -->
+<div class="chat-popup" id="chatPopup">
+    <div class="chat-header">
+        <span>Live Support</span>
+        <button id="closeChat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button id="sendChat">Send</button>
+    </div>
+</div>
+
+<script>
+// Contact form save
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const newMessage = { id: Date.now(), name, email, message, status: "new", time: new Date().toLocaleString() };
+    let savedMessages = JSON.parse(localStorage.getItem("quickAidMessages")) || [];
+    savedMessages.push(newMessage);
+    localStorage.setItem("quickAidMessages", JSON.stringify(savedMessages));
+    document.getElementById("successMsg").innerText = "Message sent successfully!";
+    document.getElementById("contactForm").reset();
+});
+
+// Live chat popup toggle
+const chatPopup = document.getElementById("chatPopup");
+document.getElementById("openChat").addEventListener("click", function(e){
+    e.preventDefault();
+    chatPopup.style.display = "flex";
+});
+document.getElementById("closeChat").addEventListener("click", function(){
+    chatPopup.style.display = "none";
+});
+
+// Simple AI dynamic chat replies
+const aiReplies = [
+    "Thanks for reaching out! We'll respond shortly.",
+    "Hello! How can I assist you today?",
+    "Our support team is here to help you.",
+    "Please provide more details so we can assist better."
+];
+
+document.getElementById("sendChat").addEventListener("click", function(){
+    const input = document.getElementById("chatInput");
+    const msg = input.value.trim();
+    if(msg==="") return;
+    const messagesDiv = document.getElementById("chatMessages");
+
+    // user message
+    const userMsg = document.createElement("div");
+    userMsg.style.textAlign = "right";
+    userMsg.style.marginBottom = "6px";
+    userMsg.innerHTML = `<span style="background:#4b5563;color:white;padding:6px 10px;border-radius:10px;display:inline-block;">${msg}</span>`;
+    messagesDiv.appendChild(userMsg);
+
+    // AI reply
+    const aiMsg = document.createElement("div");
+    aiMsg.style.textAlign = "left";
+    aiMsg.style.marginBottom = "6px";
+    const randomReply = aiReplies[Math.floor(Math.random()*aiReplies.length)];
+    aiMsg.innerHTML = `<span style="background:#f1f1f1;color:#111827;padding:6px 10px;border-radius:10px;display:inline-block;">${randomReply}</span>`;
+    messagesDiv.appendChild(aiMsg);
+
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    input.value = "";
+});
+</script>
+
 </body>
 </html>

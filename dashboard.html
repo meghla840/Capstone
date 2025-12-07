@@ -34,8 +34,10 @@ span.star{cursor:pointer; font-size:18px;}
 <body>
 
 <header>
-  <h1>QuickAid — Dashboard</h1>
+
   <button onclick="history.back()">← Back</button>
+  <h1> Dashboard</h1>
+  
 </header>
 
 <main class="container">
@@ -287,6 +289,64 @@ function renderPatientDashboard(){
     });
   });
 }
+// ------------------- Driver -------------------
+function renderDriverDashboard(){
+  dashboardContent.innerHTML='';
+
+  // Info Card
+  let infoCard = document.createElement('div'); infoCard.className='card';
+  infoCard.innerHTML = `<h3>Driver Info</h3>
+    <p><strong>Name:</strong> ${currentUser.name}</p>
+    <p><strong>Driver Type:</strong> ${currentUser.driverType||'—'}</p>
+    <p><strong>Vehicle No:</strong> ${currentUser.vehicleNumber||'—'}</p>
+    <p><strong>License:</strong> ${currentUser.licenseNumber||'—'}</p>
+    <button onclick="shareDriverLocation()">Share Live Location</button>`;
+  dashboardContent.appendChild(infoCard);
+
+  // Trip History
+  let tripCard = document.createElement('div'); tripCard.className='card';
+  tripCard.innerHTML = `<h3>Trip History</h3>
+    <table>
+      <thead><tr><th>Destination</th><th>Fare</th><th>Date</th></tr></thead>
+      <tbody id="driverTripTable"></tbody>
+    </table>
+    <button onclick="addDriverTrip()">+ Add Trip</button>`;
+  dashboardContent.appendChild(tripCard);
+
+  renderDriverTrips();
+}
+
+function renderDriverTrips(){
+  const tb = document.getElementById('driverTripTable');
+  tb.innerHTML='';
+  currentUser.trips = currentUser.trips||[];
+  currentUser.trips.forEach(t=>{
+    let tr = document.createElement('tr');
+    tr.innerHTML=`<td>${t.place}</td><td>${t.fare}</td><td>${t.date}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function addDriverTrip(){
+  let place = prompt("Destination?");
+  if(!place) return;
+  let fare = prompt("Fare?");
+  fare = parseFloat(fare)||0;
+  let date = new Date().toLocaleDateString();
+  currentUser.trips = currentUser.trips||[];
+  currentUser.trips.push({place,fare,date});
+  saveUsers(users);
+  renderDriverTrips();
+}
+
+function shareDriverLocation(){
+  if(!navigator.geolocation){ alert("GPS not supported"); return; }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    currentUser.lastLocation={lat:pos.coords.latitude,lon:pos.coords.longitude,time:Date.now()};
+    saveUsers(users);
+    alert("Location shared successfully!");
+  }, err=>alert("Permission denied"));
+}
 
 // ------------------- Pharmacy -------------------
 function renderPharmacyDashboard(){
@@ -360,6 +420,48 @@ function setMedicineRating(index,rating){
   saveUsers(users);
   renderPharmacyMedicines();
 }
+function renderDriverDashboard(){
+  dashboardContent.innerHTML='';
+
+  // Info Card
+  let infoCard = document.createElement('div'); 
+  infoCard.className='card';
+  infoCard.innerHTML = `
+    <h3>Driver Info</h3>
+    <p><strong>Name:</strong> ${currentUser.name}</p>
+    <p><strong>Driver Type:</strong> ${currentUser.driverType||'—'}</p>
+    <p><strong>Vehicle No:</strong> ${currentUser.vehicleNumber||'—'}</p>
+    <p><strong>License:</strong> ${currentUser.licenseNumber||'—'}</p>
+    <p><strong>Experience / Skills:</strong> 
+      <span contenteditable="true" oninput="updateDriverExperience(this.textContent)">
+        ${currentUser.experience||'—'}
+      </span>
+    </p>
+    <button onclick="shareDriverLocation()">Share Live Location</button>
+  `;
+  dashboardContent.appendChild(infoCard);
+
+  // Trip History
+  let tripCard = document.createElement('div'); 
+  tripCard.className='card';
+  tripCard.innerHTML = `
+    <h3>Trip History</h3>
+    <table>
+      <thead><tr><th>Destination</th><th>Fare</th><th>Date</th></tr></thead>
+      <tbody id="driverTripTable"></tbody>
+    </table>
+    <button onclick="addDriverTrip()">+ Add Trip</button>
+  `;
+  dashboardContent.appendChild(tripCard);
+
+  renderDriverTrips();
+}
+
+function updateDriverExperience(val){
+  currentUser.experience = val;
+  saveUsers(users);
+}
+
 
 // ------------------- Initialize -------------------
 renderDashboard();

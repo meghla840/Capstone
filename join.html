@@ -98,7 +98,6 @@ button:hover { opacity:0.9; }
     font-weight:700;
     text-decoration:none;
 }
-.login-link a:hover { text-decoration:underline; }
 
 /* Notification popup */
 #toast {
@@ -143,6 +142,7 @@ button:hover { opacity:0.9; }
             <option value="doctor">Doctor</option>
             <option value="hospital">Hospital</option>
             <option value="pharmacy">Pharmacy</option>
+            <option value="transport">Transport</option>
         </select>
 
         <!-- PATIENT -->
@@ -191,6 +191,27 @@ button:hover { opacity:0.9; }
             <input type="text" id="pharmAddress" placeholder="Pharmacy Address">
         </div>
 
+        <!-- 🚕 TRANSPORT -->
+        <div id="transportFields" class="hidden">
+            <label>Driver Name</label>
+            <input type="text" id="driverName" placeholder="Driver Full Name">
+
+            <label>Vehicle Type</label>
+            <input type="text" id="vehicleType" placeholder="Bike / Car / Ambulance etc.">
+
+            <label>Number Plate</label>
+            <input type="text" id="numberPlate" placeholder="Vehicle Number Plate">
+
+            <label>Driving License No</label>
+            <input type="text" id="drivingLicense" placeholder="Driving License Number">
+
+            <label>Service Area</label>
+            <input type="text" id="serviceArea" placeholder="Service Area">
+
+            <label>Available Till (Time)</label>
+            <input type="text" id="availableTill" placeholder="e.g., 10 PM / Midnight etc.">
+        </div>
+
         <button type="submit">Sign Up</button>
 
         <div class="login-link">
@@ -205,7 +226,7 @@ button:hover { opacity:0.9; }
 <script>
 function showRoleFields() {
     let role = document.getElementById("role").value;
-    ["patient","doctor","hospital","pharmacy"].forEach(r=>{
+    ["patient","doctor","hospital","pharmacy","transport"].forEach(r=>{
         document.getElementById(r+"Fields").classList.add("hidden");
     });
     if(role) document.getElementById(role+"Fields").classList.remove("hidden");
@@ -238,14 +259,16 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
     let email = document.getElementById("email").value.trim().toLowerCase();
     let users = JSON.parse(localStorage.getItem("quickAidUsers") || "[]");
 
-    // Prevent duplicate patient email
     if(role==="patient" && users.some(u=>u.email===email && u.role==="patient")){
         showToast("⚠ This patient email already exists.");
         return;
     }
 
+    // Primary Key
+    let userId = "user_" + Date.now();
+
     let newUser = {
-        id: "u_" + Date.now(),
+        userId: userId,
         name: document.getElementById("name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         email: email,
@@ -255,33 +278,48 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
         appointments: []
     };
 
-    // Add role-specific info
+    // PATIENT
     if(role==="patient"){
         newUser.bloodGroup = document.getElementById("bloodGroup").value;
         newUser.healthIssues = document.getElementById("healthIssues").value.trim();
         newUser.address = document.getElementById("address").value.trim();
     }
+
+    // DOCTOR
     if(role==="doctor"){
         newUser.specialization = document.getElementById("specialization").value.trim();
         newUser.bmdc = document.getElementById("bmdc").value.trim();
         newUser.clinic = document.getElementById("clinic").value.trim();
     }
+
+    // HOSPITAL
     if(role==="hospital"){
         newUser.hospitalName = document.getElementById("hospitalName").value.trim();
         newUser.licenseH = document.getElementById("licenseH").value.trim();
         newUser.hphone = document.getElementById("hphone").value.trim();
     }
+
+    // PHARMACY
     if(role==="pharmacy"){
         newUser.pharmacyName = document.getElementById("pharmacyName").value.trim();
         newUser.drugLicense = document.getElementById("drugLicense").value.trim();
         newUser.pharmAddress = document.getElementById("pharmAddress").value.trim();
     }
 
+    // 🚕 TRANSPORT
+    if(role==="transport"){
+        newUser.driverName = document.getElementById("driverName").value.trim();
+        newUser.vehicleType = document.getElementById("vehicleType").value.trim();
+        newUser.numberPlate = document.getElementById("numberPlate").value.trim();
+        newUser.drivingLicense = document.getElementById("drivingLicense").value.trim();
+        newUser.serviceArea = document.getElementById("serviceArea").value.trim();
+        newUser.availableTill = document.getElementById("availableTill").value.trim();
+    }
+
     users.push(newUser);
 
-    // Save everything
     localStorage.setItem("quickAidUsers", JSON.stringify(users));
-    localStorage.setItem("quickAidCurrent", newUser.id);
+    localStorage.setItem("quickAidCurrent", newUser.userId);
 
     showToast("✅ Account created successfully!");
 
