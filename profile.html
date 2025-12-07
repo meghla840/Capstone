@@ -529,12 +529,14 @@ editBtn.addEventListener('click', ()=>{ window.scrollTo({top:0, behavior:'smooth
 
 // Dashboard button
 dashboardBtn.addEventListener('click', ()=>{
-  if(currentUser.role==='admin'){
+  const role = currentUser.role || 'user';
+  if(role.toLowerCase() === 'admin'){
     window.location.href='admin-dashboard.html';
   } else {
     window.location.href='dashboard.html';
   }
 });
+
 
 // HIDE DELETE BUTTON FOR ADMIN
 if(currentUser.role === 'admin'){
