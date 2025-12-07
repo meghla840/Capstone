@@ -14,20 +14,31 @@ body {
     color: #1f2937;
 }
 header {
-    background: #4b4b71;
+    background: rgba(75,75,113,0.85); /* Transparent-ish */
     color: white;
     text-align: center;
-    padding: 25px 15px;
+    padding: 20px 15px;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 header h1 {
     margin: 0;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.5rem;
     letter-spacing: 0.5px;
+}
+header .back-btn {
+    position: absolute;
+    left: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
 }
 main {
     max-width: 1200px;
@@ -48,6 +59,7 @@ main {
     flex-direction: column;
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
+    cursor: pointer;
 }
 .card:hover {
     transform: translateY(-4px);
@@ -77,6 +89,11 @@ main {
 .card-date {
     font-size: 0.75rem;
     color: #9ca3af;
+    margin-bottom: 12px;
+}
+.card-summary {
+    font-size: 0.85rem;
+    color: #4b5563;
     margin-bottom: 12px;
 }
 .card-actions {
@@ -157,6 +174,7 @@ footer {
 <body>
 
 <header>
+    <i class="bi bi-arrow-left back-btn" onclick="history.back()"></i>
     <h1>Emergency Action Guide</h1>
 </header>
 
@@ -181,12 +199,17 @@ footer {
 // Current user
 const currentUserId = "user123";
 
-// Emergency cases with sample images
+// Emergency cases
 const emergencyData = [
-    {id:1,title:"ভূমিকম্প",category:"Natural Disaster",date:"Aug 5, 2025",img:"/mnt/data/e9c06dd4-a04d-4bf2-a449-63bf93dd0b33.png",guide:["শান্ত থাকুন।","স্থিতিশীল জায়গায় থাকুন।","টেবিল/বেডের নিচে ঢুকে রক্ষা করুন।","দরজা/খোলা জায়গা এড়িয়ে চলুন।"]},
-    {id:2,title:"আগুন",category:"Fire",date:"July 29, 2025",img:"/mnt/data/e9c06dd4-a04d-4bf2-a449-63bf93dd0b33.png",guide:["ধূমপান বন্ধ করুন।","তাড়াহুড়ো না করে বাইরে বের হোন।","আগুনের কাছাকাছি যাবেন না।","জরুরি নম্বরে কল করুন।"]},
-    {id:3,title:"বিদ্যুতের শক",category:"Accident",date:"June 12, 2025",img:"/mnt/data/e9c06dd4-a04d-4bf2-a449-63bf93dd0b33.png",guide:["বিদ্যুতের সরবরাহ বন্ধ করুন।","আহত ব্যক্তিকে সরাসরি ছোঁবেন না।","প্রয়োজন হলে CPR করুন।","দ্রুত হাসপাতালে নিয়ে যান।"]},
-    {id:4,title:"পানিতে ডুবে যাওয়া",category:"Accident",date:"May 20, 2025",img:"/mnt/data/e9c06dd4-a04d-4bf2-a449-63bf93dd0b33.png",guide:["আতঙ্কিত হবেন না।","রেসকিউ করার আগে নিরাপত্তা নিশ্চিত করুন।","বাঁচানো ব্যক্তিকে দ্রুত পানির বাইরে আনুন।","CPR প্রয়োগ করুন।"]}
+    {id:1,title:"ভূমিকম্প",category:"Natural Disaster",date:"Aug 5, 2025",img:"images/vumikompo.webp",guide:["শান্ত থাকুন।","স্থিতিশীল জায়গায় থাকুন।","টেবিল/বেডের নিচে ঢুকে রক্ষা করুন।","দরজা/খোলা জায়গা এড়িয়ে চলুন।"]},
+    {id:2,title:"আগুন",category:"Fire",date:"July 29, 2025",img:"images/agun.webp",guide:["ধূমপান বন্ধ করুন।","তাড়াহুড়ো না করে বাইরে বের হোন।","আগুনের কাছাকাছি যাবেন না।","জরুরি নম্বরে কল করুন।"]},
+    {id:3,title:"বিদ্যুতের শক",category:"Accident",date:"June 12, 2025",img:"images/shock.webp",guide:["বিদ্যুতের সরবরাহ বন্ধ করুন।","আহত ব্যক্তিকে সরাসরি ছোঁবেন না।","প্রয়োজন হলে CPR করুন।","দ্রুত হাসপাতালে নিয়ে যান।"]},
+    {id:4,title:"পানিতে ডুবে যাওয়া",category:"Accident",date:"May 20, 2025",img:"images/duba.webp",guide:["আতঙ্কিত হবেন না।","রেসকিউ করার আগে নিরাপত্তা নিশ্চিত করুন।","বাঁচানো ব্যক্তিকে দ্রুত পানির বাইরে আনুন।","CPR প্রয়োগ করুন।"]},
+    {id:5,title:"সাইক্লোন/ঝড়",category:"Natural Disaster",date:"Sep 1, 2025",img:"images/jhor.webp",guide:["ঘর বা নিরাপদ স্থানে থাকুন।","সাপোর্ট স্ট্রাকচার থেকে দূরে থাকুন।","জরুরি কিট হাতে রাখুন।","রেডিও/নিউজ ফলো করুন।"]},
+    {id:6,title:"রাসায়নিক দাহ/হাজার",category:"Accident",date:"Oct 12, 2025",img:"images/daho.webp",guide:["তক্ষুনি আক্রান্ত এলাকা ত্যাগ করুন।","সুরক্ষা মাস্ক ও গ্লাভস ব্যবহার করুন।","ধোয়ার পানি দিয়ে আক্রান্ত স্থান পরিষ্কার করুন।","হাসপাতালে নিয়ে যান।"]},
+    {id:7,title:"যানজট/সড়ক দুর্ঘটনা",category:"Accident",date:"Nov 5, 2025",img:"images/sorok.webp",guide:["পরিবহন থামান।","আহতদের নিরাপদ স্থানে নিয়ে যান।","প্রয়োজন হলে CPR প্রয়োগ করুন।","পুলিশ/জরুরি নম্বরে কল করুন।"]},
+    {id:8,title:"হঠাৎ স্বাস্থ্যঝুঁকি (হার্ট অ্যাটাক)",category:"Health",date:"Dec 2, 2025",img:"images/heartattack.webp",guide:["পর্যবেক্ষণ করুন।","ব্যক্তিকে বসান বা শোয়ান।","CPR প্রয়োগ করুন যদি অচেতন হয়।","জরুরি চিকিৎসা নিন।"]},
+    {id:9,title:"কণ্ঠরোধ/শ্বাসরোধ",category:"Accident",date:"Dec 5, 2025",img:"images/sashkosto.png",guide:["ব্যক্তিকে শান্ত করুন।","হাইমলিক/হ্যান্ড-প্রেস ব্যবহার করুন।","হঠাৎ শ্বাস বন্ধ হলে চিকিৎসা নিন।","জরুরি সেবা কল করুন।"]}
 ];
 
 // Load pin & react per user
@@ -204,12 +227,15 @@ function renderCards(){
     sortedData.forEach(item=>{
         const card = document.createElement("div");
         card.className = "card";
+        // Show first step as summary
+        const summary = item.guide[0] || "";
         card.innerHTML = `
             <img src="${item.img}" alt="${item.title}">
             <div class="card-content">
                 <div class="card-category">${item.category}</div>
                 <div class="card-title">${item.title}</div>
                 <div class="card-date">${item.date}</div>
+                <div class="card-summary">${summary}</div>
             </div>
             <div class="card-actions">
                 <i class="bi bi-pin-fill ${pins.includes(item.id)?'pinned':''}" data-id="${item.id}" title="Pin/Unpin"></i>
