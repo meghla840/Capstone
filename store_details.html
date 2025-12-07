@@ -52,7 +52,7 @@ main{ max-width:920px; margin:22px auto; padding:0 16px 60px; }
 .btn-wh{ background:#25d366; }
 .map-box{ margin-top:14px; height:280px; border-radius:10px; overflow:hidden; border:1px solid #dfe7f5; }
 
-/* Professional review design */
+/* Review Section */
 .review-section{ margin-top:24px; }
 .review-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .review-list{ margin-top:12px; display:flex; flex-direction:column; gap:12px; }
@@ -97,9 +97,14 @@ textarea{ width:100%; padding:10px; border-radius:8px; border:1px solid #d1d5db;
 
 <script>
 // =======================
-// Current user (from profile.html)
+// Load logged-in user
 // =======================
-window.currentUser = window.currentUser || { name:"Guest", profileImg:"https://via.placeholder.com/40", role:"user" };
+let savedUser = localStorage.getItem("quickAidUser");
+try{
+  window.currentUser = savedUser ? JSON.parse(savedUser) : { name:"Guest", profileImg:"https://via.placeholder.com/40", role:"user", username:"guest" };
+}catch(e){
+  window.currentUser = { name:"Guest", profileImg:"https://via.placeholder.com/40", role:"user", username:"guest" };
+}
 
 // =======================
 // Store data
@@ -115,9 +120,13 @@ const storeData = {
     pharmacyID:"PH-10234",
     inStock:true,
     rating:0,
+    ownerUsername: "meghla008" // store owner username
   }
 };
 
+// =======================
+// Utilities
+// =======================
 function storageKeyFor(storeName){ return "quickAid_store_reviews_" + encodeURIComponent(storeName); }
 function loadReviews(storeName){ try{ const r=JSON.parse(localStorage.getItem(storageKeyFor(storeName))); return Array.isArray(r)?r:[]; }catch(e){return[];} }
 function saveReviews(storeName,reviews){ localStorage.setItem(storageKeyFor(storeName), JSON.stringify(reviews)); }
@@ -131,16 +140,15 @@ function renderStars(n){ return "★".repeat(n)+"☆".repeat(Math.max(0,5-n)); }
 // =======================
 // App state
 // =======================
-let visibleCount=4;
-let currentStoreName=getStoreName();
-let editingId=null;
+let showAll=false, currentStoreName=getStoreName(), editingId=null, selectedStars=5;
 
 // =======================
-// Render
+// Render Store + Reviews
 // =======================
 function render(){
   const store=storeData[currentStoreName];
   if(!store){ document.getElementById("cardRoot").innerHTML="<p>Store not found.</p>"; return; }
+
   store.reviews = store.reviews || loadReviews(currentStoreName);
   store.rating = computeAverage(store.reviews);
 
@@ -151,8 +159,8 @@ function render(){
         <div>
           <p class="store-name">${escapeHtml(currentStoreName)}</p>
           <div class="rating-row">
-            <div class="stars" id="storeStars">${renderStars(Math.round(store.rating))}</div>
-            <div class="small-muted" id="storeRatingText">${store.rating} • ${store.reviews.length} reviews</div>
+            <div class="stars">${renderStars(Math.round(store.rating))}</div>
+            <div class="small-muted">${store.rating} • ${store.reviews.length} reviews</div>
           </div>
         </div>
         <div style="margin-left:12px;">
@@ -160,7 +168,7 @@ function render(){
         </div>
       </div>
       <div style="text-align:right">
-        <div class="stock-badge ${store.inStock ? "in-stock" : "out-stock"}">${store.inStock ? "✔ In Stock" : "✘ Out of Stock"}</div>
+        <div class="stock-badge ${store.inStock?"in-stock":"out-stock"}">${store.inStock?"✔ In Stock":"✘ Out of Stock"}</div>
       </div>
     </div>
     <div class="info-grid">
@@ -179,69 +187,100 @@ function render(){
       <iframe src="https://www.google.com/maps?q=${encodeURIComponent(store.address)}&output=embed" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
     </div>
   `;
-  document.getElementById("cardRoot").innerHTML = headerHtml + renderReviewsArea(store);
+  document.getElementById("cardRoot").innerHTML = headerHtml + renderReviews(store);
+
   attachStarsInputHandlers();
+
+  if(editingId){
+    const r = store.reviews.find(x=>x.id===editingId);
+    if(r){
+      document.getElementById("rText").value = r.text;
+      selectedStars = r.stars||5;
+      updateStarsInputDisplay();
+    }
+  }
 }
 
 // =======================
-// Reviews Area
+// Render Reviews
 // =======================
-function renderReviewsArea(store){
-  visibleCount=Math.min(visibleCount, Math.max(4, store.reviews.length));
-  const sorted = [...store.reviews].sort((a,b)=>b.time-a.time).slice(0,visibleCount);
+function renderReviews(store){
+  const totalReviews = store.reviews.length;
+  let reviewsToShow = showAll ? store.reviews : store.reviews.slice(0,5);
+  const sorted = [...reviewsToShow].sort((a,b)=>b.time-a.time);
 
   const items = sorted.map(r=>{
-    const isAuthor = r.name===window.currentUser.name;
-    const replyHtml = r.reply ? `<div class="reply-box"><div class="reply-meta">Owner • ${timeAgo(r.reply.time)}</div><div class="reply-text">${escapeHtml(r.reply.text)}</div></div>` : "";
-    return `
-      <div class="review-item" data-id="${r.id}">
-        <div class="review-top">
-          <img src="${r.profileImg||'https://via.placeholder.com/40'}" class="review-avatar"/>
-          <div class="review-left">
-            <div class="review-meta">
-              <div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
-              <div class="small-muted"><strong>${escapeHtml(r.name)}</strong> • ${timeAgo(r.time)}</div>
-            </div>
-            <div class="review-text">${escapeHtml(r.text)}</div>
+    const canEditDelete = true; // ALL reviews have edit/delete
+    const canReply = window.currentUser.username === store.ownerUsername; // only owner can reply
+
+    const replyHtml = r.reply ? `<div class="reply-box">
+      <div class="reply-meta">Owner • ${timeAgo(r.reply.time)}</div>
+      <div class="reply-text">${escapeHtml(r.reply.text)}</div>
+    </div>` : (canReply ? `<div class="reply-box" id="replyBox_${r.id}" style="display:none; margin-top:6px;">
+      <textarea placeholder="Write a reply..." id="reply_${r.id}" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:6px;"></textarea>
+      <button class="submit-btn" onclick="submitReply('${r.id}')">Reply</button>
+    </div>` : "");
+
+    const replyIcon = canReply ? `<button class="icon-btn" onclick="toggleReplyBox('${r.id}')"><i class="bi bi-reply"></i></button>` : "";
+
+    return `<div class="review-item" data-id="${r.id}">
+      <div class="review-top">
+        <img src="${r.profileImg||'https://via.placeholder.com/40'}" class="review-avatar"/>
+        <div class="review-left">
+          <div class="review-meta">
+            <div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
+            <div class="small-muted"><strong>${escapeHtml(r.name)}</strong> • ${timeAgo(r.time)}</div>
           </div>
-          <div class="review-actions">
-            ${isAuthor?`<button class="icon-btn" onclick="startEdit('${r.id}')"><i class="bi bi-pencil"></i></button>
-            <button class="icon-btn" onclick="deleteReview('${r.id}')"><i class="bi bi-trash"></i></button>`:""}
-          </div>
+          <div class="review-text">${escapeHtml(r.text)}</div>
         </div>
-        ${replyHtml}
-        <div id="replyFormContainer_${r.id}"></div>
+        <div class="review-actions">
+          ${canEditDelete ? `
+            <button class="icon-btn" onclick="startEdit('${r.id}')"><i class="bi bi-pencil"></i></button>
+            <button class="icon-btn" onclick="deleteReview('${r.id}')"><i class="bi bi-trash"></i></button>
+          ` : ""}
+          ${replyIcon}
+        </div>
       </div>
-    `;
+      ${replyHtml}
+    </div>`;
   }).join("");
 
-  const inputArea = `
+  let seeMoreBtn = "";
+  if(totalReviews>5){
+    seeMoreBtn = `<button class="see-more-btn" onclick="toggleSeeMore()">${showAll?"See Less":"See More"}</button>`;
+  }
+
+  return `
     <div class="review-section">
       <div class="review-header">
         <div><strong>Customer Reviews</strong></div>
-        <div class="small-muted">Showing ${Math.min(store.reviews.length,visibleCount)} of ${store.reviews.length}</div>
+        <div class="small-muted">Showing ${reviewsToShow.length} of ${totalReviews}</div>
       </div>
       <div class="review-list">${items}</div>
+      ${seeMoreBtn}
       <div class="review-input">
         <div class="stars-input" id="starsInput">${[1,2,3,4,5].map(i=>`<span class="s" data-val="${i}">★</span>`).join("")}</div>
         <div class="small-muted" id="currentStarsText">5 stars</div>
         <textarea id="rText" placeholder="Write your review..."></textarea>
         <div class="message-box" id="reviewMsg"></div>
-        <button class="submit-btn" onclick="submitReview()">Submit Review</button>
+        <button class="submit-btn" onclick="submitReview()">${editingId?"Update Review":"Submit Review"}</button>
       </div>
     </div>
   `;
-  return inputArea;
 }
 
 // =======================
-// Stars input
+// Toggle See More / Less
 // =======================
-let selectedStars=5;
+function toggleSeeMore(){ showAll = !showAll; render(); }
+
+// =======================
+// Stars Input
+// =======================
 function attachStarsInputHandlers(){
   const stars = document.querySelectorAll("#starsInput .s");
   stars.forEach(s=>{
-    s.addEventListener("mouseover", ()=>{ stars.forEach(x=>x.classList.remove("hovered")); for(let i=0;i<s.dataset.val;i++){ stars[i].classList.add("hovered"); } });
+    s.addEventListener("mouseover", ()=>{ stars.forEach(x=>x.classList.remove("hovered")); for(let i=0;i<s.dataset.val;i++) stars[i].classList.add("hovered"); });
     s.addEventListener("mouseout", ()=>{ stars.forEach(x=>x.classList.remove("hovered")); updateStarsInputDisplay(); });
     s.addEventListener("click", ()=>{ selectedStars=Number(s.dataset.val); updateStarsInputDisplay(); });
   });
@@ -253,21 +292,20 @@ function updateStarsInputDisplay(){
 }
 
 // =======================
-// Submit review
+// Submit / Edit / Delete Reviews
 // =======================
 function submitReview(){
   const text = document.getElementById("rText").value.trim();
-  const msgEl = document.getElementById("reviewMsg");
-  msgEl.innerText="";
+  const msgEl = document.getElementById("reviewMsg"); msgEl.innerText="";
   if(!text){ msgEl.innerText="Review cannot be empty."; return; }
 
-  const store=storeData[currentStoreName];
+  const store = storeData[currentStoreName];
   const reviewerName = window.currentUser.name||"Guest";
   const profileImg = window.currentUser.profileImg||"https://via.placeholder.com/40";
 
   if(editingId){
     const idx = store.reviews.findIndex(r=>r.id===editingId);
-    if(idx>=0 && store.reviews[idx].name===reviewerName){
+    if(idx>=0){
       store.reviews[idx].text=text;
       store.reviews[idx].stars=selectedStars;
       store.reviews[idx].time=Date.now();
@@ -283,23 +321,47 @@ function submitReview(){
   render();
 }
 
-// =======================
-// Edit/Delete
-// =======================
 function startEdit(id){
   const store=storeData[currentStoreName];
   const r=store.reviews.find(x=>x.id===id);
-  if(!r || r.name!==window.currentUser.name) return;
+  if(!r) return;
   editingId=id;
-  document.getElementById("rText").value=r.text;
-  selectedStars=r.stars||5;
-  updateStarsInputDisplay();
+  render();
   document.getElementById("rText").focus();
 }
+
 function deleteReview(id){
-  if(!confirm("Are you sure you want to delete this review?")) return;
   const store=storeData[currentStoreName];
-  store.reviews = store.reviews.filter(r=>r.id!==id);
+  const r = store.reviews.find(x=>x.id===id);
+  if(!r) return;
+  const msgEl = document.getElementById("reviewMsg");
+  if(confirm("Are you sure you want to delete this review?")){
+    store.reviews = store.reviews.filter(r=>r.id!==id);
+    saveReviews(currentStoreName, store.reviews);
+    msgEl.innerText="Review deleted successfully.";
+    setTimeout(()=>{ msgEl.innerText=""; },3000);
+    render();
+  }
+}
+
+// =======================
+// Toggle Reply Box
+// =======================
+function toggleReplyBox(reviewId){
+  const box = document.getElementById(`replyBox_${reviewId}`);
+  if(box) box.style.display = box.style.display === "none" ? "block" : "none";
+}
+
+// =======================
+// Submit Owner Reply
+// =======================
+function submitReply(reviewId){
+  const store = storeData[currentStoreName];
+  const r = store.reviews.find(x=>x.id===reviewId);
+  if(!r) return;
+  const replyText = document.getElementById(`reply_${reviewId}`).value.trim();
+  if(!replyText) return alert("Reply cannot be empty.");
+  r.reply = { text: replyText, time: Date.now() };
   saveReviews(currentStoreName, store.reviews);
   render();
 }
@@ -313,10 +375,59 @@ function openWhatsApp(){
   window.open(`https://wa.me/${number}`, "_blank");
 }
 
+function deleteReview(id){
+  const store = storeData[currentStoreName];
+  const r = store.reviews.find(x=>x.id===id);
+  if(!r) return;
+
+  // Create inline confirmation message
+  const reviewEl = document.querySelector(`.review-item[data-id='${id}']`);
+  if(!reviewEl) return;
+
+  // Remove any existing confirm box
+  const existingBox = reviewEl.querySelector(".confirm-box");
+  if(existingBox) existingBox.remove();
+
+  const confirmBox = document.createElement("div");
+  confirmBox.className = "confirm-box";
+  confirmBox.style.cssText = `
+    background:#fef3c7; 
+    border:1px solid #fde68a; 
+    padding:8px; 
+    border-radius:8px; 
+    margin-top:6px; 
+    display:flex; 
+    gap:8px; 
+    align-items:center;
+  `;
+  confirmBox.innerHTML = `
+    <span>Are you sure you want to delete this review?</span>
+    <button style="background:#dc2626;color:white;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">Yes</button>
+    <button style="background:#e5e7eb;color:#111;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;">No</button>
+  `;
+
+  reviewEl.appendChild(confirmBox);
+
+  // Button handlers
+  const [yesBtn, noBtn] = confirmBox.querySelectorAll("button");
+  yesBtn.onclick = ()=>{
+    store.reviews = store.reviews.filter(r=>r.id!==id);
+    saveReviews(currentStoreName, store.reviews);
+    render();
+  };
+  noBtn.onclick = ()=>{
+    confirmBox.remove();
+  };
+}
+
+
 // =======================
 // Init
 // =======================
 render();
 </script>
+
+
+
 </body>
 </html>

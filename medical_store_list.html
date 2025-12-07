@@ -52,33 +52,6 @@
   <body>
     <!-- NAVBAR: same as nearby -->
     <header>
-      <div class="hold">
-        <div class="estrip">
-          <div class="scroll">
-            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
-            Anytime!
-          </div>
-        </div>
-        <div class="emergencyData p-3">
-          <ul class="h-12 pr-3">
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-facebook"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-envelope"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-google"></i></a>
-            </li>
-            <li class="flex items-center w-5">
-              <a href=""><i class="bi bi-geo-alt"></i></a>
-            </li>
-          </ul>
-          <a href="join.html"
-            ><button class="w-25 flex items-center">+ Join Now</button></a
-          >
-        </div>
-      </div>
       <nav>
         <div class="logo">
           <img src="images/logo.png" alt="Logo" class="h-[50px]" />
@@ -326,7 +299,46 @@
       }
 
       renderStores(filteredStores);
+      document.addEventListener("DOMContentLoaded", () => {
+    const userSection = document.getElementById("userSection");
+    if (!userSection) return;
+
+    let savedUser = null;
+    try { savedUser = JSON.parse(localStorage.getItem("quickAidUser")); } catch {}
+
+    function renderUser() {
+        if (savedUser && savedUser.username) {
+            userSection.innerHTML = `
+                <a href="profile.html">
+                    <button style="padding:6px 12px; border-radius:6px; background:#49465b; color:white; border:none; cursor:pointer;">
+                        <i class="bi bi-person-circle"></i> ${savedUser.username}
+                    </button>
+                </a>
+            `;
+        } else {
+            userSection.innerHTML = `
+                <a href="join.html">
+                    <button style="padding:6px 12px; border-radius:6px; background:#49465b; color:white; border:none; cursor:pointer;">
+                        + Join Now
+                    </button>
+                </a>
+            `;
+        }
+    }
+
+    renderUser();
+
+    // Update automatically if user changes in another tab
+    window.addEventListener("storage", (e) => {
+        if (e.key === "quickAidUser") {
+            try { savedUser = JSON.parse(e.newValue); } catch { savedUser = null; }
+            renderUser();
+        }
+    });
+});
     </script>
+    <script src="scripts/userToggle.js"></script>
+
     <script src="scripts/script.js"></script>
   </body>
 </html>

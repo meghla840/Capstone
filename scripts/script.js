@@ -70,7 +70,7 @@ window.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-      const profileBtn = document.getElementById("profileBtn");
+        const profileBtn = document.getElementById("profileBtn");
         profileBtn.addEventListener("click", () => {
             // Admin or normal user → direct profile.html
             window.location.href = "profile.html";

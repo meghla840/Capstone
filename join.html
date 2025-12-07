@@ -72,6 +72,7 @@ input, select {
     transition:0.2s;
 }
 input:focus, select:focus { border-color: var(--accent); outline:none; box-shadow:0 0 5px rgba(37,99,235,0.3);}
+
 button {
     background: var(--header-gradient);
     color:white;
@@ -85,7 +86,9 @@ button {
     transition:0.3s;
 }
 button:hover { opacity:0.9; }
+
 .hidden { display:none; }
+
 .login-link {
     text-align:center;
     margin-top:1rem;
@@ -96,13 +99,7 @@ button:hover { opacity:0.9; }
     text-decoration:none;
 }
 .login-link a:hover { text-decoration:underline; }
-label {
-    font-weight:600;
-    color:var(--brand);
-    margin-top:10px;
-    display:block;
-    font-size:0.9rem;
-}
+
 /* Notification popup */
 #toast {
     position: fixed;
@@ -122,6 +119,7 @@ label {
 </head>
 
 <body>
+
 <header>
     <i class="bi bi-arrow-left" onclick="history.back()"></i>
     <h1>Create Account</h1>
@@ -129,7 +127,9 @@ label {
 
 <div class="card">
     <h2>Join QuickAid</h2>
+
     <form id="signupForm">
+
         <input type="text" id="name" placeholder="Full Name" required>
         <input type="text" id="phone" placeholder="Phone Number" required>
         <input type="email" id="email" placeholder="Email Address" required>
@@ -196,10 +196,10 @@ label {
         <div class="login-link">
             Already have an account? <a href="login.html">Login</a>
         </div>
+
     </form>
 </div>
 
-<!-- Toast Notification -->
 <div id="toast"></div>
 
 <script>
@@ -211,35 +211,40 @@ function showRoleFields() {
     if(role) document.getElementById(role+"Fields").classList.remove("hidden");
 }
 
-function showToast(message){
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.style.display = "block";
-    setTimeout(()=>{ toast.style.display = "none"; }, 3000);
+function showToast(msg){
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    setTimeout(()=> t.style.display="none", 3000);
 }
 
-// Save user with duplicate email check for patients
 document.getElementById("signupForm").addEventListener("submit", function(e){
     e.preventDefault();
 
     let pass = document.getElementById("password").value;
     let confirm = document.getElementById("confirmPassword").value;
-    if(pass !== confirm){ showToast("❗ Passwords do not match!"); return; }
 
-    let role = document.getElementById("role").value;
-    if(!role){ showToast("❗ Select a role"); return; }
-
-    let email = document.getElementById("email").value.trim().toLowerCase();
-
-    let users = JSON.parse(localStorage.getItem("quickAidUsers")||"[]");
-
-    // Check duplicate email for patients
-    if(role==="patient" && users.some(u=>u.email.toLowerCase()===email && u.role==="patient")){
-        showToast("❗ A patient account with this email already exists.");
+    if(pass !== confirm){
+        showToast("❗ Passwords do not match!");
         return;
     }
 
-    let user = {
+    let role = document.getElementById("role").value;
+    if(!role){
+        showToast("❗ Select a role");
+        return;
+    }
+
+    let email = document.getElementById("email").value.trim().toLowerCase();
+    let users = JSON.parse(localStorage.getItem("quickAidUsers") || "[]");
+
+    // Prevent duplicate patient email
+    if(role==="patient" && users.some(u=>u.email===email && u.role==="patient")){
+        showToast("⚠ This patient email already exists.");
+        return;
+    }
+
+    let newUser = {
         id: "u_" + Date.now(),
         name: document.getElementById("name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
@@ -250,34 +255,37 @@ document.getElementById("signupForm").addEventListener("submit", function(e){
         appointments: []
     };
 
-    // role-specific fields
+    // Add role-specific info
     if(role==="patient"){
-        user.bloodGroup = document.getElementById("bloodGroup").value;
-        user.healthIssues = document.getElementById("healthIssues").value.trim();
-        user.address = document.getElementById("address").value.trim();
+        newUser.bloodGroup = document.getElementById("bloodGroup").value;
+        newUser.healthIssues = document.getElementById("healthIssues").value.trim();
+        newUser.address = document.getElementById("address").value.trim();
     }
     if(role==="doctor"){
-        user.specialization = document.getElementById("specialization").value.trim();
-        user.bmdc = document.getElementById("bmdc").value.trim();
-        user.clinic = document.getElementById("clinic").value.trim();
+        newUser.specialization = document.getElementById("specialization").value.trim();
+        newUser.bmdc = document.getElementById("bmdc").value.trim();
+        newUser.clinic = document.getElementById("clinic").value.trim();
     }
     if(role==="hospital"){
-        user.hospitalName = document.getElementById("hospitalName").value.trim();
-        user.licenseH = document.getElementById("licenseH").value.trim();
-        user.hphone = document.getElementById("hphone").value.trim();
+        newUser.hospitalName = document.getElementById("hospitalName").value.trim();
+        newUser.licenseH = document.getElementById("licenseH").value.trim();
+        newUser.hphone = document.getElementById("hphone").value.trim();
     }
     if(role==="pharmacy"){
-        user.pharmacyName = document.getElementById("pharmacyName").value.trim();
-        user.drugLicense = document.getElementById("drugLicense").value.trim();
-        user.pharmAddress = document.getElementById("pharmAddress").value.trim();
+        newUser.pharmacyName = document.getElementById("pharmacyName").value.trim();
+        newUser.drugLicense = document.getElementById("drugLicense").value.trim();
+        newUser.pharmAddress = document.getElementById("pharmAddress").value.trim();
     }
 
-    users.push(user);
-    localStorage.setItem("quickAidUsers", JSON.stringify(users));
-    localStorage.setItem("quickAidCurrent", user.id);
+    users.push(newUser);
 
-    showToast("✅ Signup successful! Redirecting...");
-    setTimeout(()=>{ window.location.href="index.html"; }, 1500);
+    // Save everything
+    localStorage.setItem("quickAidUsers", JSON.stringify(users));
+    localStorage.setItem("quickAidCurrent", newUser.id);
+
+    showToast("✅ Account created successfully!");
+
+    setTimeout(()=> window.location.href="index.html", 1200);
 });
 </script>
 

@@ -49,79 +49,91 @@
 </div>
 
 <script>
-// ----------------- Utility Functions -----------------
-function readUsers() { 
-    return JSON.parse(localStorage.getItem('quickAidUsers') || '[]'); 
-}
-function saveUsers(users) { 
-    localStorage.setItem('quickAidUsers', JSON.stringify(users)); 
+
+// -------------------------------
+// Utility Functions
+// -------------------------------
+function readUsers() {
+    return JSON.parse(localStorage.getItem("quickAidUsers") || "[]");
 }
 
-// ----------------- Ensure Admin Exists -----------------
+function saveUsers(users) {
+    localStorage.setItem("quickAidUsers", JSON.stringify(users));
+}
+
+// -------------------------------
+// Ensure default Admin exists
+// -------------------------------
 let users = readUsers();
-if (!users.some(u => u.email === 'admin@quickaid.com')) {
 
-    const admin = { 
-        id: 'admin_1',
-        name: 'Admin',
-        email: 'admin@quickaid.com',
-        phone: '0000000000',
-        password: 'admin123',
-        role: 'Admin',
-        pic: "", 
-    };
+if (!users.some(u => u.email === "admin@quickaid.com")) {
 
-    users.push(admin);
+    users.push({
+        id: "admin_1",
+        name: "Admin",
+        email: "admin@quickaid.com",
+        phone: "0000000000",
+        password: "admin123",
+        role: "Admin",
+        pic: ""
+    });
+
     saveUsers(users);
 }
 
-// ----------------- Login Logic -----------------
-document.getElementById('loginForm').addEventListener('submit', function(e){
+// -------------------------------
+// Login Submit Logic
+// -------------------------------
+document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const loginId = document.getElementById('loginId').value.trim();
-    const loginPass = document.getElementById('loginPassword').value.trim();
-    const messageDiv = document.getElementById('loginMessage');
+    const loginId = document.getElementById("loginId").value.trim();
+    const loginPass = document.getElementById("loginPassword").value.trim();
+    const msg = document.getElementById("loginMessage");
 
     users = readUsers();
 
-    let loggedUser = users.find(u => 
-        (u.email === loginId || u.phone === loginId) && u.password === loginPass
+    // Match email/phone + password
+    let found = users.find(u =>
+        (u.email === loginId || u.phone === loginId) &&
+        u.password === loginPass
     );
 
-    if (loggedUser) {
-
-        // Ensure ID exists
-        if (!loggedUser.id) loggedUser.id = 'user_' + Date.now();
-
-        // Save updated users list
-        const idx = users.findIndex(u => u.email === loggedUser.email);
-        if (idx !== -1) users[idx] = loggedUser;
-        saveUsers(users);
-
-        // ---- ✔ FIX: Save Logged User as quickAidUser for UI toggle ----
-        const quickUser = {
-            username: loggedUser.name,
-            position: loggedUser.role || "User",
-            pic: loggedUser.pic || "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-            id: loggedUser.id
-        };
-
-        localStorage.setItem("quickAidUser", JSON.stringify(quickUser));
-
-        // Also save "current session"
-        localStorage.setItem("quickAidCurrent", loggedUser.id);
-
-        messageDiv.textContent = "✅ Login Successful! Redirecting...";
-        messageDiv.className = "message success";
-
-        setTimeout(()=>{ window.location.href='index.html'; }, 800);
-
-    } else {
-        messageDiv.textContent = "❌ Invalid Email/Phone or Password!";
-        messageDiv.className = "message error";
+    if (!found) {
+        msg.textContent = "❌ Invalid Email/Phone or Password!";
+        msg.className = "message error";
+        return;
     }
+
+    // Ensure user has ID
+    if (!found.id) found.id = "user_" + Date.now();
+
+    // Save updated users list (in case ID added)
+    const index = users.findIndex(u => u.email === found.email);
+    if (index !== -1) users[index] = found;
+    saveUsers(users);
+
+    // Save quickAidUser for profile button UI
+    const quickUser = {
+        username: found.name,
+        position: found.role || "User",
+        pic: found.pic || "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+        id: found.id
+    };
+
+    localStorage.setItem("quickAidUser", JSON.stringify(quickUser));
+
+    // Save session user
+    localStorage.setItem("quickAidCurrent", found.id);
+
+    msg.textContent = "✅ Login Successful! Redirecting...";
+    msg.className = "message success";
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 900);
 });
+
 </script>
 
 
