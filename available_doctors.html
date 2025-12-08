@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <title>QuickAid</title>
+<style>
+        html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+  body {
+    font-family: Arial, sans-serif;
+
+  }
+   .header-page {
+      background: #49465b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1rem;
+
+      margin-bottom: 20px;
+    }
+    .header-page button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+  #searchBar {
+    width: 70%;
+    margin: 0 auto 20px auto;
+    display: block;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  #availableDoctors {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .doctor-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .doctor-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .doctor-info {
+    flex: 1;
+  }
+
+  .doctor-info h2 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+  }
+
+  .doctor-info p {
+    margin: 3px 0;
+    font-size: 14px;
+  }
+
+  .view-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: #49465b;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .view-btn:hover {
+    background-color: #423f53;
+  }
+  footer {
+        background: #49465b;
+        color: white;
+        text-align: center;
+        padding: 1.2rem 2rem;
+        margin-top: 3rem;
+        font-size: 0.95rem;
+
+        letter-spacing: 0.5px;
+      }
+</style>
+</head>
+<body>
+        <header>
+      <div class="hold">
+        <div class="estrip">
+          <div class="scroll">
+            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
+            Anytime!
+          </div>
+        </div>
+        <div class="emergencyData">
+          <ul>
+            <li>
+              <a href=""><i class="bi bi-facebook"></i></a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-envelope"></i> </a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-google"></i></a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-geo-alt"></i></a>
+            </li>
+          </ul>
+          <a href="join.html"><button>+ Join Now</button></a>
+        </div>
+      </div>
+
+      <nav>
+        <div class="logo">
+          <img src="images/logo.png" alt="Logo" height="50px" width="auto" />
+        </div>
+
+        <ul class="ul" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+
+          <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+              <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Hospital</a>
+            <div class="dropdown-content">
+              <a href="find_hospital.html">Find Hospital</a>
+              <a href="nearby_hospitals.html">Check around me</a>
+              <a href="hospital_list.html">Hospital List</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Medicine Availability</a>
+            <div class="dropdown-content">
+              <a href="medical_store_list.html">Medical Store list</a>
+              <a href="medicine_nearby.html">Check Medicine Nearby</a>
+              <a href="medicine_details.html">Medicine Details</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Health Forum</a>
+            <div class="dropdown-content">
+              <a href="">Ask a Question</a>
+              <a href="">Browse Discussions</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Health Support Services</a>
+            <div class="dropdown-content">
+              <a href="">Latest Health News</a>
+              <a href="">Emergency Action Guide</a>
+              <a href="">Care and Tips For Special Groups</a>
+              <a href="">Our Commitment & Care Promise</a>
+              <a href="">Get in Touch</a>
+            </div>
+          </li>
+
+          <li>
+            <button class="emergency-button">
+              <i class="bi bi-car-front-fill"></i> Emergency
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+
+<main>
+        <div class="header-page">
+    <button onclick="history.back()">← Back</button>
+    <h2>Available Doctors Today</h2>
+    <div></div>
+  </div>
+<input type="text" id="searchBar" placeholder="Search by name, specialist, or hospital...">
+<div id="availableDoctors"></div>
+</main>
+<footer>
+      <p style="color: white">
+        Copyright &copy; 2025 QuicAid. All rights reserved.
+      </p>
+  </footer>
+<script>
+const today = new Date().toLocaleString('en-US', { weekday: 'long' });
+let allDoctors = [];
+
+Promise.all([
+  fetch('data/doctors_data.json').then(res => res.json()),
+  fetch('data/appointment_slot.json').then(res => res.json())
+]).then(([doctors, appointments]) => {
+  const container = document.getElementById('availableDoctors');
+  
+  appointments.forEach(slot => {
+    if(slot.slots[today] && slot.slots[today].length > 0){
+      const doctor = doctors.find(d => d.id === slot.doctorId);
+      if(doctor){
+        allDoctors.push({
+          ...doctor,
+          hospital: slot.hospital,
+          todaySlots: slot.slots[today]
+        });
+      }
+    }
+  });
+
+  displayDoctors(allDoctors);
+}).catch(err => console.error(err));
+
+function displayDoctors(doctors){
+  const container = document.getElementById('availableDoctors');
+  container.innerHTML = '';
+
+  if(doctors.length === 0){
+    container.innerHTML = "<p>No doctors found.</p>";
+    return;
+  }
+
+  doctors.forEach(doc => {
+    const card = document.createElement('div');
+    card.classList.add('doctor-card');
+    card.innerHTML = `
+      <img src="${doc.image}" alt="${doc.name}">
+      <div class="doctor-info">
+        <h2>${doc.name} (${doc.specialist})</h2>
+        <p><strong>Hospital:</strong> ${doc.hospital}</p>
+        <p><strong>Available Slots:</strong> ${doc.todaySlots.join(", ")}</p>
+      </div>
+      <button class="view-btn" onclick="viewDoctor(${doc.id})">View Details</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Search functionality
+document.getElementById('searchBar').addEventListener('input', function() {
+  const query = this.value.toLowerCase();
+  const filtered = allDoctors.filter(doc => 
+    doc.name.toLowerCase().includes(query) ||
+    doc.specialist.toLowerCase().includes(query) ||
+    doc.hospital.toLowerCase().includes(query)
+  );
+  displayDoctors(filtered);
+});
+
+function viewDoctor(id){
+  window.location.href = `doctor_details.html?id=${id}`;
+}
+</script>
+
+</body>
+</html>
