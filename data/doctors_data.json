@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Arafat Hossain",
+    "specialist": "Cardiologist",
+    "gender": "Male",
+    "city": "Dhaka",
+    "hospital": ["United Hospital Limited", "Apollo Hospitals Dhaka"],
+    "image": "images/Arafat.jpg",
+    "education": "MBBS, FCPS (Cardiology), MD (Cardiology)",
+    "rating": 4.8
+  },
+  {
+    "id": 2,
+    "name": "Dr. Samira Akter",
+    "specialist": "Dermatologist",
+    "gender": "Female",
+    "city": "Chattogram",
+    "hospital": ["Apollo Hospitals Dhaka"],
+    "image": "images/Samira.png",
+    "education": "MBBS, DDV, MD (Dermatology)",
+    "rating": 4.6
+  },
+  {
+    "id": 3,
+    "name": "Dr. Takia Sadaf",
+    "specialist": "Neurologist",
+    "gender": "Female",
+    "city": "Chattogram",
+    "hospital": ["Square Hospitals Dhaka"],
+    "image": "images/Takia.jpeg",
+    "education": "MBBS, FCPS (Medicine), MD (Neurology)",
+    "rating": 4.7
+  },
+  {
+    "id": 4,
+    "name": "Dr. Meghla Apu",
+    "specialist": "Orthopedic",
+    "gender": "Female",
+    "city": "Chattogram",
+    "hospital": ["Labaid Specialized Hospital", "Square Hospitals Dhaka"],
+    "image": "images/Meghla.webp",
+    "education": "MBBS, D-Ortho, MS (Orthopedics)",
+    "rating": 4.5
+  },
+  {
+    "id": 5,
+    "name": "Dr. Jannatul Ferdaus",
+    "specialist": "Cardiologist",
+    "gender": "Female",
+    "city": "Dhaka",
+    "hospital": ["Square Hospitals Dhaka", "Ibn Sina Hospital"],
+    "image": "images/Jannat.webp",
+    "education": "MBBS, FCPS (Cardiology), MRCP (UK)",
+    "rating": 4.9
+  },
+  {
+    "id": 6,
+    "name": "Dr. Chinmoy",
+    "specialist": "General Physician",
+    "gender": "Male",
+    "city": "Barishal",
+    "hospital": ["Barishal Hospital"],
+    "image": "images/Chinmoy.jpeg",
+    "education": "MBBS, MD (Internal Medicine)",
+    "rating": 4.4
+  },
+  {
+    "id": 7,
+    "name": "Dr. Bushra",
+    "specialist": "Neurologist",
+    "gender": "Female",
+    "city": "Rajshahi",
+    "hospital": ["Rajshahi Hospital"],
+    "image": "images/Bushra.jpg",
+    "education": "MBBS",
+    "rating": 4.3
+  },
+  {
+    "id": 8,
+    "name": "Dr. Shawon Hossain",
+    "specialist": "Dermatologist",
+    "gender": "Male",
+    "city": "Barishal",
+    "hospital": ["Barishal Hospital"],
+    "image": "images/Chinmoy.jpeg",
+    "education": "MBBS, MD (Internal Medicine)",
+    "rating": 4.0
+  },
+  {
+    "id": 9,
+    "name": "Dr. Jannat Zara",
+    "specialist": "General Physician",
+    "gender": "Female",
+    "city": "Rajshahi",
+    "hospital": ["Barishal Hospital"],
+    "image": "images/Jannat_Zara.jpeg",
+    "education": "MBBS, MD (Internal Medicine)",
+    "rating": 4.4
+  }
+]

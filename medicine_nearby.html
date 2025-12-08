@@ -79,22 +79,25 @@
 
     <nav>
         <div class="logo">
-    <img src="images/logo.png" alt="Logo" style="width:150px; height:auto; object-fit:contain;">
-</div>
-
+            <img src="images/logo.png" alt="" height="100px" width="180px" />
+        </div>
 
         <div class="menu-toggle" id="menu-toggle">☰</div>
 
         <ul class="ul" id="nav-links">
-            <li><a href="">Home</a></li>
+            <li><a href="index.html">Home</a></li>
 
-            <li class="drpdwn"><a href="">Doctors</a>
-                <div class="dropdown-content">
-                    <a href="findDoctor.html">Find Doctors</a>
-                    <a href="">Doctors Available in Location</a>
-                    <a href="DoctorList.html">Doctors List</a>
-                </div>
-            </li>
+            <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+                <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
 
             <li class="drpdwn"><a href="">Hospital</a>
                 <div class="dropdown-content">
@@ -131,7 +134,7 @@
 
             <!-- Nav Emergency Button -->
             <li>
-                <button id="navbarEmergencyBtn" style="padding:8px 12px; border-radius:6px; background:#8e4242; color:white; border:none; cursor:pointer;">
+                <button id="navbarEmergencyBtn" class="emergency-button">
                     <i class="bi bi-car-front-fill"></i> Emergency
                 </button>
             </li>

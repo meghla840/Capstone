@@ -1,312 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
     <title>QuickAid</title>
-</head>
-<body class="open-sans">
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+      /* ===== FIND DOCTOR PAGE ===== */
+
+.search-container-find_doctor_page{
+    margin:10px auto;
+    padding:20px;
+    text-align:center;
+}
+
+.search-container-find_doctor_page h2{
+    margin-bottom:10px;
+    font-size:26px;
+    color:#0077ff;
+    font-weight:bold;
+}
+/* .search-box-doctrs-list-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+.search-input-find_doctor_page{
+
+    max-width: 35%;
+    font-size:16px;
+    border:2px solid #f3ce29;
+    border-radius:8px;
+}
+
+.filter-find_doctor_page{
+    width:35%;
+    padding:12px;
+    margin-bottom:20px;
+    font-size:16px;
+    border:2px solid #0077ff;
+    border-radius:8px;
+    background:white;
+}
+
+.search-btn-find_doctor_page{
+    background:#0077ff;
+    color:white;
+    font-size:18px;
+    width:10%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.search-btn-find_doctor_page:hover{
+    background:#005fcc;
+}
+
+.select-doctrs-list-page{
+    display: flex;
+    max-width: 50%;
+    margin: 0 auto;
+    justify-content: center;
+    justify-items: center;
+    gap: 2%;
+}
+
+
+/* Doctor Results Container */
+.doctor-result {
+    width: 70%;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    gap: 25px;
+}
+
+/* Doctor Card */
+.doctor-card-findpage{
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.doctor-card-findpage:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Doctor Image */
+.doctor-card-findpage img {
+    width: 100%;
+    height: 250px;
+    border-radius:5px;
+    object-fit: cover;
+    border: 3px solid #d4d8dd;
+}
+
+/* Doctor Info */
+.doctor-card-findpage h3 {
+    font-size: 20px;
+    color: #060707;
+}
+
+.doctor-card-findpage p {
+    font-size: 14px;
+    color: #555;
+    margin: 0px;
+}
+
+/* View Profile Button */
+.doctor-card-findpage button {
+    margin-top: 15px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    background: #0077ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.doctor-card-findpage button:hover {
+    background: #005fcc;
+}
+      .seeMore-button {
+        display: block;
+        margin: 25px auto;
+        padding: 12px 24px;
+        font-size: 1rem;
+        background: #49465b;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .seeMore-button:hover {
+        transform: scale(1.05);
+        background: #3b3850;
+        color: white;
+      }
+      footer {
+        background: #49465b;
+        color: white;
+        text-align: center;
+        padding: 1.2rem 2rem;
+        margin-top: 3rem;
+        font-size: 0.95rem;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+
+  <body class="open-sans">
     <header>
-        <div class="hold">
-            <div class="estrip">
-                <div class="scroll">
-                    <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!
-                </div>
+    <div class="hold">
+        <div class="estrip">
+            <div class="scroll">
+                <i class="bi bi-telephone"></i>Emergency Number: +880125460586 - Call Anytime!
             </div>
-            <div class="emergencyData">
-                <ul>
-                    <li>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                    </li>
-                   <li>
-                    <a href=""><i class="bi bi-envelope"></i>
-                    </a>
-                    </li>
-                    <li>
-                        <a href=""><i class="bi bi-google"></i></a>
-                    </li>
-                    <li>
-                        <a href=""><i class="bi bi-geo-alt"></i></a>
-                    </li>
-                </ul>
+        </div>
+        <div class="emergencyData">
+            <ul style="display:flex; gap:5px; list-style:none; margin:0; padding:0;">
+                <li><a href=""><i class="bi bi-facebook"></i></a></li>
+                <li><a href=""><i class="bi bi-envelope"></i></a></li>
+                <li><a href=""><i class="bi bi-google"></i></a></li>
+                <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
+            </ul>
+            <span id="userSection">
                 <a href="join.html"><button> + Join Now</button></a>
+            </span>
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo" height="50px" width="auto">
+        </div>
+
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+
+        <ul class="ul" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+
+            <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+                <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
+
+            <li class="drpdwn"><a href="">Hospital</a>
+                <div class="dropdown-content">
+                    <a href="find_hospital.html">Find Hospital</a>
+                    <a href="nearby_hospitals.html">Check around me</a>
+                    <a href="hospital_list.html">Hospital List</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Medicine Availability</a>
+                <div class="dropdown-content">
+                    <a href="medical_store_list.html">Medical Store list</a>
+                    <a href="medicine_nearby.html">Check Medicine Nearby</a>
+                    <a href="medicine_details.html">Medicine Details</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Health Forum</a>
+                <div class="dropdown-content">
+                    <a href="">Ask a Question</a>
+                    <a href="">Browse Discussions</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Health Support Services</a>
+                <div class="dropdown-content">
+                    <a href="latest_health_news.html">Latest Health News</a>
+                    <a href="emergency_action_guide.html">Emergency Action Guide</a>
+                    <a href="care_tips_special_groups.html">Care and Tips For Special Groups</a>
+                    <a href="commitment_care_promise.html">Our Commitment & Care Promise</a>
+                    <a href="get_in_touch.html">Get in Touch</a>
+                </div>
+            </li>
+
+            <!-- Nav Emergency Button -->
+            <li>
+                <button id="navbarEmergencyBtn" class="emergency-button">
+                    <i class="bi bi-car-front-fill"></i> Emergency
+                </button>
+            </li>
+
+        </ul>
+
+        <!-- Emergency Modal -->
+        <div id="emergencyModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+            <div style="background:#fff; padding:25px 30px; border-radius:12px; text-align:center; max-width:400px; width:90%; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+                <h2 style="margin-bottom:15px;">Emergency Call</h2>
+                <p>Do you want to call the emergency number <strong>+880125460586</strong> to arrange an ambulance?</p>
+                <div style="margin-top:20px; display:flex; justify-content:space-around;">
+                    <button id="confirmCall" style="padding:10px 20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; background-color:#28a745; color:white;">Yes</button>
+                    <button id="cancelCall" style="padding:10px 20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; background-color:#dc3545; color:white;">No</button>
+                </div>
             </div>
         </div>
-        <nav>
-    <div class="logo">
-        <img src="images/logo.png" alt="Logo" height="50px" width="auto">
-    </div>
-
-    
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
-
-    <ul class="ul" id="nav-links">
-        <li><a href="">Home</a></li>
-
-        <li class="drpdwn"><a href="">Doctors</a>
-        <div class="dropdown-content">
-            <a href="">Find Doctors</a>
-            <a href="">Doctors Available in Location</a>
-            <a href="">Doctors List</a>
-        </div>
-        </li>
-
-        <li class="drpdwn"><a href="">Hospital</a>
-        <div class="dropdown-content">
-            <a href="">Find Hospital</a>
-            <a href="">Check around me</a>
-            <a href="">Hospital List</a>
-        </div>
-        </li>
-
-        <li class="drpdwn"><a href="">Medicine Availability</a>
-        <div class="dropdown-content">
-            <a href="">Medical Store list</a>
-            <a href="">Check Medicine Nearby</a>
-            <a href="">Medicine Details</a>
-        </div>
-        </li>
-
-        <li class="drpdwn"><a href="">Health Forum</a>
-        <div class="dropdown-content">
-            <a href="">Ask a Question</a>
-            <a href="">Browse Discussions</a>
-        </div>
-        </li>
-
-        <li class="drpdwn"><a href="">Health Support Services</a>
-        <div class="dropdown-content">
-            <a href="">Latest Health News</a>
-            <a href="">Emergency Action Guide</a>
-            <a href="">Care and Tips For Special Groups</a>
-            <a href="">Our Commitment & Care Promise</a>
-            <a href="">Get in Touch</a>
-        </div>
-        </li>
-
-        <li><button><i class="bi bi-car-front-fill"></i> Emergency</button></li>
-    </ul>
     </nav>
+</header>
 
-            
-    </header>
     <main>
-    
-        <section class="find">
-                <div class="search-container">
-                <select class="select-type">
-                    <option value=""> Doctor</option>
-                    <option value="">Surgeon</option>
-                    <option value="">Intern Doctor</option>
-                    <option value="">Professor</option>
-                    <option value="">Resident Doctor</option>
-                    <option value="">Assistant surgeon</option>
-                    <option value="">General Physician</option>
-                    
-                </select>
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" class="search-input" placeholder="Search doctors..">
-                    <button class="search-button">Search</button>
-                </div>
-                
-                </div>
-                <div class="filter-container">
-                <select>
-                    <option>Gender</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
-                <select>
-                    <option>Specialities</option>
-                    <option value="">Cardiologist</option>
-                    <option value="">Neurologist</option>
-                    <option value="">Ophthalmologist</option>
-                    <option value="">Pulmonologist</option>
-                    <option value="">Orthopedic Surgeon</option>
-                    <option value="">Gastroenterologist</option>
-                    <option value="">Pediatrician</option>
-                </select>
-                <select>
-                    <option>Cities</option>
-                    <option>Dhaka</option>
-                    <option>Rajshahi</option>
-                    <option>Khulna</option>
-                    <option>Barishal</option>
-                    <option>Sylhet</option>
-                </select>  
-                </div>
-        </section>
-        <section class="list">
-            <div class="specialists_container">
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Make An Appointment</button>
-                </div>
-            </div>
-            <div class="see"><button>See All Doctors</button></div>
-       
+      <section class="find">
+        <div class="search-container-find_doctor_page">
+          <div class="search-box-doctrs-list-page">
+            <input
+              type="text"
+              class="search-input-find_doctor_page"
+              placeholder="Search Doctor Name.."
+            />
+            <button class="search-btn-find_doctor_page">Search</button>
+          </div>
+        </div>
+        <div class="select-doctrs-list-page">
+          <select class="filter-find_doctor_page">
+            <option selected disabled>Select Speciality</option>
+            <option value="All">All</option>
+            <option value="Cardiologist">Cardiologist</option>
+            <option value="Dermatologist">Dermatologist</option>
+            <option value="Neurologist">Neurologist</option>
+            <option value="Gynaecologist">Gynaecologist</option>
+            <option value="Orthopedic">Orthopedic</option>
+            <option value="General Physician">General Physician</option>
+          </select>
 
-        </section>
-        </main>
-      <footer>
-        <section>
-            <div class="foot_contain">
-                <div class="foot">
-                <img src="images/logo.png" alt="" height="150px" width="180px">
-                <p style="text-align: justify;">QuickAid provides fast, reliable, and user-friendly access to emergency <br>health services.  Whether it's locating medicine,  finding a doctor,<br> or alerting responders   we’re here when every second counts.</p>
-                <ul class="info">
-                    <li><a href=""><i class="bi bi-envelope-at"></i>  QuicAid@gmail.com</a></li>
-                    <li><a href=""><i class="bi bi-twitter"></i> Tweet Us</a></li>
-                    <li>
-                        <a href=""><i class="bi bi-linkedin"></i>  Visit Our Linkedin Profile</a>
-                    </li>
-                </ul>
-                <div class="icon">
-                    <i class="bi bi-envelope-at"></i> 
-                    <i class="bi bi-twitter"></i>
-                    <i class="bi bi-linkedin"></i>
-                    <i class="bi bi-facebook"></i>
-                    <i class="bi bi-geo"></i>
-                    <i class="bi bi-browser-chrome"></i>
+          <select class="filter-find_doctor_page">
+            <option selected disabled>Select Gender</option>
+            <option value="All">All</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
 
-                </div>
-            </div>
-            
-            <div class="formm">
-                 <h3 class="merriweather"> Something bothering you?</h3>
-                <p>Submit your complaint below and we’ll get back to you shortly.</p>
-                <form >
-                    <textarea name="complaint" placeholder="Write your complaint here..." rows="5" required></textarea>
-                <button class="send">Send</button>
-                </form>
-                
-            </div>
-            
-            </div>
-            <div class="copyright">
-                <p>Copyright  &copy; 2025 QuicAid. All rights reserved.</p>
-            </div>
-        </section>
+          <select class="filter-find_doctor_page">
+            <option selected disabled>Select City</option>
+            <option value="All">All</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="Chattogram">Chattogram</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Rajshahi">Rajshahi</option>
+            <option value="Sylhet">Sylhet</option>
+            <option value="Barishal">Barishal</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="doctor-result"></div>
+
+      <button id="seeMoreBtn" class="seeMore-button" style="display: none">
+        See More
+      </button>
+    </main>
+
+    <footer>
+      <p style="color: white">
+        Copyright &copy; 2025 QuicAid. All rights reserved.
+      </p>
     </footer>
-    <script src="script.js"></script>
-</body>
+
+    <script>
+      let doctorsData = [];
+      let limit = 8; // show first 12 doctors
+      let currentIndex = 0;
+
+      // Load JSON
+      fetch("data/doctors_data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          doctorsData = data;
+          displayDoctors(); // show first 12 only
+        })
+        .catch((err) => console.log(err));
+
+      // Display function
+      function displayDoctors(list = doctorsData) {
+        let container = document.querySelector(".doctor-result");
+        container.innerHTML = "";
+
+        let toShow = list.slice(0, currentIndex + limit);
+
+        toShow.forEach((doc) => {
+          container.innerHTML += `
+      <div class="doctor-card-findpage">
+        <img src="${doc.image || "images/default-doctor.png"}">
+        <h3>${doc.name}</h3>
+        <p><b>${doc.specialist}</b></p>
+        <p><b>Degree:</b> ${doc.education}</p>
+        <p><b>Rating:</b> ⭐ ${doc.rating}/5</p>
+        <button onclick="viewDetails(${
+          doc.id
+        })" style="background: #49465b;">View Details</button>
+      </div>
+    `;
+        });
+
+        toggleSeeMore(list.length, toShow.length);
+      }
+
+      // Show/Hide button
+      function toggleSeeMore(total, shown) {
+        let btn = document.getElementById("seeMoreBtn");
+        if (shown < total) {
+          btn.style.display = "block";
+        } else {
+          btn.style.display = "none";
+        }
+      }
+
+      // See More Click Event
+      document.getElementById("seeMoreBtn").addEventListener("click", () => {
+        currentIndex += limit;
+        displayDoctors(filteredList.length ? filteredList : doctorsData);
+      });
+
+      /* ---------- FILTER ---------- */
+      let filteredList = [];
+
+      function applyFilter() {
+        let name = document
+          .querySelector(".search-input-find_doctor_page")
+          .value.toLowerCase();
+        let speciality = document
+          .querySelectorAll(".filter-find_doctor_page")[0]
+          .value.toLowerCase();
+        let gender = document
+          .querySelectorAll(".filter-find_doctor_page")[1]
+          .value.toLowerCase();
+        let city = document
+          .querySelectorAll(".filter-find_doctor_page")[2]
+          .value.toLowerCase();
+
+        filteredList = doctorsData.filter((doc) => {
+          return (
+            (name == "" || doc.name.toLowerCase().includes(name)) &&
+            (speciality == "all" ||
+              speciality == "select speciality" ||
+              doc.specialist.toLowerCase() == speciality) &&
+            (gender == "all" ||
+              gender == "select gender" ||
+              doc.gender.toLowerCase() == gender) &&
+            (city == "all" ||
+              city == "select city" ||
+              doc.city.toLowerCase() == city)
+          );
+        });
+
+        currentIndex = 0;
+        displayDoctors(filteredList);
+      }
+
+      // event listeners
+      document
+        .querySelector(".search-btn-find_doctor_page")
+        .addEventListener("click", applyFilter);
+      document
+        .querySelector(".search-input-find_doctor_page")
+        .addEventListener("input", applyFilter);
+      document
+        .querySelectorAll(".filter-find_doctor_page")
+        .forEach((select) => {
+          select.addEventListener("change", applyFilter);
+        });
+
+      function viewDetails(id) {
+        window.location.href = `doctor_details.html?id=${id}`;
+      }
+    </script>
+  </body>
 </html>

@@ -1,151 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doctors - QuickAid</title>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 <style>
-body {
-    font-family: 'Merriweather', serif;
-    background:#eaf0f3;
-    margin:0; padding:0;
-}
-header {
-   position: sticky;
-  top: 0;
-  z-index: 9999;
-  
-    background:#49465b; 
-    color:white; 
-    padding:1rem 2rem; 
-    display:flex; 
-    align-items:center; 
-    justify-content:space-between;
-}
-header h1 { font-size:1.5rem; margin:0; }
-.btn-back { background-color:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
-.btn-back:hover { background-color:#49465b; }
-main { max-width:900px; margin:2rem auto; }
-.doctor-card { 
-    background:white; 
-    padding:1rem; 
-    border-radius:10px; 
-    display:flex; 
-    gap:1rem; 
-    align-items:center; 
-    cursor:pointer; 
-    box-shadow:0 2px 6px rgba(0,0,0,0.15); 
-    transition: transform 0.2s; 
-}
-.doctor-card:hover { transform: scale(1.03); }
-.doctor-card img { width:100px; height:100px; border-radius:50%; object-fit:cover; }
-.doctor-info { flex:1; }
-.doctor-info h2 { font-weight:600; margin-bottom:0.5rem; }
-.doctor-info div { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem; font-size:14px; }
-.stars { display:flex; gap:2px; }
-.stars img { width:18px; height:18px; }
-button.details-btn { 
-    background:#49465b; 
-    color:white; 
-    border:none; 
-    padding:0.4rem 0.8rem; 
-    border-radius:5px; 
-    cursor:pointer; 
-}
-button.details-btn:hover { background:#6c6a81; }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+      .seeMore-button {
+        display: block;
+        margin: 25px auto;
+        padding: 12px 24px;
+        font-size: 1rem;
+        background: #49465b;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .seeMore-button:hover {
+        transform: scale(1.05);
+        background: #3b3850;
+        color: white;
+      }
+      .header-page {
+      background: #49465b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .8rem;
+    }
+    .header-page button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+     .all-doctor-container {
+      max-width: 70%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .doctor-card{
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .doctor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .doctor-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+    }
+
+    .doctor-info img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #49465b;
+    }
+
+    .doctor-info div {
+      flex: 1;
+    }
+
+    .btn-view {
+      background: #49465b;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-view:hover {
+      background: #68657b;
+      transform: scale(1.05);
+    }
+
+    .see-more-container {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .empty-box {
+      background: #fff;
+      text-align: center;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    #loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 1.2rem;
+      color: #49465b;
+    }
+
+      footer {
+        background: #49465b;
+        color: white;
+        text-align: center;
+        padding: 1.2rem 2rem;
+        margin-top: 3rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+      }
+
 </style>
+    <title>QuickAid</title>
 </head>
-<body>
 
-<header>
-  <button class="btn-back" onclick="goBack()">← Back</button>
-  <h1>Doctors List</h1>
-  <div></div>
-</header>
 
-<main>
-  <div class="flex flex-col gap-4" id="doctorList">
-
-    <div class="doctor-card">
-      <img src="images/specialist.jpeg" alt="Doctor">
-      <div class="doctor-info">
-        <h2>Dr. Akbar Ali</h2>
-        <div><i class="bi bi-briefcase"></i> Anesthesiology</div>
-        <div><i class="bi bi-mortarboard"></i> Ph.D, DPT, MS OMPT</div>
-        <div class="stars">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
+  <body class="open-sans">
+    <header>
+      <div class="hold">
+        <div class="estrip">
+          <div class="scroll">
+            <i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call
+            Anytime!
+          </div>
+        </div>
+        <div class="emergencyData">
+          <ul>
+            <li>
+              <a href=""><i class="bi bi-facebook"></i></a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-envelope"></i> </a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-google"></i></a>
+            </li>
+            <li>
+              <a href=""><i class="bi bi-geo-alt"></i></a>
+            </li>
+          </ul>
+          <a href="join.html"><button>+ Join Now</button></a>
         </div>
       </div>
-      <button class="details-btn" onclick="goToDetails('Akbar Ali')">See Details</button>
-    </div>
 
-    <div class="doctor-card">
-      <img src="images/specialist.jpeg" alt="Doctor">
-      <div class="doctor-info">
-        <h2>Dr. Shakil Ahmed</h2>
-        <div><i class="bi bi-briefcase"></i> Cardiology</div>
-        <div><i class="bi bi-mortarboard"></i> MD, Ph.D, FACC</div>
-        <div class="stars">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
+      <nav>
+        <div class="logo">
+          <img src="images/logo.png" alt="Logo" height="50px" width="auto" />
         </div>
-      </div>
-      <button class="details-btn" onclick="goToDetails('Shakil Ahmed')">See Details</button>
-    </div>
 
-    <div class="doctor-card">
-      <img src="images/specialist.jpeg" alt="Doctor">
-      <div class="doctor-info">
-        <h2>Dr. S. Karim</h2>
-        <div><i class="bi bi-briefcase"></i> Neurology</div>
-        <div><i class="bi bi-mortarboard"></i> MD, Ph.D</div>
-        <div class="stars">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-        </div>
-      </div>
-      <button class="details-btn" onclick="goToDetails('S. Karim')">See Details</button>
-    </div>
+        <ul class="ul" id="nav-links">
+          <li><a href="index.html">Home</a></li>
 
-    <div class="doctor-card">
-      <img src="images/specialist.jpeg" alt="Doctor">
-      <div class="doctor-info">
-        <h2>Dr. L. Ahmed</h2>
-        <div><i class="bi bi-briefcase"></i> Pediatrics</div>
-        <div><i class="bi bi-mortarboard"></i> MBBS, FCPS</div>
-        <div class="stars">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-          <img src="images/icon-star.png" alt="">
-        </div>
-      </div>
-      <button class="details-btn" onclick="goToDetails('L. Ahmed')">See Details</button>
-    </div>
+          <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+              <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
 
+          <li class="drpdwn">
+            <a href="">Hospital</a>
+            <div class="dropdown-content">
+              <a href="find_hospital.html">Find Hospital</a>
+              <a href="nearby_hospitals.html">Check around me</a>
+              <a href="hospital_list.html">Hospital List</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Medicine Availability</a>
+            <div class="dropdown-content">
+              <a href="medical_store_list.html">Medical Store list</a>
+              <a href="medicine_nearby.html">Check Medicine Nearby</a>
+              <a href="medicine_details.html">Medicine Details</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Health Forum</a>
+            <div class="dropdown-content">
+              <a href="">Ask a Question</a>
+              <a href="">Browse Discussions</a>
+            </div>
+          </li>
+
+          <li class="drpdwn">
+            <a href="">Health Support Services</a>
+            <div class="dropdown-content">
+              <a href="">Latest Health News</a>
+              <a href="">Emergency Action Guide</a>
+              <a href="">Care and Tips For Special Groups</a>
+              <a href="">Our Commitment & Care Promise</a>
+              <a href="">Get in Touch</a>
+            </div>
+          </li>
+
+          <li>
+            <button class="emergency-button">
+              <i class="bi bi-car-front-fill"></i> Emergency
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+
+  <main>
+    <div class="header-page">
+    <button onclick="history.back()">← Back</button>
+    <h1>Top Rated Specialist</h1>
+    <div></div>
   </div>
-</main>
 
-<footer style="text-align:center; padding:1rem; background:#49465b; color:white;">
-  &copy; 2025 QuickAid. All rights reserved.
-</footer>
+  <div class="all-doctor-container">
+    <div id="loading">Fetching doctors...</div>
+    <div id="doctorsBox"></div>
+    <div class="see-more-container">
+      <button id="seeMoreBtn" class="btn-view">See More</button>
+    </div>
+  </div>
+  </main>
 
-<script>
-function goBack(){ window.history.back(); }
-function goToDetails(name){
-    window.location.href = `doctor.html?name=${encodeURIComponent(name)}`;
-}
-</script>
+  <footer>
+      <p style="color: white">
+        Copyright &copy; 2025 QuicAid. All rights reserved.
+      </p>
+  </footer>
 
+  <script>
+    const doctorsPath = "data/doctors_data.json";
+    let allDoctors = [];
+    let visibleCount = 8;
+
+    function showDoctors() {
+      const box = document.getElementById("doctorsBox");
+      const loading = document.getElementById("loading");
+      loading.style.display = "none";
+
+      if (!allDoctors.length) {
+        box.innerHTML = `<div class="empty-box">
+          <h2>No doctors available</h2>
+        </div>`;
+        return;
+      }
+
+      let html = "";
+      for (let i = 0; i < Math.min(visibleCount, allDoctors.length); i++) {
+        const d = allDoctors[i];
+        html += `
+          <div class="doctor-card">
+            <div class="doctor-info">
+              <img src="${d.image || 'https://via.placeholder.com/100'}" alt="${d.name}" />
+              <div>
+                <h3>${d.name}</h3>
+                <p><b>Specialist:</b> ${d.specialist}</p>
+                <p><b>Degree:</b> ${d.education}</p>
+                <p><b>Rating:</b> ⭐ ${d.rating}/5</p>
+              </div>
+            </div>
+            <button class="btn-view" onclick="goToDoctor(${d.id})">View Details</button>
+          </div>
+        `;
+      }
+      box.innerHTML = html;
+
+      // hide See More button if all are visible
+      document.getElementById("seeMoreBtn").style.display = visibleCount >= allDoctors.length ? "none" : "inline-block";
+    }
+
+    function goToDoctor(id) {
+      window.location.href = `doctor_details.html?id=${id}`;
+    }
+
+    document.getElementById("seeMoreBtn").addEventListener("click", () => {
+      visibleCount = allDoctors.length;
+      showDoctors();
+    });
+
+    function fetchDoctors() {
+      fetch(doctorsPath)
+        .then(res => res.json())
+        .then(doctors => {
+          allDoctors = doctors.sort((a,b) => b.rating - a.rating);
+          showDoctors();
+        })
+        .catch(e => {
+          console.error("Error loading doctors:", e);
+          document.getElementById("doctorsBox").innerHTML = `<p style="color:#b12424">Failed to load doctors.</p>`;
+          document.getElementById("loading").style.display = "none";
+        });
+    }
+
+    fetchDoctors();
+  </script>
 </body>
 </html>

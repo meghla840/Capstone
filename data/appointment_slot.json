@@ -1,0 +1,96 @@
+[
+  {
+    "doctorId": 1,
+    "hospital": "United Hospital Limited",
+    "slots": {
+      "Monday": ["10:00 AM - 11:00 AM", "1:00 PM - 2:00 PM"],
+      "Wednesday": ["11:00 AM - 12:00 PM", "2:00 PM - 3:00 PM"]
+    }
+  },
+  {
+    "doctorId": 1,
+    "hospital": "Apollo Hospitals Dhaka",
+    "slots": {
+      "Tuesday": ["9:00 AM - 10:00 AM", "12:00 PM - 1:00 PM"],
+      "Thursday": ["3:00 PM - 4:00 PM"]
+    }
+  },
+  {
+    "doctorId": 2,
+    "hospital": "Apollo Hospitals Dhaka",
+    "slots": {
+      "Monday": ["10:00 AM - 11:00 AM", "2:00 PM - 3:00 PM"],
+      "Friday": ["9:00 AM - 10:00 AM", "1:00 PM - 2:00 PM"]
+    }
+  },
+  {
+    "doctorId": 3,
+    "hospital": "Square Hospitals Dhaka",
+    "slots": {
+      "Tuesday": ["11:00 AM - 12:00 PM", "1:00 PM - 2:00 PM"],
+      "Thursday": ["2:00 PM - 3:00 PM", "4:00 PM - 5:00 PM"]
+    }
+  },
+  {
+    "doctorId": 4,
+    "hospital": "Labaid Specialized Hospital",
+    "slots": {
+      "Monday": ["9:00 AM - 10:00 AM"],
+      "Wednesday": ["10:00 AM - 11:00 AM"]
+    }
+  },
+  {
+    "doctorId": 4,
+    "hospital": "Square Hospitals Dhaka",
+    "slots": {
+      "Friday": ["1:00 PM - 2:00 PM", "3:00 PM - 4:00 PM"]
+    }
+  },
+  {
+    "doctorId": 5,
+    "hospital": "Square Hospitals Dhaka",
+    "slots": {
+      "Tuesday": ["9:00 AM - 10:00 AM", "11:00 AM - 12:00 PM"],
+      "Thursday": ["1:00 PM - 2:00 PM", "3:00 PM - 4:00 PM"]
+    }
+  },
+  {
+    "doctorId": 5,
+    "hospital": "Ibn Sina Hospital",
+    "slots": {
+      "Wednesday": ["10:00 AM - 11:00 AM", "2:00 PM - 3:00 PM"]
+    }
+  },
+  {
+    "doctorId": 6,
+    "hospital": "Barishal Hospital",
+    "slots": {
+      "Monday": ["10:00 AM - 11:00 AM"],
+      "Friday": ["2:00 PM - 3:00 PM"]
+    }
+  },
+  {
+    "doctorId": 7,
+    "hospital": "Rajshahi Hospital",
+    "slots": {
+      "Sunday": ["11:00 PM - 12:00 PM"],
+      "Thursday": ["1:00 PM - 2:00 PM"]
+    }
+  },
+  {
+    "doctorId": 8,
+    "hospital": "Barishal Hospital",
+    "slots": {
+      "Wednesday": ["9:00 AM - 10:00 AM", "1:00 PM - 2:00 PM"],
+      "Saturday": ["10:00 AM - 11:00 AM"]
+    }
+  },
+  {
+    "doctorId": 9,
+    "hospital": "Barishal Hospital",
+    "slots": {
+      "Monday": ["9:00 AM - 10:00 AM", "11:00 AM - 12:00 PM"],
+      "Thursday": ["2:00 PM - 3:00 PM"]
+    }
+  }
+]

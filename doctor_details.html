@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <title>QuickAid</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body{
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+      :root {
+        --accent: #49465b;
+        --accent-dark: #68657b;
+      }
+      body {
+        font-family: "Merriweather", serif;
+        background: #eaf0f3;
+        margin: 0;
+        padding-bottom: 20px;
+        color: #222;
+      }
+      .header_page {
+        background: var(--accent);
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .header_page h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+      .header_page button {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.05rem;
+        cursor: pointer;
+      }
+
+      .container {
+        max-width: 820px;
+        margin: 26px auto;
+        background: #fff;
+        padding: 28px;
+        border-radius: 12px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+      }
+      .profile-box {
+        display: flex;
+        gap: 26px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .profile-box img {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 4px solid var(--accent);
+      }
+      .info h1 {
+        margin: 0 0 6px 0;
+        font-size: 1.5rem;
+        color: #222;
+      }
+      .info p {
+        margin: 6px 0;
+        color: #333;
+      }
+
+      .section-title {
+        font-size: 1.15rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .btn-book {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 1.05rem;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 18px;
+      }
+      .btn-book:hover {
+        background: var(--accent-dark);
+      }
+/* cross */
+      .close-modal {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #444;
+  transition: 0.2s;
+}
+
+.close-modal:hover {
+  color: #111;
+}
+
+      /* modal inputs */
+      .modal-box input,
+      .modal-box select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+      .inline-warning {
+        color: #b12424;
+        font-size: 0.95rem;
+        margin: 8px 0;
+        display: none;
+        background: #fff3f3;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #f1caca;
+      }
+      footer {
+        background: #49465b;
+        color: white;
+        text-align: center;
+        padding: 1.2rem 2rem;
+        font-size: 0.95rem; 
+        letter-spacing: 0.5px;
+      }
+      /* small responsive tweaks */
+      @media (max-width: 740px) {
+        .profile-box {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        .profile-box img {
+          width: 160px;
+          height: 160px;
+        }
+        .container {
+          margin: 14px;
+          padding: 18px;
+        }
+        
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+    <div class="hold">
+        <div class="estrip">
+            <div class="scroll">
+                <i class="bi bi-telephone"></i>Emergency Number: +880125460586 - Call Anytime!
+            </div>
+        </div>
+        <div class="emergencyData">
+            <ul style="display:flex; gap:5px; list-style:none; margin:0; padding:0;">
+                <li><a href=""><i class="bi bi-facebook"></i></a></li>
+                <li><a href=""><i class="bi bi-envelope"></i></a></li>
+                <li><a href=""><i class="bi bi-google"></i></a></li>
+                <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
+            </ul>
+            <span id="userSection">
+                <a href="join.html"><button> + Join Now</button></a>
+            </span>
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo" height="50px" width="auto">
+        </div>
+
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+
+        <ul class="ul" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+
+            <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+                <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
+
+            <li class="drpdwn"><a href="">Hospital</a>
+                <div class="dropdown-content">
+                    <a href="find_hospital.html">Find Hospital</a>
+                    <a href="nearby_hospitals.html">Check around me</a>
+                    <a href="hospital_list.html">Hospital List</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Medicine Availability</a>
+                <div class="dropdown-content">
+                    <a href="medical_store_list.html">Medical Store list</a>
+                    <a href="medicine_nearby.html">Check Medicine Nearby</a>
+                    <a href="medicine_details.html">Medicine Details</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Health Forum</a>
+                <div class="dropdown-content">
+                    <a href="">Ask a Question</a>
+                    <a href="">Browse Discussions</a>
+                </div>
+            </li>
+
+            <li class="drpdwn"><a href="">Health Support Services</a>
+                <div class="dropdown-content">
+                    <a href="latest_health_news.html">Latest Health News</a>
+                    <a href="emergency_action_guide.html">Emergency Action Guide</a>
+                    <a href="care_tips_special_groups.html">Care and Tips For Special Groups</a>
+                    <a href="commitment_care_promise.html">Our Commitment & Care Promise</a>
+                    <a href="get_in_touch.html">Get in Touch</a>
+                </div>
+            </li>
+
+            <!-- Nav Emergency Button -->
+            <li>
+                <button id="navbarEmergencyBtn" class="emergency-button">
+                    <i class="bi bi-car-front-fill"></i> Emergency
+                </button>
+            </li>
+
+        </ul>
+
+        <!-- Emergency Modal -->
+        <div id="emergencyModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+            <div style="background:#fff; padding:25px 30px; border-radius:12px; text-align:center; max-width:400px; width:90%; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+                <h2 style="margin-bottom:15px;">Emergency Call</h2>
+                <p>Do you want to call the emergency number <strong>+880125460586</strong> to arrange an ambulance?</p>
+                <div style="margin-top:20px; display:flex; justify-content:space-around;">
+                    <button id="confirmCall" style="padding:10px 20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; background-color:#28a745; color:white;">Yes</button>
+                    <button id="cancelCall" style="padding:10px 20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; background-color:#dc3545; color:white;">No</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+    
+
+    <main>
+      <div class="header_page">
+      <button onclick="history.back()">← Back</button>
+      <h2>Doctor Details</h2>
+      <div></div>
+    </div>
+      <div class="container" id="doctor-details-box">
+      <!-- Filled dynamically -->
+    </div>
+
+    <!-- Booking Modal -->
+    <dialog id="bookModal" class="modal">
+      <form
+        id="appointment-form"
+        class="modal-box"
+        method="dialog"
+        style="width: 700px; max-width: 95%; padding: 40px"
+      >
+      <button type="button" class="close-modal" onclick="document.getElementById('bookModal').close()">
+    &times;
+</button>
+
+        <h1
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+          "
+        >
+          Book Appointment
+        </h1>
+
+        <p
+          id="confirmMessage"
+          style="
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+          "
+        ></p>
+        <label style="font-weight: 600; font-size: 0.95rem">Patient name</label>
+        <input id="patientName" required placeholder="Your name" />
+
+        <label style="font-weight: 600; font-size: 0.95rem">Hospital</label>
+        <select id="hospitalSelect" required>
+          <option value="">Choose hospital</option>
+        </select>
+
+        <label style="font-weight: 600; font-size: 0.95rem">Choose date</label>
+        <input id="dateSelect" type="date" required />
+
+        <p id="dayWarning" class="inline-warning" aria-live="polite"></p>
+
+        <label style="font-weight: 600; font-size: 0.95rem">Time slot</label>
+        <select id="timeSelect" required>
+          <option value="">Choose slot</option>
+        </select>
+
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 12px;
+          "
+        >
+          <button
+            type="button"
+            class="btn"
+            onclick="document.getElementById('bookModal').close()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn"
+            style="background: var(--accent); color: #fff; border-radius: 8px"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    </main>
+     <footer>
+      <p style="color: white">
+        Copyright &copy; 2025 QuicAid. All rights reserved.
+      </p>
+  </footer>
+
+    <script>
+      // ---------- config & state ----------
+      const doctorId = new URLSearchParams(window.location.search).get("id");
+      let doctorData = null;
+      let appointmentData = []; // array loaded from appointment_slot.json
+      const doctorsPath = "data/doctors_data.json";
+      const slotsPath = "data/appointment_slot.json";
+
+      // ---------- helpers ----------
+      function toWeekday(dateString) {
+        const d = new Date(dateString + "T00:00:00");
+        return d.toLocaleDateString("en-US", { weekday: "long" });
+      }
+
+      function parseTimeToDate(timeStr) {
+        // '10:00 AM' -> Date on dummy day
+        const [time, ampm] = timeStr.split(" ");
+        let [hh, mm] = time.split(":").map(Number);
+        if (ampm && ampm.toUpperCase().includes("PM") && hh !== 12) hh += 12;
+        if (ampm && ampm.toUpperCase().includes("AM") && hh === 12) hh = 0;
+        return new Date(2000, 0, 1, hh, mm || 0, 0);
+      }
+
+      function generate15MinSlotsFromRange(rangeStr) {
+        const parts = rangeStr.split(" - ");
+        if (parts.length < 2) return [];
+        const start = parseTimeToDate(parts[0].trim());
+        const end = parseTimeToDate(parts[1].trim());
+        const slots = [];
+        let cur = new Date(start);
+        while (cur < end) {
+          const opts = { hour: "numeric", minute: "2-digit", hour12: true };
+          slots.push(cur.toLocaleTimeString("en-US", opts));
+          cur = new Date(cur.getTime() + 15 * 60000);
+        }
+        return slots;
+      }
+
+      function buildSlotsForDay(ranges) {
+        const all = [];
+        ranges.forEach((range) => {
+          generate15MinSlotsFromRange(range).forEach((t) => {
+            if (!all.includes(t)) all.push(t);
+          });
+        });
+        all.sort((a, b) => parseTimeToDate(a) - parseTimeToDate(b));
+        return all;
+      }
+
+      // ---------- fetch data & render ----------
+      Promise.all([
+        fetch(doctorsPath).then((r) => r.json()),
+        fetch(slotsPath).then((r) => r.json()),
+      ])
+        .then(([doctors, slots]) => {
+          doctorData = doctors.find((d) => String(d.id) === String(doctorId));
+          appointmentData = slots;
+          renderDoctor();
+        })
+        .catch((e) => {
+          console.error("Error loading data:", e);
+          document.getElementById("doctor-details-box").innerHTML =
+            "<p style='color:#b12424'>Failed to load data.</p>";
+        });
+
+      function renderDoctor() {
+        const box = document.getElementById("doctor-details-box");
+        if (!doctorData) {
+          box.innerHTML = "<h3>Doctor not found</h3>";
+          return;
+        }
+
+        // Filter appointment slots for this doctor
+        const docSlots = appointmentData.filter(
+          (a) => String(a.doctorId) === String(doctorId)
+        );
+
+        // Build Hospitals / Chambers section
+        let hospitalAvailabilityHTML = "";
+
+        (doctorData.hospital || []).forEach((hospitalName) => {
+          // find appointment object (case-insensitive)
+          const hospitalObj =
+            docSlots.find(
+              (a) => a.hospital.trim().toLowerCase() === hospitalName.trim().toLowerCase()
+            ) || null;
+
+          hospitalAvailabilityHTML += `<p style="margin:15px 20px;"><b>${hospitalName} -</b><br>`;
+
+          if (hospitalObj && hospitalObj.slots) {
+            Object.entries(hospitalObj.slots).forEach(([day, times], idx) => {
+              const prefix =
+                idx === 0
+                  ? "&nbsp;&nbsp;"
+                  : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+              hospitalAvailabilityHTML += `${prefix}${day} [${times.join(", ")}]<br>`;
+            });
+          } else {
+            hospitalAvailabilityHTML += "&nbsp;&nbsp;No slot info available<br>";
+          }
+
+          hospitalAvailabilityHTML += "</p>";
+        });
+
+        box.innerHTML = `
+      <div class="profile-box">
+        <img src="${doctorData.image}" alt="${doctorData.name}" />
+        <div class="info">
+          <h1>${doctorData.name}</h1>
+          <p><b>Specialist:</b> ${doctorData.specialist}</p>
+          <p><b>Gender:</b> ${doctorData.gender}</p>
+          <p><b>City:</b> ${doctorData.city}</p>
+          <p><b>Rating:</b> ⭐ ${doctorData.rating}/5</p>
+        </div>
+      </div>
+
+      <h3 class="section-title">Education</h3>
+      <ul><li>${doctorData.education}</li></ul>
+
+      <h3 class="section-title">Hospitals / Chambers & Availability</h3>
+      ${hospitalAvailabilityHTML}
+
+      <button class="btn-book" onclick="openBookingModal()">📅 Book Appointment</button>
+    `;
+      }
+
+      // ---------- booking modal logic ----------
+      function openBookingModal() {
+        const modal = document.getElementById("bookModal");
+        const hospitalSelect = document.getElementById("hospitalSelect");
+        const dateSelect = document.getElementById("dateSelect");
+        const timeSelect = document.getElementById("timeSelect");
+        const dayWarning = document.getElementById("dayWarning");
+
+        hospitalSelect.innerHTML = '<option value="">Choose hospital</option>';
+        dateSelect.value = "";
+        timeSelect.innerHTML = '<option value="">Choose slot</option>';
+        dayWarning.style.display = "none";
+        dayWarning.innerHTML = "";
+
+        // Disable past dates
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0"); // month is 0-indexed
+        const dd = String(today.getDate()).padStart(2, "0");
+        const minDate = `${yyyy}-${mm}-${dd}`;
+        dateSelect.setAttribute("min", minDate);
+
+        if (!doctorData) {
+          alert("Doctor data not loaded yet.");
+          return;
+        }
+
+        const docHospitalsFromSlots = appointmentData
+          .filter((a) => String(a.doctorId) === String(doctorId))
+          .map((a) => a.hospital);
+
+        const hospitals = Array.from(
+          new Set([...(doctorData.hospital || []), ...docHospitalsFromSlots])
+        );
+
+        hospitals.forEach((h) => {
+          const opt = document.createElement("option");
+          opt.value = h;
+          opt.textContent = h;
+          hospitalSelect.appendChild(opt);
+        });
+
+        // reset handlers
+        hospitalSelect.onchange = () => {
+          dateSelect.value = "";
+          timeSelect.innerHTML = '<option value="">Choose slot</option>';
+          dayWarning.style.display = "none";
+          dayWarning.innerHTML = "";
+        };
+
+        dateSelect.onchange = () => {
+          const selectedHospital = hospitalSelect.value;
+          const selectedDate = dateSelect.value;
+          timeSelect.innerHTML = '<option value="">Choose slot</option>';
+          dayWarning.style.display = "none";
+          dayWarning.innerHTML = "";
+
+          if (!selectedHospital) {
+            dayWarning.style.display = "block";
+            dayWarning.innerHTML = "Please select a hospital first.";
+            return;
+          }
+          if (!selectedDate) return;
+
+          const weekday = toWeekday(selectedDate);
+
+          // find hospital entry for this doctor (case-insensitive)
+          const hospitalObj = appointmentData.find(
+            (a) =>
+              String(a.doctorId) === String(doctorId) &&
+              a.hospital.trim().toLowerCase() === selectedHospital.trim().toLowerCase()
+          );
+
+          if (!hospitalObj || !hospitalObj.slots) {
+            dayWarning.style.display = "block";
+            dayWarning.innerHTML = `No schedule set for <b>${selectedHospital}</b>.`;
+            return;
+          }
+
+          const availableDays = Object.keys(hospitalObj.slots || {});
+          if (!availableDays.includes(weekday)) {
+            dayWarning.style.display = "block";
+            dayWarning.innerHTML = `Doctor is not available on <b>${weekday}</b> at <b>${selectedHospital}</b>.<br>✔ Available days: <b>${availableDays.join(
+              ", "
+            )}</b>`;
+            return;
+          }
+
+          const ranges = hospitalObj.slots[weekday] || [];
+
+          // KEY: per-date localStorage key
+          const localKey = `${doctorId}_${selectedHospital.replace(/\s+/g,'_')}_${selectedDate}`;
+
+          // Try to load saved slots for this exact date
+          let finalSlots = JSON.parse(localStorage.getItem(localKey));
+
+          // If no saved, generate and save
+          if (!finalSlots) {
+            finalSlots = buildSlotsForDay(ranges);
+            localStorage.setItem(localKey, JSON.stringify(finalSlots));
+          }
+
+          // If no slots after generation
+          if (!finalSlots || finalSlots.length === 0) {
+            dayWarning.style.display = "block";
+            dayWarning.innerHTML = `No time slots available for <b>${weekday}</b>.`;
+            return;
+          }
+
+          // Populate select with finalSlots (already excludes previously booked slots because saved)
+          finalSlots.forEach((slot) => {
+            const o = document.createElement("option");
+            o.value = slot;
+            o.textContent = slot;
+            timeSelect.appendChild(o);
+          });
+        };
+
+        modal.showModal();
+      }
+
+      document
+        .getElementById("appointment-form")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (!doctorData) return alert("Doctor not loaded.");
+
+          const form = document.getElementById("appointment-form");
+          const confirmMessage = document.getElementById("confirmMessage");
+          const dayWarning = document.getElementById("dayWarning"); // reuse existing warning
+          const timeSelect = document.getElementById("timeSelect");
+          const dateSelect = document.getElementById("dateSelect");
+          const hospitalSelect = document.getElementById("hospitalSelect");
+          const submitButton = form.querySelector('button[type="submit"]');
+
+          const patient = document.getElementById("patientName").value.trim();
+          const hospital = hospitalSelect.value;
+          const date = dateSelect.value;
+          const slot = timeSelect.value;
+
+          if (!patient || !hospital || !date || !slot)
+            return alert("Please complete all fields.");
+
+          // Save appointment in localStorage (your existing behavior)
+          const newAppointment = {
+            doctorId: String(doctorId),
+            doctorName: doctorData.name,
+            patient: patient,
+            hospital: hospital,
+            date: date,
+            weekday: toWeekday(date),
+            time: slot,
+          };
+
+          let savedAppointments =
+            JSON.parse(localStorage.getItem("appointments")) || [];
+          savedAppointments.push(newAppointment);
+          localStorage.setItem("appointments", JSON.stringify(savedAppointments));
+
+          // Remove booked slot from appointmentData (in-memory) for consistency
+          const hospitalObj = appointmentData.find(
+            (a) =>
+              String(a.doctorId) === String(doctorId) &&
+              a.hospital.trim().toLowerCase() === hospital.trim().toLowerCase()
+          );
+
+          if (hospitalObj && hospitalObj.slots && hospitalObj.slots[toWeekday(date)]) {
+            const daySlots = hospitalObj.slots[toWeekday(date)];
+            const idx = daySlots.indexOf(slot);
+            if (idx > -1) daySlots.splice(idx, 1);
+          }
+
+          // ALSO remove the booked slot from per-date saved slots in localStorage
+          const key = `${doctorId}_${hospital.replace(/\s+/g,'_')}_${date}`;
+          let savedSlots = JSON.parse(localStorage.getItem(key)) || [];
+          savedSlots = savedSlots.filter((s) => s !== slot);
+          localStorage.setItem(key, JSON.stringify(savedSlots));
+
+          // ALSO remove option from the timeSelect DOM so user won't see it again immediately
+          const optionToRemove = Array.from(timeSelect.options).find(
+            (o) => o.value === slot
+          );
+          if (optionToRemove) optionToRemove.remove();
+
+          // If no slots left for that day, show warning and disable time select + submit
+          const slotsLeft = savedSlots.length;
+          if (slotsLeft === 0) {
+            dayWarning.style.display = "block";
+            dayWarning.innerHTML = `No more slots left for ${toWeekday(date)} at ${hospital}.`;
+            timeSelect.disabled = true;
+            if (submitButton) submitButton.disabled = true;
+          }
+
+          // Hide all form inputs temporarily
+          Array.from(form.elements).forEach((el) => {
+            if (el.id !== "confirmMessage") el.style.display = "none";
+          });
+
+          // Show confirmation message
+          confirmMessage.style.display = "block";
+          confirmMessage.innerHTML = `✅ Appointment Confirmed!<br>
+Doctor: ${doctorData.name}<br>
+Hospital: ${hospital}<br>
+Date: ${date} (${toWeekday(date)})<br>
+Time: ${slot}<br>
+Patient: ${patient}`;
+
+          // Auto-close modal
+          setTimeout(() => {
+            confirmMessage.style.display = "none";
+            form.reset();
+
+            // restore UI for next booking
+            Array.from(form.elements).forEach((el) => (el.style.display = ""));
+
+            // re-enable selects/button (in case they were disabled)
+            timeSelect.disabled = false;
+            if (submitButton) submitButton.disabled = false;
+            dayWarning.style.display = "none";
+            dayWarning.innerHTML = "";
+
+            document.getElementById("bookModal").close();
+          }, 3000);
+        });
+    </script>
+  </body>
+</html>

@@ -10,6 +10,81 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
     <title>QuickAid</title>
+    <style>
+
+#top-rated-Specialists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.rated-doctor-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.rated-doctor-card:hover {
+  transform: scale(1.03);
+}
+
+.rated-doctor-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.rated-doctor-info {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.rated-doctor-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.rated-doctor-rating {
+  color: #f1c40f;
+  font-size: 16px;
+}
+.btn-view {
+      background: #49465b;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-view:hover {
+      background: #68657b;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .search-btn-find_doctor_page{
+background-color: #49465b;
+  color: #fff;
+    font-size:18px;
+    width:10%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.hero .buttons a {
+    text-decoration: none;   
+    color: white;           
+    display: inline-block;  
+}
+    </style>
 </head>
 <body class="open-sans">
     <header>
@@ -40,15 +115,19 @@
         <div class="menu-toggle" id="menu-toggle">☰</div>
 
         <ul class="ul" id="nav-links">
-            <li><a href="">Home</a></li>
+            <li><a href="index.html">Home</a></li>
 
-            <li class="drpdwn"><a href="">Doctors</a>
-                <div class="dropdown-content">
-                    <a href="findDoctor.html">Find Doctors</a>
-                    <a href="">Doctors Available in Location</a>
-                    <a href="DoctorList.html">Doctors List</a>
-                </div>
-            </li>
+            <li class="drpdwn">
+            <a href="">Doctors</a>
+            <div class="dropdown-content">
+              <a href="findDoctor.html">Find Doctors</a>
+              <a href="doctor_available_in_location.html"
+                >Doctors Available in Location</a
+              >
+              <a href="all_doctors.html">Doctors List</a>
+                <a href="demo_appointment list.html">appointment List</a>
+            </div>
+          </li>
 
             <li class="drpdwn"><a href="">Hospital</a>
                 <div class="dropdown-content">
@@ -85,7 +164,7 @@
 
             <!-- Nav Emergency Button -->
             <li>
-                <button id="navbarEmergencyBtn" style="padding:8px 12px; border-radius:6px; background:#8e4242; color:white; border:none; cursor:pointer;">
+                <button id="navbarEmergencyBtn" class="emergency-button">
                     <i class="bi bi-car-front-fill"></i> Emergency
                 </button>
             </li>
@@ -106,39 +185,34 @@
     </nav>
 </header>
     <main>
-        <section class="heo">
-            <div class="hero">
-                <div class="slide slide1">
-               <h2 class="number">01.
-               </h2>
-               <h1 class="merriweather">Emergency? <br><span>Get to Nearest Hospitam</span></h1>
-               <div class="buttons">
-                <button class="btn" id="locateHospitalBtn">Locate Hospital</button>
-                <button class="btn2" id="hospitalListBtn">Hospital List</button>
-               </div>
-            
-            </div>
-            <div class="slide slide2">
-                <h2 class="number">02.
-               </h2>
-                <h1 class="merriweather"><span>Stay Calm <br>   </span>and Call for Help</h1>
-                <div class="buttons">
-                <button class="btn" id="arrangeAmbulanceBtn">Arrange Ambulance</button>
-                <button class="btn2" id="callEmergencyBtn">Call Emergency</button>
-               </div>
-                 </div>
-            <div class="slide slide3">
-                <h2 class="number">03.
-               </h2>
-                <h1 class="merriweather"> Find Nearest <br><span> Medicine Facilities</span></h1>
-                <div class="buttons">
-                <button class="btn" id="medicineNearbyBtn">Get Medicine Nearby</button>
-                <button class="btn2" id="orderOnlineBtn">Order Online</button>
-               </div>
-            </div>
-            </div>
-            
-        </section>
+        <section class="hero">
+  <div class="slide active" style="background-image: url('../images/hospitallllll.jpg')">
+    <h2 class="number">01.</h2>
+    <h1>Emergency? <br><span>Get to Nearest Hospital</span></h1>
+    <div class="buttons">
+      <button class="btn"><a href="find_hospital.html">Locate Hospital</a></button>
+      <button class="btn2"><a href="hospital_list.html">Hospital List</a></button>
+    </div>
+  </div>
+  
+  <div class="slide" style="background-image: url('../images/Ambulaceeeeeeee.avif')">
+    <h2 class="number">02.</h2>
+    <h1><span>Stay Calm</span> and Call for Help</h1>
+    <div class="buttons">
+      <button class="btn"><a href="ambulance.html">Arrange Ambulance</a></button>
+      <button class="btn2">Call Emergency</button>
+    </div>
+  </div>
+  
+  <div class="slide" style="background-image: url('../images/pharmacyy.jpg')">
+    <h2 class="number">03.</h2>
+    <h1>Find Nearest <br><span>Medicine Facilities</span></h1>
+    <div class="buttons">
+      <button class="btn"><a href="medicine_nearby.html">Get Medicine Nearby</a></button>
+      <button class="btn2"><a href="medicine_details.html">Order Online</a></button>
+    </div>
+  </div>
+</section>
         <section class="Seacrh_Section">
             <div class="search">
                 <h2 class="merriweather">Start Your Search</h2>
@@ -211,122 +285,11 @@
             <p class="heighlightt">Meet our Professionals</p>
             <h1 class="merriweather"> Top Rated <span>Specialist</span></h1>
             <p>In times of emergency, trust matters most. <br> We connect you to highly rated specialists who are trained to respond fast and care with heart.</p>
-            <div class="specialists_container">
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-                <div class="doctor">
-                    <img src="images/specialist.jpeg" alt="">
-                <span>Anesthesiology</span>
-                <h3>Akbar Ali</h3>
-                <p>ph.D,DPT,MS OMPT</p>
-                <div class="stars">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                    <img src="images/icon-star.png" alt="">
-                </div>
-                <button>Show Details</button>
-                </div>
-            </div>
-            <div class="see"><button><a href="all_doctors.html">See All Doctors</a>
-                    </button></div>
+            <div id="top-rated-Specialists">
+               </div> 
+            <div class="see">
+             <a href="all_doctors.html" class="see-btn">See All Doctors</a>
+</div>
         </section>
         <section class="articles">
             <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
@@ -534,6 +497,50 @@ cancelBtn.addEventListener("click", () => {
 window.addEventListener("click", (e) => {
     if(e.target === modal) modal.style.display = "none";
 });
+
+fetch('data/doctors_data.json')
+  .then(response => response.json())
+  .then(data => {
+
+    const topDoctors = data
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 8);
+
+    const container = document.getElementById('top-rated-Specialists');
+
+    topDoctors.forEach(doctor => {
+      const card = `
+        <div class="rated-doctor-card">
+
+          <img src="${doctor.image}" alt="${doctor.name}" class="rated-doctor-img">
+
+          <div class="rated-doctor-info">
+            <h2 class="rated-doctor-name">${doctor.name}</h2>
+            <p class="rated-doctor-specialist">
+              <i class="fa-solid fa-stethoscope"></i> ${doctor.specialist}
+            </p>
+
+            <p><b>Degree:</b> ${doctor.education}</p>
+            <p class="rated-doctor-rating">⭐ ${doctor.rating}</p>
+
+            <button class="btn-view" onclick="goToDoctor(${doctor.id})">View Details</button>
+          </div>
+
+        </div>
+      `;
+
+      container.innerHTML += card;
+    });
+  })
+  .catch(err => console.error('Error loading data:', err));
+
+function goToDoctor(id) {
+    // Store current scroll position
+    localStorage.setItem("scrollPosition", window.scrollY);
+
+    // Go to doctor details page
+    window.location.href = `doctor_details.html?id=${id}`;
+}
 </script>
     <script src="scripts/script.js"></script>
 </body>
