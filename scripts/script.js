@@ -56,30 +56,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   // profile
-
-window.addEventListener("DOMContentLoaded", () => {
+ window.addEventListener("DOMContentLoaded", () => {
     const userSection = document.getElementById("userSection");
-    const savedUser = JSON.parse(localStorage.getItem("quickAidUser"));
+    const savedUser = JSON.parse(localStorage.getItem("quickAidUser") || "null");
 
     if (savedUser) {
         userSection.innerHTML = `
-            <div style="position:relative;">
-                <button id="profileBtn">
-                    <i class="bi bi-person-circle" style="font-size:22px;"></i>
-                </button>
-            </div>
+            <button id="profileBtn">
+                <i class="bi bi-person-circle" style="font-size:22px;"></i> 
+            </button>
         `;
-
-        const profileBtn = document.getElementById("profileBtn");
-        profileBtn.addEventListener("click", () => {
-            // Admin or normal user → direct profile.html
+        document.getElementById("profileBtn").addEventListener("click", () => {
             window.location.href = "profile.html";
         });
     } else {
-        // Kono user login nai → profile button show hobe na
-        userSection.innerHTML = "";
+        userSection.innerHTML = `
+            <button id="joinBtn">+ Join Now</button>
+        `;
+        document.getElementById("joinBtn").addEventListener("click", () => {
+            window.location.href = "join.html";
+        });
     }
 });
+
 
 
 // Emergency Modal functionality
