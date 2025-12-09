@@ -89,6 +89,147 @@
             color: white;
             display: inline-block;
         }
+      /* ARTICLES SECTION */
+        .articles {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .highlight-text {
+            font-weight: bold;
+            color: #68657b;
+        }
+
+        .subtext {
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .article_container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 1200px) {
+            .article_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article_container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .article_container .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .article_container .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .article_container .card .img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .article_container .card .img-container .main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article_container .card:hover .main-img {
+            transform: scale(1.05);
+        }
+
+        .article_container .card .content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .article_container .card .content .category {
+            font-size: 12px;
+            font-weight: 600;
+            color: #00b894;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .article_container .card .content .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .article_container .card .content .date {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .article_container .card .like {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .article_container .card .like i {
+            margin-right: 5px;
+        }
+
+        .see {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .read-btn {
+            background-color: #49465b;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .read-btn:hover {
+            background-color: #68657b;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #d6d5dc;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
     </style>
 </head>
 
@@ -198,260 +339,121 @@
        
        
        
-        <section class="articles" >
-            <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
-            <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
-            <p>Explore our latest articles covering current health concerns, expert advice, <br>
-                and wellness tips to help you stay informed and protected.</p>
-
-            <div class="article_container">
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/corona.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Corona</div>
-                        <div class="title">How COVID-19 variants affect elderly immunity</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> August 5, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 88</div>
-                        <div><i class="bi bi-chat"></i> 10</div>
-                    </div>
+    <section class="articles">
+        <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
+        <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
+        <p>Explore our latest articles covering current health concerns, expert advice, <br>
+            and wellness tips to help you stay informed and protected.</p>
+    
+        <div class="article_container">
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/corona.jpeg" alt="Health Image">
                 </div>
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/dengue.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Dengue</div>
-                        <div class="title">Dengue outbreak worsens during monsoon in Dhaka</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> July 29, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 188</div>
-                        <div><i class="bi bi-chat"></i> 90</div>
-                    </div>
+                <div class="content">
+                    <div class="category">Corona</div>
+                    <div class="title">How COVID-19 variants affect elderly immunity</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> August 5, 2025</div>
                 </div>
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/airpolution.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Air Pollution</div>
-                        <div class="title">Polluted air increases risk of stroke and lung diseases</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> July 20, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 88k+</div>
-                        <div><i class="bi bi-chat"></i> 1000+</div>
-                    </div>
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 88</div>
+                    <div><i class="bi bi-chat"></i> 10</div>
                 </div>
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/mental.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Mental Health</div>
-                        <div class="title">Rising anxiety among youth post-pandemic</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> August 1, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 98</div>
-                        <div><i class="bi bi-chat"></i> 100</div>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/monkeypox.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Monkeypox</div>
-                        <div class="title">Monkeypox alert issued in several districts</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> July 25, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 45</div>
-                        <div><i class="bi bi-chat"></i> 106</div>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="img-container">
-                        <img class="main-img" src="images/heatstroke.jpeg" alt="Health Image">
-
-                    </div>
-                    <div class="content">
-                        <div class="category">Heatstroke</div>
-                        <div class="title">Record heatwaves raise heatstroke cases globally</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> August 3, 2025</div>
-                    </div>
-                    <div class="like">
-                        <div><i class="bi bi-heart"></i> 98</div>
-                        <div><i class="bi bi-chat"></i> 65</div>
-                    </div>
-                </div>
-
             </div>
-            <div class="see"><button><a href="articles.html" class="read-btn">Explore All</a>
-                </button></div>
-        </section>
-
-        <section class="emrg">
-            <div class="emergency-box">
-
-
-                <div class="section">
-                    <img src="images/logo.png" width="150px" height="50px" alt="icon" class="icon">
-                    <div class="content">
-                        <span class="title">Emergency Call</span>
-                        <span class="value"> +880156815648</span>
-                    </div>
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/dengue.jpeg" alt="Health Image">
                 </div>
-                <div class="divider"></div>
-                <div class="section">
-                    <img src="https://img.icons8.com/color/48/email.png" alt="icon" class="icon">
-                    <div class="content">
-                        <span class="title">24/7 Email Support</span>
-                        <span class="value">QuidAid@domain.com</span>
-                    </div>
+                <div class="content">
+                    <div class="category">Dengue</div>
+                    <div class="title">Dengue outbreak worsens during monsoon in Dhaka</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> July 29, 2025</div>
                 </div>
-
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 188</div>
+                    <div><i class="bi bi-chat"></i> 90</div>
+                </div>
             </div>
-        </section>
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/airpolution.jpeg" alt="Health Image">
+                </div>
+                <div class="content">
+                    <div class="category">Air Pollution</div>
+                    <div class="title">Polluted air increases risk of stroke and lung diseases</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> July 20, 2025</div>
+                </div>
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 88k+</div>
+                    <div><i class="bi bi-chat"></i> 1000+</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/mental.jpeg" alt="Health Image">
+                </div>
+                <div class="content">
+                    <div class="category">Mental Health</div>
+                    <div class="title">Rising anxiety among youth post-pandemic</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> August 1, 2025</div>
+                </div>
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 98</div>
+                    <div><i class="bi bi-chat"></i> 100</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/monkeypox.jpeg" alt="Health Image">
+                </div>
+                <div class="content">
+                    <div class="category">Monkeypox</div>
+                    <div class="title">Monkeypox alert issued in several districts</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> July 25, 2025</div>
+                </div>
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 45</div>
+                    <div><i class="bi bi-chat"></i> 106</div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="img-container">
+                    <img class="main-img" src="images/heatstroke.jpeg" alt="Health Image">
+                </div>
+                <div class="content">
+                    <div class="category">Heatstroke</div>
+                    <div class="title">Record heatwaves raise heatstroke cases globally</div>
+                    <div class="date"><i class="bi bi-calendar-week"></i> August 3, 2025</div>
+                </div>
+                <div class="like">
+                    <div><i class="bi bi-heart"></i> 98</div>
+                    <div><i class="bi bi-chat"></i> 65</div>
+                </div>
+            </div>
+    
+        </div>
+    
+      
+    </section>
+
+
+      
 
     </main>
     <footer>
-        <section>
-            <div class="foot_contain">
-                <div class="foot">
-                    <img src="images/logo.png" alt="" height="150px" width="180px">
-                    <p style="text-align: justify;">QuickAid provides fast, reliable, and user-friendly access to
-                        emergency <br>health services. Whether it's locating medicine, finding a doctor,<br> or alerting
-                        responders we’re here when every second counts.</p>
-                    <ul class="info">
-                        <li><a href=""><i class="bi bi-envelope-at"></i> QuicAid@gmail.com</a></li>
-                        <li><a href=""><i class="bi bi-twitter"></i> Tweet Us</a></li>
-                        <li>
-                            <a href=""><i class="bi bi-linkedin"></i> Visit Our Linkedin Profile</a>
-                        </li>
-                    </ul>
-                    <div class="icon">
-                        <i class="bi bi-envelope-at"></i>
-                        <i class="bi bi-twitter"></i>
-                        <i class="bi bi-linkedin"></i>
-                        <i class="bi bi-facebook"></i>
-                        <i class="bi bi-geo"></i>
-                        <i class="bi bi-browser-chrome"></i>
-
-                    </div>
-                </div>
-
-                <div class="formm">
-                    <h3 class="merriweather"> Something bothering you?</h3>
-                    <p>Submit your complaint below and we’ll get back to you shortly.</p>
-                    <form>
-                        <textarea name="complaint" placeholder="Write your complaint here..." rows="5"
-                            required></textarea>
-                        <button class="send">Send</button>
-                    </form>
-
-                </div>
-
-            </div>
+      
             <div class="copyright">
                 <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
             </div>
-        </section>
+       
     </footer>
-    <script>
-        const emergencyBtn = document.getElementById("navbarEmergencyBtn");
-        const modal = document.getElementById("emergencyModal");
-        const confirmBtn = document.getElementById("confirmCall");
-        const cancelBtn = document.getElementById("cancelCall");
-        const emergencyNumber = "+880125460586";
-
-        // Show card only on Emergency button click
-        emergencyBtn.addEventListener("click", () => {
-            modal.style.display = "flex";
-        });
-
-        // Confirm call
-        confirmBtn.addEventListener("click", () => {
-            window.location.href = `tel:${emergencyNumber}`;
-            modal.style.display = "none";
-        });
-
-        // Cancel hides card
-        cancelBtn.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-
-        // Click outside modal closes card
-        window.addEventListener("click", (e) => {
-            if (e.target === modal) modal.style.display = "none";
-        });
-
-        fetch('data/doctors_data.json')
-            .then(response => response.json())
-            .then(data => {
-
-                const topDoctors = data
-                    .sort((a, b) => b.rating - a.rating)
-                    .slice(0, 8);
-
-                const container = document.getElementById('top-rated-Specialists');
-
-                topDoctors.forEach(doctor => {
-                    const card = `
-        <div class="rated-doctor-card">
-
-          <img src="${doctor.image}" alt="${doctor.name}" class="rated-doctor-img">
-
-          <div class="rated-doctor-info">
-            <h2 class="rated-doctor-name">${doctor.name}</h2>
-            <p class="rated-doctor-specialist">
-              <i class="fa-solid fa-stethoscope"></i> ${doctor.specialist}
-            </p>
-
-            <p><b>Degree:</b> ${doctor.education}</p>
-            <p class="rated-doctor-rating">⭐ ${doctor.rating}</p>
-
-            <button class="btn-view" onclick="goToDoctor(${doctor.id})">View Details</button>
-          </div>
-
-        </div>
-      `;
-
-                    container.innerHTML += card;
-                });
-            })
-            .catch(err => console.error('Error loading data:', err));
-
-        function goToDoctor(id) {
-            // Store current scroll position
-            localStorage.setItem("scrollPosition", window.scrollY);
-
-            // Go to doctor details page
-            window.location.href = `doctor_details.html?id=${id}`;
-        }
-    </script>
+ 
     <script src="scripts/script.js"></script>
 </body>
 
