@@ -531,9 +531,9 @@ editBtn.addEventListener('click', ()=>{ window.scrollTo({top:0, behavior:'smooth
 dashboardBtn.addEventListener('click', ()=>{
   const role = currentUser.role || 'user';
   if(role.toLowerCase() === 'admin'){
-    window.location.href='admin-dashboard.html';
+    window.location.href='./admin-dashboard.html';
   } else {
-    window.location.href='dashboard.html';
+    window.location.href='./dashboard.html';
   }
 });
 
