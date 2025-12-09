@@ -33,6 +33,13 @@
     <link rel="stylesheet" href="styles/style.css">
     <title>Medical Store List</title>
     <style>
+      .store-name {
+  color: black;        /* text black */
+  font-weight: 600;    /* font-semibold */
+  font-size: 0.8rem;   /* choto font size */
+  padding-bottom: 0.5rem; /* Tailwind pb-2 equivalent */
+}
+
       .btn-details {
         background-color: #49465b;
         color: white;
@@ -322,7 +329,7 @@
             <img src="images/icons8-hospital-100.png" alt="" />
             <div class="flex justify-between items-center flex-1">
               <div>
-                <h1 class="font-semibold pb-2">${s.name}</h1>
+                <h1 class="store-name">${s.name}</h1>
                 <div class="flex gap-2">
                   <img class="h-5" src="images/icons8-location-25.png" alt="" />
                   <p>${s.address}</p>
