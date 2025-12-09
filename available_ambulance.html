@@ -20,7 +20,11 @@ body {
 
 /* NAVBAR / HEADER */
 header { 
-    background:#49465b; 
+    position: sticky;
+      top: 0;
+      z-index: 9999;
+    width:100%;
+    background: rgba(75,75,113,0.85); 
     color:white; 
     padding:1rem; 
     display:flex; 
@@ -28,11 +32,11 @@ header {
     justify-content:space-between;
 }
 h2{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0;
 }
 .btn-back { 
-    background-color:#6c6a81; 
+    background-color:transparent; 
     color:white; 
     padding:0.5rem 1rem; 
     border-radius:5px; 
@@ -192,7 +196,7 @@ h2{
 
 <header>
     <button class="btn-back" onclick="goBack()">← Back</button>
-    <h2>Hospital List</h2>
+    <h2>Available Ambulance</h2>
     <div></div>
 </header>
 

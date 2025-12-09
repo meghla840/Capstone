@@ -16,13 +16,17 @@ body{
 }
 
 /* HEADER */
-header { background:#49465b; color:white; padding:1rem; display:flex; align-items:center; justify-content:space-between;
+header { position: sticky;
+      top: 0;
+      z-index: 9999;
+    width:100%;
+    background: rgba(75,75,113,0.85);color:white; padding:1rem; display:flex; align-items:center; justify-content:space-between;
  }
  h2{
-    font-size: 3rem;
+    font-size: 2rem;
     margin: 0%;
  }
-.btn-back { background-color:#6c6a81; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
+.btn-back { background-color:transparent; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
 
 /* CONTAINER */
 .container{
@@ -178,7 +182,7 @@ h1{
 
 <header>
     <button class="btn-back" onclick="goBack()">← Back</button>
-    <h2>Hospital List</h2>
+    <h2>Ambulance List</h2>
     <div></div>
   </header>
 
