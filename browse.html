@@ -15,7 +15,6 @@
 <body class="open-sans">
     <!-- Header -->
     <header>
-        
         <div class="hold">
             <div class="estrip">
                 <div class="scroll"><i class="bi bi-telephone"></i>Emergency Number:+880 125460586 -Call Anytime!</div>
@@ -36,7 +35,6 @@
             <div class="menu-toggle" id="menu-toggle">☰</div>
             <ul class="ul" id="nav-links">
                 <li class="w-20 text-center"><a href="">Home</a></li>
-               
                 <li class="w-20 text-center drpdwn"><a href="">Doctors</a>
                     <div class="dropdown-content"><a href="">Find Doctors</a><a href="">Doctors Available in
                             Location</a><a href="">Doctors List</a></div>
@@ -63,22 +61,34 @@
         </nav>
     </header>
 
- 
     <main class="max-w-6xl p-6 mx-auto">
         <div class="p-4 bg-white shadow rounded-2xl">
-            <div class="mb-4 tabs tabs-boxed" id="tabs" role="tablist">
-                <a class="tab tab-lifted active" data-tab="my">My Posts</a>
-                <a class="tab tab-lifted" data-tab="all">All Posts</a>
-                <a class="tab tab-lifted" data-tab="doctor">Doctor Posts</a>
+            <div class="flex flex-wrap items-center justify-between mb-4">
+                <!-- Tabs -->
+                <div class="flex-1 tabs tabs-boxed" id="tabs" role="tablist">
+                    <a class="tab tab-lifted active" data-tab="my">My Posts</a>
+                    <a class="tab tab-lifted" data-tab="all">All Posts</a>
+                    <a class="tab tab-lifted" data-tab="doctor">Doctor Posts</a>
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="flex items-center gap-2">
+                    <select id="category-filter" class="px-3 py-1 text-sm border rounded-lg input input-bordered">
+                        <option value="">All Categories</option>
+                        <option value="psychotherapy">Psychotherapy</option>
+                        <option value="eye-health">Eye Health</option>
+                        <option value="mental-health">Mental Health</option>
+                        <option value="random-question">Random Question</option>
+                        <option value="fitness">Fitness</option>
+                    </select>
+                </div>
             </div>
 
             <div class="mb-4">
                 <a href="askQc.html" class="text-white btn bg-gradient-to-r from-purple-600 to-blue-500">+ New Post</a>
             </div>
 
-            <div id="posts-container" class="space-y-4">
-                
-            </div>
+            <div id="posts-container" class="space-y-4"></div>
 
             <div id="empty-state" class="hidden py-10 text-center text-slate-500">
                 <p>No posts to show yet. Create the first post!</p>
@@ -86,24 +96,8 @@
         </div>
     </main>
 
-    <!-- Comment Modal -->
-    <input type="checkbox" id="comment-modal" class="modal-toggle" />
-    <div class="modal">
-        <div class="max-w-xl modal-box">
-            <h3 class="text-lg font-bold">Add Comment</h3>
-            <p id="comment-on-title" class="mt-1 text-sm text-slate-600"></p>
-            <textarea id="comment-text" rows="4" placeholder="Write your comment..."
-                class="w-full mt-3 textarea textarea-bordered"></textarea>
-            <div class="modal-action">
-                <label for="comment-modal" class="btn btn-ghost">Close</label>
-                <button id="submit-comment" class="btn btn-primary">Submit Comment</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer>
-      
         <section>
             <div class="flex items-center justify-between foot_contain">
                 <div class="foot">
@@ -123,7 +117,7 @@
         </section>
     </footer>
 
-    <script src="jsFile/form.js"></script>
+    <script src="jsFile/form2.js"></script>
     <script>
         if (window.forum && typeof forum.initBrowse === 'function') forum.initBrowse();
     </script>
