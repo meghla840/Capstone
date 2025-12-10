@@ -47,15 +47,18 @@ header h1 {
 }
 
 .articles-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
     gap: 20px;
     padding: 20px;
+    justify-items: center; /* centers cards */
 }
+
 .article-card {
     background: #fff;
-    width: 280px;
+   
+     width: 100%;
+    max-width: 350px;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -123,6 +126,83 @@ footer {
     border-top-right-radius: 12px;
     letter-spacing: 0.5px;
 }
+/* Popup Background */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(4px);
+}
+
+/* Popup Box */
+.popup-box {
+    background: rgba(255,255,255,0.95);
+    width: 92%;
+    max-width: 470px;
+    padding: 0;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    animation: popupAnimate 0.35s ease forwards;
+    overflow: hidden;
+    transform: scale(0.7);
+    opacity: 0;
+}
+
+/* Popup Animation */
+@keyframes popupAnimate {
+    0%   { transform: scale(0.7); opacity: 0; }
+    70%  { transform: scale(1.03); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Popup Header */
+.popup-header {
+    background: #4b4b71;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Popup Title */
+.popup-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Close Button */
+.close-popup {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ffffff;
+    transition: 0.2s;
+}
+.close-popup:hover {
+    transform: scale(1.25);
+    color: #fceaea;
+}
+
+/* Popup Content */
+.popup-body {
+    padding: 22px 25px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: #333;
+}
+
+
 </style>
 </head>
 <body>
@@ -174,7 +254,7 @@ footer {
     </div>
 
     <div class="article-card">
-        <img src="images/corona.jpeg" alt="Mental Health Article">
+        <img src="images/heartattack.webp" alt="Mental Health Article">
         <div class="article-content">
             <div class="category">Mental Health</div>
             <div class="title">How meditation improves mental wellbeing</div>
@@ -187,7 +267,7 @@ footer {
     </div>
 
     <div class="article-card">
-        <img src="images/heatstroke.jpeg" alt="Heart Health Article">
+        <img src="images/monkeypox.jpeg" alt="Heart Health Article">
         <div class="article-content">
             <div class="category">Heart Health</div>
             <div class="title">Tips for maintaining healthy heart during summer</div>
@@ -200,7 +280,7 @@ footer {
     </div>
 
     <div class="article-card">
-        <img src="images/heatstroke.jpeg" alt="Heart Health Article">
+        <img src="images/mental.jpeg" alt="Heart Health Article">
         <div class="article-content">
             <div class="category">Heart Health</div>
             <div class="title">Tips for maintaining healthy heart during summer</div>
@@ -212,6 +292,23 @@ footer {
         </div>
     </div>
 </div>
+<!-- Popup Modal -->
+<div id="popupModal" class="popup-overlay">
+    <div class="popup-box">
+        
+        <div class="popup-header">
+            <h2 id="popupTitle"></h2>
+            <button class="close-popup">&times;</button>
+        </div>
+
+        <div class="popup-body">
+            <p id="popupContent"></p>
+        </div>
+
+    </div>
+</div>
+
+
 
 <footer>
     &copy; 2025 QuickAid. All Rights Reserved.
@@ -234,6 +331,43 @@ commentButtons.forEach(btn => {
         btn.classList.toggle('commented');
         const span = btn.querySelector('span');
         span.textContent = btn.classList.contains('commented') ? parseInt(span.textContent) + 1 : parseInt(span.textContent) - 1;
+    });
+});
+// Latest news for each category
+const latestNews = {
+    "Corona": "A newly emerging COVID-19 subvariant has shown increased transmission among elderly populations. Health experts recommend booster shots and mask precautions in crowded areas.",
+    
+    "Dengue": "Recent hospital data shows a rise in dengue cases during the monsoon season. Authorities advise removing stagnant water and using repellents to reduce mosquito breeding.",
+    
+    "Heart Health": "Cardiologists report that heatwaves significantly increase risks of heart-related complications. Staying hydrated and avoiding excessive outdoor activity is strongly recommended.",
+    
+    "Mental Health": "A new global study indicates that daily mindfulness meditation can lower stress levels by up to 45% and improve emotional stability in young adults."
+};
+
+
+// Get modal elements
+const popup = document.getElementById("popupModal");
+const popupTitle = document.getElementById("popupTitle");
+const popupContent = document.getElementById("popupContent");
+const closeBtn = document.querySelector(".close-popup");
+
+// Close popup
+closeBtn.addEventListener("click", () => popup.style.display = "none");
+
+// Click outside popup hides it
+window.addEventListener("click", (e) => {
+    if (e.target === popup) popup.style.display = "none";
+});
+
+// Card click → show popup with topic news
+document.querySelectorAll(".article-card").forEach(card => {
+    card.addEventListener("click", () => {
+        const category = card.querySelector(".category").textContent.trim();
+        
+        popupTitle.textContent = category + " — Latest Update";
+        popupContent.textContent = latestNews[category] || "No latest news available.";
+
+        popup.style.display = "flex";
     });
 });
 </script>
