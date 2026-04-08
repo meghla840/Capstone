@@ -1,3 +1,39 @@
+<?php 
+include "backend/db.php";
+session_start();
+
+/* Logout */
+if(isset($_POST['logout'])){
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
+/* Login status */
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $_SESSION['userName'] ?? '';
+
+
+/* Fetch doctors with user data */
+$topDoctors = [];
+
+$query = "
+SELECT d.*, u.name AS user_name, u.profilePic 
+FROM doctors d
+LEFT JOIN users u ON d.userId = u.userId
+ORDER BY d.experienceYears DESC 
+LIMIT 6
+";
+
+$result = mysqli_query($conn, $query);
+
+if($result){
+    while($row = mysqli_fetch_assoc($result)){
+        $topDoctors[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,85 +45,118 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>QuickAid</title>
     <style>
-
-#top-rated-Specialists {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  width: 70%;
-  margin: 0 auto;
+/* ==== Copy your existing internal CSS here ==== */
+    #top-rated-Specialists {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 25px;
+    width: 70%;
+    margin: 0 auto;
+  
+    
 }
-
-.rated-doctor-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 15px;
-  transition: transform 0.3s ease;
+.btn-view a {
+    text-decoration: none;
+    color: inherit;
 }
-
-.rated-doctor-card:hover {
-  transform: scale(1.03);
+ a {
+    text-decoration: none;
+    color: inherit;
 }
-
-.rated-doctor-img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.rated-doctor-info {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.rated-doctor-name {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.rated-doctor-rating {
-  color: #f1c40f;
-  font-size: 16px;
-}
-.btn-view {
-      background: #49465b;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+@media (max-width: 992px) {
+    #top-rated-Specialists {
+        grid-template-columns: repeat(2, 1fr);
     }
-    .btn-view:hover {
-      background: #68657b;
-      color: white;
-      transform: scale(1.05);
-    }
-
-    .search-btn-find_doctor_page{
-background-color: #49465b;
-  color: #fff;
-    font-size:18px;
-    width:10%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
 }
-.hero .buttons a {
-    text-decoration: none;   
-    color: white;           
-    display: inline-block;  
+
+@media (max-width: 600px) {
+    #top-rated-Specialists {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+        .rated-doctor-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .rated-doctor-card:hover {
+            transform: scale(1.03);
+        }
+
+        .rated-doctor-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .rated-doctor-info {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .rated-doctor-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .rated-doctor-rating {
+            color: #f1c40f;
+            font-size: 16px;
+        }
+
+        .btn-view {
+            background: #49465b;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-view:hover {
+            background: #68657b;
+            transform: scale(1.05);
+        }
+
+        .search-btn-find_doctor_page{
+            background-color: #49465b;
+            color: #fff;
+            font-size:18px;
+            width:10%;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .hero .buttons a {
+            text-decoration: none;   
+            color: white;           
+            display: inline-block;  
+        }
+        .default-avatar-large {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: #888;
 }
     </style>
 </head>
 <body class="open-sans">
-    <header>
+<header>
     <div class="hold">
         <div class="estrip">
             <div class="scroll">
@@ -101,9 +170,15 @@ background-color: #49465b;
                 <li><a href=""><i class="bi bi-google"></i></a></li>
                 <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
             </ul>
-            <div id="userSection">
-                <a href="join.php"><button> + Join Now</button></a>
-            </div>
+<div id="userSection">
+<?php if($isLoggedIn): ?>
+    <a href="profile.php" class="profile-btn">
+        <i class="bi bi-person-circle" style="font-size:22px;"></i>
+    </a>
+<?php else: ?>
+    <a href="join.php" class="join-btn">+ Join Now</a>
+<?php endif; ?>
+</div>
         </div>
     </div>
 
@@ -115,61 +190,50 @@ background-color: #49465b;
         <div class="menu-toggle" id="menu-toggle">☰</div>
 
         <ul class="ul" id="nav-links">
-            <li><a href="index.html">Home</a></li>
-
+            <li><a href="index.php">Home</a></li>
             <li class="drpdwn">
-            <a href="">Doctors</a>
-            <div class="dropdown-content">
-              <a href="findDoctor.html">Find Doctors</a>
-              <a href="doctor_available_in_location.html"
-                >Doctors Available in Location</a
-              >
-              <a href="all_doctors.html">Doctors List</a>
-                <a href="demo_appointment list.html">appointment List</a>
-            </div>
-          </li>
-
+                <a href="">Doctors</a>
+                <div class="dropdown-content">
+                    <a href="findDoctor.php">Find Doctors</a>
+                    
+                    <a href="all_doctors.php">Doctors List</a>
+                   
+                </div>
+            </li>
             <li class="drpdwn"><a href="">Hospital</a>
                 <div class="dropdown-content">
                     <a href="find_hospital.php">Find Hospital</a>
-                    <a href="nearby_hospitals.html">Check around me</a>
                     <a href="hospital_list.php">Hospital List</a>
                 </div>
             </li>
-
             <li class="drpdwn"><a href="">Medicine Availability</a>
                 <div class="dropdown-content">
-                    <a href="medical_store_list.html">Medical Store list</a>
-                    <a href="medicine_nearby.html">Check Medicine Nearby</a>
-                    <a href="medicine_details.html">Medicine Details</a>
+                    <a href="medicine_nearby.php">Medical Store list</a>
+                    
+                    <a href="medicine_details.php">Medicine Details</a>
                 </div>
             </li>
-
             <li class="drpdwn"><a href="">Health Forum</a>
                 <div class="dropdown-content">
                     <a href="askQc.html">Ask a Question</a>
                     <a href="browse.html">Browse Discussions</a>
                 </div>
             </li>
-
             <li class="drpdwn">
-            <a href="">Health Support Services</a>
-            <div class="dropdown-content">
-              <a href="articles.html">Latest Health News</a>
-              <a href="emergency_action_guide.html">Emergency Action Guide</a>
-              <a href="careTips.html">Care and Tips For Special Groups</a>
-              <a href="promise.html">Our Commitment & Care Promise</a>
-              <a href="get_in_touch.html">Get in Touch</a>
-            </div>
-          </li>
-
-            <!-- Nav Emergency Button -->
+                <a href="">Health Support Services</a>
+                <div class="dropdown-content">
+                    <a href="articles.html">Latest Health News</a>
+                    <a href="emergency_action_guide.html">Emergency Action Guide</a>
+                    <a href="careTips.html">Care and Tips For Special Groups</a>
+                    <a href="promise.html">Our Commitment & Care Promise</a>
+                    <a href="get_in_touch.php">Get in Touch</a>
+                </div>
+            </li>
             <li>
                 <button id="navbarEmergencyBtn" class="emergency-button">
                     <i class="bi bi-car-front-fill"></i> Emergency
                 </button>
             </li>
-
         </ul>
 
         <!-- Emergency Modal -->
@@ -185,14 +249,15 @@ background-color: #49465b;
         </div>
     </nav>
 </header>
-    <main>
+
+<main>
         <section class="hero">
   <div class="slide active" style="background-image: url('images/hospitallllll.png')">
     <h2 class="number">01.</h2>
     <h1>Emergency? <br><span>Get to Nearest Hospital</span></h1>
     <div class="buttons">
       <button class="btn"><a href="find_hospital.html">Locate Hospital</a></button>
-      <button class="btn2"><a href="hospital_list.html">Hospital List</a></button>
+      <button class="btn2"><a href="hospital_list.php">Hospital List</a></button>
     </div>
   </div>
   
@@ -200,7 +265,7 @@ background-color: #49465b;
     <h2 class="number">02.</h2>
     <h1><span>Stay Calm</span> and Call for Help</h1>
     <div class="buttons">
-      <button class="btn"><a href="ambulance.html">Arrange Ambulance</a></button>
+      <button class="btn"><a href="ambulance.php">Arrange Ambulance</a></button>
       <button class="btn2">Call Emergency</button>
     </div>
   </div>
@@ -209,7 +274,7 @@ background-color: #49465b;
     <h2 class="number">03.</h2>
     <h1>Find Nearest <br><span>Medicine Facilities</span></h1>
     <div class="buttons">
-      <button class="btn"><a href="medicine_nearby.html">Get Medicine Nearby</a></button>
+      <button class="btn"><a href="medicine_nearby.php">Get Medicine Nearby</a></button>
       <button class="btn2"><a href="medicine_details.html">Order Online</a></button>
     </div>
   </div>
@@ -244,7 +309,7 @@ background-color: #49465b;
 
             <div class="contain c4">
                 <div class="text">Emergency Medical <br><span class="s4">Transport</span></div>
-                <button class="bt" id="bookAmbulanceBtn"><a href="ambulance.html">Book Now</a></button>
+                <button class="bt" id="bookAmbulanceBtn"><a href="ambulance.php">Book Now</a></button>
             </div>
         </section>
        <section class="how-it-works">
@@ -267,6 +332,17 @@ background-color: #49465b;
             <span class="number">3</span>
             <p><strong>Trigger Alerts</strong><br>Notify local traffic or responders during emergencies.</p>
             </div>
+            <div id="confirmModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999;">
+    
+                    <div style="background:#fff; padding:25px; border-radius:10px; text-align:center; width:300px;">
+                        <h3>Send Traffic Alert?</h3>
+                        <p>This will notify nearby users.</p>
+
+                        <button id="confirmYes" style="margin:10px; padding:8px 15px; background:green; color:#fff; border:none; border-radius:6px;">Yes</button>
+                        <button id="confirmNo" style="margin:10px; padding:8px 15px; background:red; color:#fff; border:none; border-radius:6px;">No</button>
+                    </div>
+
+                </div>
 
             <div class="step">
             <span class="number">4</span>
@@ -276,15 +352,54 @@ background-color: #49465b;
         </div>
         </section>
         <section class="specialist">
-            <p class="heighlightt">Meet our Professionals</p>
-            <h1 class="merriweather"> Top Rated <span>Specialist</span></h1>
-            <p>In times of emergency, trust matters most. <br> We connect you to highly rated specialists who are trained to respond fast and care with heart.</p>
-            <div id="top-rated-Specialists">
-               </div> 
-            <div class="see">
-             <a href="all_doctors.html" class="see-btn">See All Doctors</a>
+    <p class="heighlightt">Meet our Professionals</p>
+    <h1 class="merriweather"> Top Rated <span>Specialist</span></h1>
+
+   <div id="top-rated-Specialists">
+
+        <?php foreach($topDoctors as $doctor): ?>
+
+            <div class="rated-doctor-card">
+            
+                <?php 
+                $imagePath = !empty($doctor['profilePic']) && file_exists($doctor['profilePic']) 
+                    ? $doctor['profilePic'] 
+                    : null;
+                ?>
+
+                <?php if($imagePath): ?>
+                    <img src="<?php echo $imagePath; ?>" class="rated-doctor-img">
+                <?php else: ?>
+                    <div class="default-avatar-large">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                <?php endif; ?>
+
+                <div class="rated-doctor-info">
+
+                    <h2 class="rated-doctor-name">
+                        <?php echo htmlspecialchars($doctor['user_name'] ?? 'Unknown Doctor'); ?>
+                    </h2>
+
+                    <p><?php echo htmlspecialchars($doctor['specialization']); ?></p>
+                    <p><b>Experience:</b> <?php echo htmlspecialchars($doctor['experienceYears']); ?> years</p>
+
+                    <a href="doctor_details.php?id=<?php echo $doctor['userId']; ?>" class="btn-view">
+                View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        <?php endforeach; ?>
+
 </div>
-        </section>
+
+    <div class="see">
+        <a href="all_doctors.php" class="see-btn">See All Doctors</a>
+    </div>
+</section>
         <section class="articles">
             <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
         <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
@@ -424,7 +539,8 @@ background-color: #49465b;
         </section>
 
     </main>
-    <footer>
+
+<footer>
         <section>
             <div class="foot_contain">
                 <div class="foot">
@@ -464,36 +580,9 @@ background-color: #49465b;
             </div>
         </section>
     </footer>
-    <script>
 
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-
-    // ==========================
-    // USER LOGIN TOGGLE
-    // ==========================
-    const userSection = document.getElementById("userSection");
-
-    function updateUserSection() {
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        const userName = localStorage.getItem("userName");
-
-        if (isLoggedIn && userName) {
-            userSection.innerHTML = `
-                <a href="profile.php">
-                    <button>${userName}</button>
-                </a>
-            `;
-        } else {
-            userSection.innerHTML = `
-                <a href="join.php">
-                    <button>+ Join Now</button>
-                </a>
-            `;
-        }
-    }
-
-    updateUserSection();
-
 
     // ==========================
     // EMERGENCY MODAL
@@ -529,64 +618,104 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+});
+// traffic alert
+document.addEventListener("DOMContentLoaded", function () {
 
-    // ==========================
-    // TOP RATED DOCTORS LOAD
-    // ==========================
-    fetch('data/doctors_data.json')
-        .then(response => response.json())
-        .then(data => {
+    const btn = document.getElementById("trafficAlertBtn");
+    const modal = document.getElementById("confirmModal");
 
-            const topDoctors = data
-                .sort((a, b) => b.rating - a.rating)
-                .slice(0, 8);
+    const yesBtn = document.getElementById("confirmYes");
+    const noBtn = document.getElementById("confirmNo");
 
-            const container = document.getElementById('top-rated-Specialists');
+    // Open modal
+    if (btn) {
+        btn.addEventListener("click", function () {
+            modal.style.display = "flex";
+        });
+    }
 
-            if (!container) return;
+    // Close modal (No button)
+    if (noBtn) {
+        noBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+    }
 
-            container.innerHTML = "";
+    // Confirm Yes → Send alert
+    if (yesBtn) {
+        yesBtn.addEventListener("click", function () {
 
-            topDoctors.forEach(doctor => {
-                const card = `
-                    <div class="rated-doctor-card">
+            modal.style.display = "none";
 
-                        <img src="${doctor.image}" alt="${doctor.name}" class="rated-doctor-img">
+            fetch("alert_traffic.php", {
+                method: "POST",
+                credentials: "include"
+            })
+            .then(res => res.text())   // ✅ changed from json() to text()
+            .then(text => {
 
-                        <div class="rated-doctor-info">
-                            <h2 class="rated-doctor-name">${doctor.name}</h2>
+                console.log("RAW RESPONSE:", text); // ✅ debug
 
-                            <p class="rated-doctor-specialist">
-                                ${doctor.specialist}
-                            </p>
+                let data;
 
-                            <p><b>Degree:</b> ${doctor.education}</p>
+                try {
+                    data = JSON.parse(text); // convert manually
+                } catch (e) {
+                    console.error("JSON parse error:", e);
+                    showToast("❌ Server response invalid", "error");
+                    return;
+                }
 
-                            <p class="rated-doctor-rating">⭐ ${doctor.rating}</p>
+                if (data.status === "success") {
+                    showToast("✅ " + data.message + " from " + data.location, "success");
+                } else {
+                    showToast("❌ " + data.message, "error");
+                }
 
-                            <button class="btn-view" onclick="goToDoctor(${doctor.id})">
-                                View Details
-                            </button>
-                        </div>
-
-                    </div>
-                `;
-
-                container.innerHTML += card;
+            })
+            .catch((err) => {
+                console.error(err);
+                showToast("⚠️ Network error!", "error");
             });
-        })
-        .catch(err => console.error('Error loading data:', err));
+
+        });
+    }
 
 });
+function showToast(message, type = "success") {
 
-// ==========================
-// GLOBAL FUNCTION
-// ==========================
- function goToDoctor(id) {
-     localStorage.setItem("scrollPosition", window.scrollY);
-    window.location.href = `doctor_details.html?id=${id}`;
+    let toast = document.createElement("div");
+
+    toast.innerText = message;
+
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.padding = "12px 18px";
+    toast.style.borderRadius = "8px";
+    toast.style.color = "#fff";
+    toast.style.fontSize = "14px";
+    toast.style.zIndex = "9999";
+    toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+
+    if(type === "success"){
+        toast.style.background = "#28a745";
+    } else {
+        toast.style.background = "#dc3545";
+    }
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+/* ✅ GLOBAL FUNCTION (OUTSIDE) */
+function goToDoctor(id) {
+    window.location.href = `doctor_details.php?id=${id}`;
 }
 </script>
-    <script src="scripts/script.js"></script>
+
 </body>
 </html>

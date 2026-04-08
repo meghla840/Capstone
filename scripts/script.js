@@ -56,29 +56,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   // profile
- window.addEventListener("DOMContentLoaded", () => {
-    const userSection = document.getElementById("userSection");
-    const savedUser = JSON.parse(localStorage.getItem("quickAidUser") || "null");
+/* -----------------------------------------
+   PROFILE DROPDOWN
+------------------------------------------*/
+const profileBtn = document.querySelector(".profile-btn");
+const profileDropdown = document.getElementById("profileDropdown");
 
-    if (savedUser) {
-        userSection.innerHTML = `
-            <button id="profileBtn">
-                <i class="bi bi-person-circle" style="font-size:22px;"></i> 
-            </button>
-        `;
-        document.getElementById("profileBtn").addEventListener("click", () => {
-            window.location.href = "profile.html";
-        });
-    } else {
-        userSection.innerHTML = `
-            <button id="joinBtn">+ Join Now</button>
-        `;
-        document.getElementById("joinBtn").addEventListener("click", () => {
-            window.location.href = "join.html";
-        });
+if (profileBtn && profileDropdown) {
+  profileBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    profileDropdown.classList.toggle("show");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+      profileDropdown.classList.remove("show");
     }
-});
-
+  });
+}
 
 
 // Emergency Modal functionality

@@ -8,46 +8,162 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
 :root{
-  --brand:#49465b; 
-  --muted:#6b7280; 
-  --bg:#f3f6f9; 
-  --card:#ffffff; 
-  --accent:#2563eb;
-  --header-gradient: linear-gradient(90deg, #49465b, #6e6c80);
+  --brand:#4f46e5;
+  --brand2:#6366f1;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --danger:#ef4444;
+  --success:#22c55e;
 }
-body{font-family:Inter,sans-serif; margin:0; background:var(--bg); color:#0f172a;}
-header{background:var(--header-gradient); color:white; padding:28px 20px; position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;}
-header h1{margin:0; font-size:18px; position: absolute;  
-  left: 50%;}
-  .back-btn { 
-    position: absolute; 
-    left: 15px; 
-    top: 15px; 
-    background: transparent; 
-    color: white; 
-    border: none; 
-    padding: 6px 12px; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    gap: 5px;
-    font-weight: 500;
-    font-size: 0.85rem;
-    transition: 0.3s;
+
+/* Base */
+body{
+  font-family:Inter,sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
 }
-.back-btn:hover { background: rgba(255,255,255,0.45); }
-header button{padding:6px 10px; border:none; border-radius:6px; background:rgba(255,255,255,0.2); color:var(--brand); cursor:pointer;}
-header button:hover{opacity:0.85;}
-.container{max-width:1200px; margin:26px auto; padding:0 18px;}
-.card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06); margin-bottom:18px;}
-table{width:100%; border-collapse:collapse;}
-table th, table td{border:1px solid #e6e9ef; padding:8px; text-align:left;}
-table th{background:#f3f4f6;}
-input, select, textarea{width:100%; padding:6px 8px; border-radius:6px; border:1px solid #d1d5db;}
-button{padding:6px 10px; border:none; border-radius:6px; background:var(--header-gradient); color:white; cursor:pointer;}
-button:hover{opacity:0.85;}
-span.star{cursor:pointer; font-size:18px;}
+
+/* Header */
+header{
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color:white;
+  padding:22px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+header h1{
+  margin:0;
+  font-size:20px;
+  font-weight:600;
+}
+
+.back-btn{
+  position:absolute;
+  left:15px;
+  background:rgba(255,255,255,0.15);
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  transition:0.2s;
+}
+.back-btn:hover{
+  background:rgba(255,255,255,0.3);
+}
+
+/* Layout */
+.container{
+  max-width:1200px;
+  margin:30px auto;
+  padding:0 18px;
+}
+
+/* Card */
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.06);
+  margin-bottom:20px;
+  transition:0.2s;
+}
+.card:hover{
+  transform:translateY(-4px);
+}
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+table th, table td{
+  padding:10px;
+  border-bottom:1px solid #e2e8f0;
+}
+table th{
+  text-align:left;
+  font-size:14px;
+  color:var(--muted);
+}
+table tr:hover{
+  background:#f8fafc;
+}
+
+/* Inputs */
+input, textarea{
+  width:100%;
+  padding:6px 8px;
+  border-radius:6px;
+  border:1px solid #d1d5db;
+}
+
+/* Buttons */
+button{
+  border:none;
+  padding:7px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  transition:0.2s;
+}
+
+/* Button Types */
+.btn-add{
+  background:var(--success);
+  color:white;
+}
+.btn-add:hover{
+  background:#16a34a;
+}
+
+.btn-delete{
+  background:var(--danger);
+  color:white;
+}
+.btn-delete:hover{
+  background:#dc2626;
+}
+
+.btn-primary{
+  background:var(--brand);
+  color:white;
+}
+.btn-primary:hover{
+  background:#4338ca;
+}
+
+/* Star rating */
+.star{
+  cursor:pointer;
+  font-size:18px;
+  transition:0.2s;
+}
+.star:hover{
+  transform:scale(1.2);
+}
+
+/* Section title */
+h3{
+  margin-bottom:10px;
+  font-size:18px;
+}
+
+/* Empty state */
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:10px;
+}
 </style>
 </head>
 <body>
