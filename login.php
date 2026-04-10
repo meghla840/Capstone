@@ -3,7 +3,7 @@ session_start();
 include "backend/db.php";
 
 // 🔹 Redirect already logged-in users
-if(isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true){
+if(isset($_SESSION['user_id'])){
     header("Location: index.php");
     exit();
 }

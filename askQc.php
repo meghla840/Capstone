@@ -192,13 +192,7 @@ $userRole = $_SESSION['role'] ?? 'user';
                     <input type="hidden" id="selected-category" required />
                 </div>
 
-                <div class="flex flex-col gap-1">
-                    <label class="text-lg font-medium text-gray-700">Post As</label>
-                    <select id="post-author-type" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg">
-                        <option value="user">Community User</option>
-                        <?php if($_SESSION['role'] == 'doctor') echo '<option value="doctor">Doctor</option>'; ?>
-                    </select>
-                </div>
+               
 
                 <div class="flex justify-end gap-2 pt-2">
                     <label for="create-post-modal"

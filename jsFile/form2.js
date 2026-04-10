@@ -1,5 +1,4 @@
 (function () {
-
     // ✅ Get logged-in user from PHP
     const CURRENT_USER = window.LOGGED_IN_USER || { id: '', name: 'User', role: 'user' };
 
@@ -65,29 +64,31 @@
     };
 
     // =========================
-    // RENDER POST
+    // RENDER POST CARD
     // =========================
     function renderPostCard(post) {
-
         const wrapper = document.createElement('div');
         wrapper.className = 'p-4 mb-4 bg-white border shadow rounded-2xl border-slate-100';
+
+        // Check if doctor for avatar and badge
+        const isDoctor = post.author.role.toLowerCase() === 'doctor';
 
         wrapper.innerHTML = `
             <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 text-slate-700 font-bold">
-                        ${post.author.role === 'doctor' ? 'Dr' : (post.author.name || 'U').slice(0, 2)}
+                        ${isDoctor ? 'Dr' : (post.author.name || 'U').slice(0, 2)}
                     </div>
                     <div>
                         <div class="font-semibold">${Utils.escapeHtml(post.title)}</div>
                         <div class="text-xs text-slate-500">
                             ${Utils.escapeHtml(post.author.name)} · 
-                            ${Utils.escapeHtml(post.category)} · 
+                            <span class="capitalize">${Utils.escapeHtml(post.category)}</span> · 
                             ${Utils.timeAgo(post.createdAt)}
                         </div>
                     </div>
                 </div>
-                ${post.author.role === 'doctor' ? '<span class="badge badge-info">Doctor</span>' : ''}
+                ${isDoctor ? '<span class="badge badge-info">Doctor</span>' : ''}
             </div>
 
             <div class="mb-3 text-slate-700">
@@ -102,8 +103,7 @@
             </div>
 
             <div class="comments hidden mt-3">
-                <div class="comment-list mb-2 text-sm"></div>
-
+                <div class="comment-list mb-2 text-sm border-t pt-2"></div>
                 <div class="flex gap-2">
                     <input type="text" class="comment-input border p-2 rounded w-full text-sm" placeholder="Write comment..." />
                     <button class="comment-btn px-3 bg-blue-500 text-white rounded">Post</button>
@@ -111,61 +111,73 @@
             </div>
         `;
 
+        // Like logic
         const likeBtn = wrapper.querySelector('.like-btn');
         likeBtn.addEventListener('click', () => {
             let count = parseInt(likeBtn.querySelector('span').textContent);
             likeBtn.querySelector('span').textContent = count + 1;
         });
 
+        // Share logic
         wrapper.querySelector('.share-btn').addEventListener('click', () => {
             navigator.clipboard.writeText(window.location.href);
             Toast.show("Link copied!", "success");
         });
 
+        // Comment Toggle
         const toggle = wrapper.querySelector('.comment-toggle');
         const commentBox = wrapper.querySelector('.comments');
-        toggle.addEventListener('click', () => {
-            commentBox.classList.toggle('hidden');
-        });
+        toggle.addEventListener('click', () => commentBox.classList.toggle('hidden'));
 
+        // Load existing comments
         const list = wrapper.querySelector('.comment-list');
         if (post.comments) {
             post.comments.forEach(c => {
                 const div = document.createElement('div');
+                div.className = "mb-1";
                 div.innerHTML = `<b>${Utils.escapeHtml(c.author)}</b>: ${Utils.escapeHtml(c.text)}`;
                 list.appendChild(div);
             });
         }
 
+        // Add new comment
         const input = wrapper.querySelector('.comment-input');
         const btn = wrapper.querySelector('.comment-btn');
-
         btn.addEventListener('click', () => {
             const text = input.value.trim();
             if (!text) return;
-
             const div = document.createElement('div');
-            div.innerHTML = `<b>${CURRENT_USER.name}</b>: ${Utils.escapeHtml(text)}`;
+            div.innerHTML = `<b>${Utils.escapeHtml(CURRENT_USER.name)}</b>: ${Utils.escapeHtml(text)}`;
             list.appendChild(div);
-
             input.value = "";
         });
 
         return wrapper;
     }
 
+    // =========================
+    // BROWSE PAGE LOGIC
+    // =========================
     async function renderAllPosts(tab = 'all', categoryFilter = '') {
-
         const container = document.getElementById('posts-container');
         const empty = document.getElementById('empty-state');
+        if (!container) return;
 
         try {
             const res = await fetch('get_posts.php');
             let posts = await res.json();
 
-            if (tab === 'my') posts = posts.filter(p => p.author.userId == CURRENT_USER.id);
-            if (tab === 'doctor') posts = posts.filter(p => p.author.role === 'doctor');
-            if (categoryFilter) posts = posts.filter(p => p.category === categoryFilter);
+            // Filter by Tab
+            if (tab === 'my') {
+                posts = posts.filter(p => String(p.author.userId) === String(CURRENT_USER.id));
+            } else if (tab === 'doctor') {
+                posts = posts.filter(p => p.author.role.toLowerCase() === 'doctor');
+            }
+
+            // Filter by Category Dropdown
+            if (categoryFilter && categoryFilter !== '') {
+                posts = posts.filter(p => p.category === categoryFilter);
+            }
 
             container.innerHTML = '';
 
@@ -175,44 +187,50 @@
                 empty?.classList.add('hidden');
                 posts.forEach(p => container.appendChild(renderPostCard(p)));
             }
-
         } catch (e) {
-            console.error(e);
+            console.error("Error loading posts:", e);
         }
     }
 
     function initBrowse() {
-
         const tabs = document.querySelectorAll('#tabs .tab');
+        const categoryFilter = document.getElementById('category-filter');
 
         tabs.forEach(t => {
             t.addEventListener('click', () => {
-                tabs.forEach(x => x.classList.remove('active'));
-                t.classList.add('active');
-                renderAllPosts(t.dataset.tab);
+                tabs.forEach(x => x.classList.remove('tab-active'));
+                t.classList.add('tab-active');
+                renderAllPosts(t.dataset.tab, categoryFilter?.value || '');
             });
         });
+
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', () => {
+                const activeTab = document.querySelector('#tabs .tab-active')?.dataset.tab || 'all';
+                renderAllPosts(activeTab, categoryFilter.value);
+            });
+        }
 
         renderAllPosts('all');
     }
 
+    // =========================
+    // CREATE POST PAGE LOGIC
+    // =========================
     async function initAskPage() {
-
         const form = document.getElementById('create-post-form');
-        if (!form) return;
-
-        // ✅ FIXED CATEGORY CLICK (ONLY CHANGE)
-        const categoryContainer = document.getElementById('category-options');
         const hiddenInput = document.getElementById('selected-category');
+        const categoryOptions = document.getElementById('category-options');
 
-        if (categoryContainer) {
-            categoryContainer.addEventListener('click', (e) => {
+        if (!form || !hiddenInput) return;
+
+        // Handle Category Selection (Tags)
+        if (categoryOptions) {
+            categoryOptions.addEventListener('click', (e) => {
                 const tag = e.target.closest('.category-tag');
                 if (!tag) return;
 
-                document.querySelectorAll('.category-tag')
-                    .forEach(t => t.classList.remove('active-tag'));
-
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active-tag'));
                 tag.classList.add('active-tag');
                 hiddenInput.value = tag.dataset.value;
             });
@@ -223,55 +241,38 @@
 
             const title = document.getElementById('post-title').value.trim();
             const content = document.getElementById('post-content').value.trim();
-            const role = document.getElementById('post-author-type').value;
             const category = hiddenInput.value;
             const imageFile = document.getElementById('post-image').files[0];
 
             if (!title || !content || !category) {
-                return Toast.show("Fill all fields", "error");
+                return Toast.show("Please fill title, content, and select a category", "error");
             }
 
             const imageData = imageFile ? await Utils.fileToDataUrl(imageFile) : null;
 
-            const payload = {
-                title,
-                content,
-                category,
-                role,
-                image: imageData
-            };
+            const payload = { title, content, category, image: imageData };
 
-            const res = await fetch('create_post.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'same-origin',
-                body: JSON.stringify(payload)
-            });
+            try {
+                const res = await fetch('create_post.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            const result = await res.json();
-
-            if (result.success) {
-                Toast.show("Post created!", "success");
-                setTimeout(() => location.href = "browse.php", 1000);
-            } else {
-                Toast.show(result.message, "error");
+                const result = await res.json();
+                if (result.success) {
+                    Toast.show("Post created successfully!", "success");
+                    setTimeout(() => location.href = "browse.php", 1200);
+                } else {
+                    Toast.show(result.message || "Failed to create post", "error");
+                }
+            } catch (err) {
+                Toast.show("Connection error", "error");
             }
         });
     }
 
-    document.addEventListener('click', function (e) {
-        const tag = e.target.closest('.category-tag');
-        if (!tag) return;
-
-        const hiddenInput = document.getElementById('selected-category');
-        const allTags = document.querySelectorAll('.category-tag');
-
-        allTags.forEach(t => t.classList.remove('active-tag'));
-        tag.classList.add('active-tag');
-
-        hiddenInput.value = tag.dataset.value;
-    });
-
+    // Initialization
     document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('posts-container')) initBrowse();
         if (document.getElementById('create-post-form')) initAskPage();
