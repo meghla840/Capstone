@@ -53,14 +53,15 @@ $userRole = $_SESSION['role'] ?? 'user';
         </ul>
 
         <!-- KEEP DESIGN SAME -->
-        <span id="userSection">
+        <div id="userSection">
 <?php if(isset($_SESSION['user_id'])): ?>
-    <span>Hello, <?php echo $_SESSION['username']; ?></span>
-    <a href="logout.php">Logout</a>
+    <a href="profile.php" class="profile-btn">
+        <i class="bi bi-person-circle" style="font-size:22px;"></i>
+    </a>
 <?php else: ?>
-    <a href="join.php"><button> + Join Now</button></a>
+    <a href="join.php" class="join-btn">+ Join Now</a>
 <?php endif; ?>
-</span>
+</div>
     </div>
 </div>
 

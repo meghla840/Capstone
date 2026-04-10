@@ -63,24 +63,15 @@ $userRole = $_SESSION['role'] ?? 'user';
                     <li><a href=""><i class="bi bi-google"></i></a></li>
                     <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
                 </ul>
-              <span id="userSection">
+              <div id="userSection">
 <?php if(isset($_SESSION['user_id'])): ?>
-    <span class="mr-2 text-white">
-        Hello, <strong><?php echo $_SESSION['username']; ?></strong>
-    </span>
-    <a href="logout.php">
-        <button class="px-2 py-1 text-xs text-white bg-red-500 rounded">
-            Logout
-        </button>
+    <a href="profile.php" class="profile-btn">
+        <i class="bi bi-person-circle" style="font-size:22px;"></i>
     </a>
 <?php else: ?>
-    <a href="join.php">
-        <button class="px-2 py-1 text-xs text-white bg-blue-500 rounded">
-            + Join Now
-        </button>
-    </a>
+    <a href="join.php" class="join-btn">+ Join Now</a>
 <?php endif; ?>
-</span>
+</div>
             </div>
         </div>
 
