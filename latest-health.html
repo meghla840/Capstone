@@ -89,7 +89,8 @@
             color: white;
             display: inline-block;
         }
-      /* ARTICLES SECTION */
+
+        /* ARTICLES SECTION */
         .articles {
             max-width: 1400px;
             margin: 0 auto;
@@ -97,9 +98,18 @@
             padding: 10px;
         }
 
-        .highlight-text {
-            font-weight: bold;
+        /* TOP TEXT COLOR FIX */
+        .articles .heighlightt {
             color: #68657b;
+        }
+
+        .articles h1 {
+            color: #49465b;
+        }
+
+        .articles p {
+            color: #666;
+            
         }
 
         .subtext {
@@ -115,6 +125,7 @@
             padding: 0 10px;
             box-sizing: border-box;
             margin-top: 25px;
+          
         }
 
         @media (max-width: 1200px) {
@@ -207,14 +218,32 @@
             margin: 25px 0;
         }
 
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .like-btn {
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+
         .read-btn {
             background-color: #49465b;
             color: #fff;
-            padding: 12px 30px;
-            border-radius: 8px;
+            padding: 6px 14px;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s, background 0.2s;
+            font-size: 14px;
+            transition: 0.2s;
         }
 
         .read-btn:hover {
@@ -229,6 +258,24 @@
             padding: 20px 0;
             margin-top: 40px;
         }
+
+        /* PURPLE BACKGROUND FOR TOP TEXT */
+.articles-header {
+    background: #49465b;
+    color: white;
+    padding: 30px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+/* make all text inside white */
+.articles-header p{
+    color: #efe8e8;
+}
+.articles-header h1 {
+    color: white;
+}
+
 
     </style>
 </head>
@@ -249,7 +296,7 @@
                     <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
                 </ul>
                 <div id="userSection">
-                    <a href="join.html"><button> + Join Now</button></a>
+                    <a href="join.php"><button> + Join Now</button></a>
                 </div>
             </div>
         </div>
@@ -262,38 +309,38 @@
             <div class="menu-toggle" id="menu-toggle">☰</div>
 
             <ul class="ul" id="nav-links">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
 
                 <li class="drpdwn">
                     <a href="">Doctors</a>
                     <div class="dropdown-content">
-                        <a href="findDoctor.html">Find Doctors</a>
+                        <a href="findDoctor.php">Find Doctors</a>
                         <a href="doctor_available_in_location.html">Doctors Available in Location</a>
-                        <a href="all_doctors.html">Doctors List</a>
+                        <a href="all_doctors.php">Doctors List</a>
                         <a href="demo_appointment list.html">appointment List</a>
                     </div>
                 </li>
 
                 <li class="drpdwn"><a href="">Hospital</a>
                     <div class="dropdown-content">
-                        <a href="find_hospital.html">Find Hospital</a>
+                        <a href="find_hospital.php">Find Hospital</a>
                         <a href="nearby_hospitals.html">Check around me</a>
-                        <a href="hospital_list.html">Hospital List</a>
+                        <a href="hospital_list.php">Hospital List</a>
                     </div>
                 </li>
 
                 <li class="drpdwn"><a href="">Medicine Availability</a>
                     <div class="dropdown-content">
                         <a href="medical_store_list.html">Medical Store list</a>
-                        <a href="medicine_nearby.html">Check Medicine Nearby</a>
-                        <a href="medicine_details.html">Medicine Details</a>
+                        <a href="medicine_nearby.php">Check Medicine Nearby</a>
+                        <a href="medicine_details.php">Medicine Details</a>
                     </div>
                 </li>
 
                 <li class="drpdwn"><a href="">Health Forum</a>
                     <div class="dropdown-content">
-                        <a href="askQc.html">Ask a Question</a>
-                        <a href="browse.html">Browse Discussions</a>
+                        <a href="askQc.php">Ask a Question</a>
+                        <a href="browse.php">Browse Discussions</a>
                     </div>
                 </li>
 
@@ -336,125 +383,37 @@
         </nav>
     </header>
     <main>
-       
-       
-       
+
+
+
     <section class="articles">
-        <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
-        <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
-        <p>Explore our latest articles covering current health concerns, expert advice, <br>
-            and wellness tips to help you stay informed and protected.</p>
     
-        <div class="article_container">
+        <div class="articles-header">
+            <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
     
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/corona.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Corona</div>
-                    <div class="title">How COVID-19 variants affect elderly immunity</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> August 5, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 88</div>
-                    <div><i class="bi bi-chat"></i> 10</div>
-                </div>
-            </div>
+            <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
     
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/dengue.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Dengue</div>
-                    <div class="title">Dengue outbreak worsens during monsoon in Dhaka</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> July 29, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 188</div>
-                    <div><i class="bi bi-chat"></i> 90</div>
-                </div>
-            </div>
-    
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/airpolution.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Air Pollution</div>
-                    <div class="title">Polluted air increases risk of stroke and lung diseases</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> July 20, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 88k+</div>
-                    <div><i class="bi bi-chat"></i> 1000+</div>
-                </div>
-            </div>
-    
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/mental.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Mental Health</div>
-                    <div class="title">Rising anxiety among youth post-pandemic</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> August 1, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 98</div>
-                    <div><i class="bi bi-chat"></i> 100</div>
-                </div>
-            </div>
-    
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/monkeypox.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Monkeypox</div>
-                    <div class="title">Monkeypox alert issued in several districts</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> July 25, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 45</div>
-                    <div><i class="bi bi-chat"></i> 106</div>
-                </div>
-            </div>
-    
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/heatstroke.jpeg" alt="Health Image">
-                </div>
-                <div class="content">
-                    <div class="category">Heatstroke</div>
-                    <div class="title">Record heatwaves raise heatstroke cases globally</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> August 3, 2025</div>
-                </div>
-                <div class="like">
-                    <div><i class="bi bi-heart"></i> 98</div>
-                    <div><i class="bi bi-chat"></i> 65</div>
-                </div>
-            </div>
-    
+            <p>Explore our latest articles covering current health concerns, expert advice, <br>
+                and wellness tips to help you stay informed and protected.</p>
         </div>
     
-      
+        <div class="article_container"></div>
+    
     </section>
 
 
-      
+
 
     </main>
     <footer>
-      
-            <div class="copyright">
-                <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
-            </div>
-       
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
+        </div>
+
     </footer>
- 
-    <script src="scripts/script.js"></script>
+
+    <script src="scripts/news.js"></script>
 </body>
 
 </html>
