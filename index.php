@@ -58,6 +58,7 @@ if($result){
   
     
 }
+
 .btn-view a {
     text-decoration: none;
     color: inherit;
@@ -400,120 +401,19 @@ if($result){
         <a href="all_doctors.php" class="see-btn">See All Doctors</a>
     </div>
 </section>
-        <section class="articles">
-            <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
-        <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
-        <p>Explore our latest articles covering current health concerns, expert advice, <br>
-            and wellness tips to help you stay informed and protected.</p>
+     <section class="articles">
+    <p class="heighlightt">Stay updated with our latest health tips, guides, and medical insights</p>
+    <h1 class="merriweather">Latest Health <span class="highlight">Articles</span></h1>
+    <p>Explore our latest articles covering current health concerns and expert advice.</p>
 
-    <div class="article_container">
+    <div class="article_container" id="dynamic-news-container">
+        <p>Loading latest health news...</p>
+    </div>
 
-    
-            <div class="card">
-            <div class="img-container">
-                <img class="main-img" src="images/corona.jpeg" alt="Health Image">
-               
-            </div>
-            <div class="content">
-                <div class="category">Corona</div>
-                <div class="title">How COVID-19 variants affect elderly immunity</div>
-                <div class="date"><i class="bi bi-calendar-week"></i> August 5, 2025</div>
-            </div>
-            <div class="like">
-                <div><i class="bi bi-heart"></i> 88</div>
-                <div><i class="bi bi-chat"></i> 10</div>
-            </div>
-            </div>
-
-            
-            <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/dengue.jpeg" alt="Health Image">
-                
-                    </div>
-                    <div class="content">
-                        <div class="category">Dengue</div>
-                        <div class="title">Dengue outbreak worsens during monsoon in Dhaka</div>
-                        <div class="date"><i class="bi bi-calendar-week"></i> July 29, 2025</div>
-                    </div>
-                    <div class="like">
-                    <div><i class="bi bi-heart"></i> 188</div>
-                    <div><i class="bi bi-chat"></i> 90</div>
-                </div>
-            </div>
-
-              
-                <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/airpolution.jpeg" alt="Health Image">
-                    
-                </div>
-                <div class="content">
-                    <div class="category">Air Pollution</div>
-                    <div class="title">Polluted air increases risk of stroke and lung diseases</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> July 20, 2025</div>
-                </div>
-                <div class="like">
-                <div><i class="bi bi-heart"></i> 88k+</div>
-                <div><i class="bi bi-chat"></i> 1000+</div>
-            </div>
-                </div>
-
-             
-                <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/mental.jpeg" alt="Health Image">
-    
-                </div>
-                <div class="content">
-                    <div class="category">Mental Health</div>
-                    <div class="title">Rising anxiety among youth post-pandemic</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> August 1, 2025</div>
-                </div>
-                <div class="like">
-                <div><i class="bi bi-heart"></i> 98</div>
-                <div><i class="bi bi-chat"></i> 100</div>
-            </div>
-                </div>
-
-              
-                <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/monkeypox.jpeg" alt="Health Image">
-                    
-                </div>
-                <div class="content">
-                    <div class="category">Monkeypox</div>
-                    <div class="title">Monkeypox alert issued in several districts</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> July 25, 2025</div>
-                </div>
-                <div class="like">
-                <div><i class="bi bi-heart"></i> 45</div>
-                <div><i class="bi bi-chat"></i> 106</div>
-            </div>
-                </div>
-
-               
-                <div class="card">
-                <div class="img-container">
-                    <img class="main-img" src="images/heatstroke.jpeg" alt="Health Image">
-                    
-                </div>
-                <div class="content">
-                    <div class="category">Heatstroke</div>
-                    <div class="title">Record heatwaves raise heatstroke cases globally</div>
-                    <div class="date"><i class="bi bi-calendar-week"></i> August 3, 2025</div>
-                </div>
-                <div class="like">
-                <div><i class="bi bi-heart"></i> 98</div>
-                <div><i class="bi bi-chat"></i> 65</div>
-            </div>
-                </div>
-
-            </div>
-            <div class="see"><button><a href="articles.html" class="read-btn">Explore All</a>
-            </button></div>
-        </section>
+    <div class="see">
+        <button><a href="articles.html" class="read-btn">Explore All</a></button>
+    </div>
+</section>
 
         <section class="emrg">
             <div class="emergency-box">

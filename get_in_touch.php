@@ -405,78 +405,129 @@ textarea { height: 140px; resize: vertical; }
     }
 
     // ===== CHAT SEND =====
-    document.getElementById("sendChat").addEventListener("click", async function () {
-        const input = document.getElementById("chatInput");
-        const msg = input.value.trim();
-        if (!msg) return;
+   document.getElementById("sendChat").addEventListener("click", async function () {
+    const input = document.getElementById("chatInput");
+    const msg = input.value.trim();
+    if (!msg) return;
 
-        const messagesDiv = document.getElementById("chatMessages");
+    const messagesDiv = document.getElementById("chatMessages");
 
-        // ===== USER MESSAGE =====
-        const userWrapper = document.createElement("div");
-        userWrapper.style.display = "flex";
-        userWrapper.style.justifyContent = "flex-end";
-        userWrapper.style.marginBottom = "10px";
+    // ===== USER MESSAGE =====
+    const userWrapper = document.createElement("div");
+    userWrapper.style.display = "flex";
+    userWrapper.style.justifyContent = "flex-end";
+    userWrapper.style.marginBottom = "10px";
 
-        const userMsg = document.createElement("div");
-        userMsg.style.background = "#4b5563";
-        userMsg.style.color = "white";
-        userMsg.style.padding = "10px 14px";
-        userMsg.style.borderRadius = "18px 18px 0 18px";
-        userMsg.style.maxWidth = "70%";
-        userMsg.innerText = msg;
+    const userMsg = document.createElement("div");
+    userMsg.style.background = "#4b5563";
+    userMsg.style.color = "white";
+    userMsg.style.padding = "10px 14px";
+    userMsg.style.borderRadius = "18px 18px 0 18px";
+    userMsg.style.maxWidth = "70%";
+    userMsg.innerText = msg;
 
-        userWrapper.appendChild(userMsg);
-        messagesDiv.appendChild(userWrapper);
+    userWrapper.appendChild(userMsg);
+    messagesDiv.appendChild(userWrapper);
 
-        input.value = "";
+    input.value = "";
 
-        // ===== TYPING INDICATOR =====
-        const typing = document.createElement("div");
-        typing.innerText = "QuickAid AI is typing...";
-        typing.style.fontSize = "0.8rem";
-        typing.style.margin = "5px";
-        messagesDiv.appendChild(typing);
+    // ===== TYPING =====
+    const typing = document.createElement("div");
+    typing.innerText = "QuickAid AI is typing...";
+    typing.style.fontSize = "0.8rem";
+    typing.style.margin = "5px";
+    messagesDiv.appendChild(typing);
+
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    try {
+        const response = await fetch("chat.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: msg })
+        });
+
+        const data = await response.json();
+        typing.remove();
+
+        // ===== PARSE AI RESPONSE =====
+        let aiData;
+
+        try {
+            aiData = JSON.parse(data.reply);
+        } catch {
+            aiData = {
+                doctor: "Medicine",
+                message: data.reply
+            };
+        }
+
+        const doctorType = aiData.doctor || "Medicine";
+        const aiMessage = aiData.message || data.reply;
+
+        // ===== SHOW AI MESSAGE =====
+        const aiWrapper = document.createElement("div");
+        aiWrapper.style.display = "flex";
+        aiWrapper.style.justifyContent = "flex-start";
+        aiWrapper.style.marginBottom = "10px";
+
+        const aiMsg = document.createElement("div");
+        aiMsg.style.background = "#e5e7eb";
+        aiMsg.style.color = "#111";
+        aiMsg.style.padding = "10px 14px";
+        aiMsg.style.borderRadius = "18px 18px 18px 0";
+        aiMsg.style.maxWidth = "70%";
+        aiMsg.innerText = aiMessage;
+
+        aiWrapper.appendChild(aiMsg);
+        messagesDiv.appendChild(aiWrapper);
+
+        // ===== FETCH DOCTORS =====
+        const res2 = await fetch(`get_doctors.php?type=${doctorType}`);
+        const doctors = await res2.json();
+
+        // ===== SHOW DOCTORS =====
+        if (doctors.length > 0) {
+
+            const doctorWrapper = document.createElement("div");
+            doctorWrapper.style.margin = "10px 0";
+
+            const title = document.createElement("div");
+            title.innerText = "Recommended Doctors:";
+            title.style.fontWeight = "bold";
+            title.style.marginBottom = "5px";
+
+            doctorWrapper.appendChild(title);
+
+            doctors.forEach(doc => {
+                const card = document.createElement("div");
+                card.style.border = "1px solid #ddd";
+                card.style.borderRadius = "10px";
+                card.style.padding = "8px";
+                card.style.marginBottom = "6px";
+                card.style.background = "#f9fafb";
+
+               card.innerHTML = `
+    <div><b>👨‍⚕️ Dr. ${doc.name}</b></div>
+    <div>Specialist: ${doc.specialization}</div>
+    <div>🏥 Clinic: ${doc.clinic || "Not provided"}</div>
+    <div>💰 Fees: ৳${doc.fees || "Not set"}</div>
+    <div>🆔 BMDC: ${doc.bmdc}</div>
+`;
+                doctorWrapper.appendChild(card);
+            });
+
+            messagesDiv.appendChild(doctorWrapper);
+        }
 
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-        try {
-            // ===== CALL PHP =====
-            const response = await fetch("chat.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message: msg })
-            });
-
-            const data = await response.json();
-
-            typing.remove(); // remove typing
-
-            // ===== AI MESSAGE =====
-            const aiWrapper = document.createElement("div");
-            aiWrapper.style.display = "flex";
-            aiWrapper.style.justifyContent = "flex-start";
-            aiWrapper.style.marginBottom = "10px";
-
-            const aiMsg = document.createElement("div");
-            aiMsg.style.background = "#e5e7eb";
-            aiMsg.style.color = "#111";
-            aiMsg.style.padding = "10px 14px";
-            aiMsg.style.borderRadius = "18px 18px 18px 0";
-            aiMsg.style.maxWidth = "70%";
-            aiMsg.innerText = data.reply;
-
-            aiWrapper.appendChild(aiMsg);
-            messagesDiv.appendChild(aiWrapper);
-
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-        } catch (error) {
-            typing.innerText = "⚠️ Error connecting to AI.";
-        }
-    });
+    } catch (error) {
+        typing.innerText = "⚠️ Error connecting to AI.";
+    }
+});
 </script>
 
 </body>

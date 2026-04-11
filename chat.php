@@ -1,9 +1,8 @@
 <?php
 header("Content-Type: application/json");
 
-
 // 🔑 YOUR OPENROUTER KEY
-$apiKey = "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";
+$apiKey = "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";
 
 // Get message
 $data = json_decode(file_get_contents("php://input"), true);
@@ -14,10 +13,26 @@ $url = "https://openrouter.ai/api/v1/chat/completions";
 
 // Request body
 $postData = [
-    "model" => "openai/gpt-3.5-turbo", // free & good
+    "model" => "openai/gpt-3.5-turbo",
     "messages" => [
-        ["role" => "system", "content" => "You are a helpful medical assistant. Give short, clear health advice. If serious, suggest doctor."],
-        ["role" => "user", "content" => $userMessage]
+        [
+            "role" => "system",
+            "content" => "You are a medical assistant.
+
+Based on user symptoms:
+1. Suggest doctor type ONLY from: Eye, Medicine, Cardiologist, Brain
+2. Give short advice
+
+Respond ONLY in JSON like:
+{
+  \"doctor\": \"Eye\",
+  \"message\": \"You may have eye strain\"
+}"
+        ],
+        [
+            "role" => "user",
+            "content" => $userMessage
+        ]
     ]
 ];
 
@@ -29,7 +44,7 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Authorization: Bearer " . $apiKey,
     "Content-Type: application/json",
-    "HTTP-Referer: http://localhost", // required
+    "HTTP-Referer: http://localhost",
     "X-Title: QuickAid App"
 ]);
 
@@ -37,8 +52,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
 
 $response = curl_exec($ch);
 
-if(curl_errno($ch)){
-    echo json_encode(["reply" => "Curl Error: " . curl_error($ch)]);
+if (curl_errno($ch)) {
+    echo json_encode(["reply" => "Curl Error"]);
     exit;
 }
 
@@ -46,14 +61,12 @@ curl_close($ch);
 
 $result = json_decode($response, true);
 
-// DEBUG ERROR
-if(isset($result["error"])){
-    echo json_encode(["reply" => "API Error: " . $result["error"]["message"]]);
+if (isset($result["error"])) {
+    echo json_encode(["reply" => "API Error"]);
     exit;
 }
 
-// Extract reply
-$reply = $result["choices"][0]["message"]["content"] ?? "No reply";
+$reply = $result["choices"][0]["message"]["content"] ?? "{}";
 
 echo json_encode(["reply" => $reply]);
 ?>
