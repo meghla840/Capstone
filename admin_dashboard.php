@@ -68,6 +68,7 @@ ORDER BY ta.created_at DESC
 <html>
 <head>
 <title>Admin Panel</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <style>
@@ -230,6 +231,95 @@ td .btn{
     background:linear-gradient(90deg,#49465b,#6e6c80,#a5a3b8);
     border-radius:10px;
 }
+
+
+/* WRAPPER (Sticky container) */
+.filter-wrapper{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+
+    background: rgba(243, 246, 249, 0.8);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+
+    /* ✨ animation */
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown{
+    from{
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+/* INNER CENTER ALIGN */
+.filter-bar{
+    max-width: 1200px;     /* content center */
+    margin: 0 auto;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding: 8px 12px;
+}
+
+/* BUTTON STYLE */
+.filterBtn{
+    border: 1px solid rgba(73,70,91,0.15);
+    padding: 10px 18px;
+    border-radius: 999px;
+
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+
+    color: #3b3b3b;
+    background: #ffffff;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+
+    transition: all 0.25s ease;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* HOVER */
+.filterBtn:hover{
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #49465b, #6e6c80);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 20px rgba(73,70,91,0.25);
+}
+
+/* ACTIVE */
+.filterBtn.active{
+    background: linear-gradient(135deg, #49465b, #6e6c80);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 10px 25px rgba(73,70,91,0.35);
+    transform: translateY(-1px);
+}
+
+/* CLICK EFFECT */
+.filterBtn:active{
+    transform: scale(0.96);
+}
+.filterBtn i{
+    font-size: 16px;
+}
 </style>
 </head>
 
@@ -303,8 +393,58 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 </div>
 
 </div>
+
+<!-- FILTER BUTTONS -->
+<!-- FILTER NAV -->
+<div class="filter-wrapper">
+
+    <div class="filter-bar">
+
+    <button class="filterBtn active" data-target="all">
+        <i class="bi bi-grid-3x3-gap-fill"></i>
+        All
+    </button>
+
+    <button class="filterBtn" data-target="users">
+        <i class="bi bi-people-fill"></i>
+        Users
+    </button>
+
+    <button class="filterBtn" data-target="doctors">
+        <i class="bi bi-heart-pulse-fill"></i>
+        Doctors
+    </button>
+
+    <button class="filterBtn" data-target="hospitals">
+        <i class="bi bi-hospital-fill"></i>
+        Hospitals
+    </button>
+
+    <button class="filterBtn" data-target="patients">
+        <i class="bi bi-person-fill"></i>
+        Patients
+    </button>
+
+    <button class="filterBtn" data-target="transports">
+        <i class="bi bi-truck-front-fill"></i>
+        Transport
+    </button>
+
+    <button class="filterBtn" data-target="reviews">
+        <i class="bi bi-star-fill"></i>
+        Reviews
+    </button>
+
+    <button class="filterBtn" data-target="alerts">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        Alerts
+    </button>
+
+</div>
+
+</div>
 <!-- USERS -->
-<div class="card">
+<div class="card section users">
 <h3 class="section-title">All Users</h3>
 <table>
 <tr><th>Name</th><th>Email</th><th>Role</th><th>Action</th><th>Status</th></tr>
@@ -335,7 +475,7 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 </div>
 
 <!-- DOCTORS -->
-<div class="card">
+<div class="card section doctors">
 <h3 class="section-title">Doctors</h3>
 <table>
 <tr><th>Name</th><th>Specialization</th><th>BMDC</th><th>Action</th></tr>
@@ -355,7 +495,7 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 </div>
 
 <!-- HOSPITAL -->
-<div class="card">
+<div class="card section hospitals">
 <h3 class="section-title">Hospitals</h3>
 <table>
 <tr><th>Name</th><th>Location</th><th>Beds</th><th>Action</th></tr>
@@ -375,7 +515,7 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 </div>
 
 <!-- PATIENT -->
-<div class="card">
+<div class="card section patients">
 <h3 class="section-title">Patients</h3>
 <table>
 <tr><th>Name</th><th>Blood</th><th>Address</th><th>Action</th></tr>
@@ -396,7 +536,7 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 
 
 <!-- TRANSPORT -->
-<div class="card">
+<div class="card section transports">
 <h3 class="section-title">Transport Vehicles</h3>
 <table>
 <tr><th>Name</th><th>Capacity</th><th>Status</th><th>Driver</th><th>Action</th></tr>
@@ -426,7 +566,7 @@ $admin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT phone,email FROM users W
 <div id="popupContent"></div>
 </div>
 <!-- REVIEWS -->
-<div class="card">
+<div class="card section reviews">
 <h3 class="section-title">Reviews</h3>
 
 <table>
@@ -472,7 +612,7 @@ if(mysqli_num_rows($reviews) > 0){
 </div>
 
 <!-- TRAFFIC ALERTS -->
-<div class="card">
+<div class="card section alerts">
 <h3 class="section-title">⚠️ Incident & Road Alerts</h3>
 
 <table>
@@ -1182,6 +1322,41 @@ document.addEventListener('click', function(e){
 
         });
     }
+
+});
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const buttons = document.querySelectorAll(".filterBtn");
+    const sections = document.querySelectorAll(".section");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function(){
+
+            let target = this.getAttribute("data-target");
+
+            // active button change
+            buttons.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+
+            // show/hide logic
+            sections.forEach(sec => {
+
+                if(target === "all"){
+                    sec.style.display = "block";
+                }
+                else{
+                    if(sec.classList.contains(target)){
+                        sec.style.display = "block";
+                    }else{
+                        sec.style.display = "none";
+                    }
+                }
+
+            });
+
+        });
+    });
 
 });
 

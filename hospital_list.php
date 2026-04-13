@@ -23,7 +23,14 @@ if(!$result){
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-body { font-family: 'Merriweather', serif; background:#eaf0f3; margin:0; padding:0; }
+  html, body {
+  height: 100%;
+}
+main {
+  flex: 1;
+}
+body { font-family: 'Merriweather', serif; background:#eaf0f3; margin:0; padding:0; 
+  animation: pageFade 0.6s ease;}
 
 header { 
   position: sticky;
@@ -36,35 +43,153 @@ header {
   align-items:center;
   justify-content:space-between;
 }
-
+@keyframes pageFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 header h1 { font-size:1.5rem; margin:0; }
 
 .btn-back { background-color:transparent; color:white; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; }
 .btn-back:hover { background-color:#49465b; }
 
 main { max-width:900px; margin:2rem auto; }
-
-.hospital-card {
-  background:white;
-  padding:1rem;
-  border-radius:10px;
-  display:flex;
-  gap:1rem;
-  align-items:center;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
-  transition: transform 0.2s;
+.hospital-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
-.hospital-card:hover { transform: scale(1.03); }
+/* responsive */
+@media (max-width: 1024px) {
+  .hospital-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-.hospital-card img { width:80px; height:80px; }
+@media (max-width: 640px) {
+  .hospital-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.hospital-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
 
-.hospital-info { flex:1; }
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: cardEntry 0.6s ease forwards;
+  transition: all 0.35s ease;
+  
+}
 
-.hospital-info h2 { font-weight:600; margin-bottom:0.5rem; }
+.hospital-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
 
-.hospital-info div { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem; }
+/* IMAGE TOP */
+.hospital-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  
+   transition: transform 0.5s ease, filter 0.3s;
+}
+
+.hospital-card:hover img {
+ transform: scale(1.08);
+  filter: brightness(1.05);
+}
+
+/* INFO BELOW */
+.hospital-info {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+   text-align: center;
+  align-items: center;
+}
+
+
+/* TITLE */
+.hospital-info h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2f2c3d;
+  transition: 0.3s;
+}
+
+/* TEXT */
+.hospital-info div {
+  font-size: 0.88rem;
+  color: #555;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* BED HIGHLIGHT */
+
+
+/* ANIMATION DELAY */
+/* stagger animation */
+.hospital-card:nth-child(1){animation-delay:0.05s}
+.hospital-card:nth-child(2){animation-delay:0.1s}
+.hospital-card:nth-child(3){animation-delay:0.15s}
+.hospital-card:nth-child(4){animation-delay:0.2s}
+.hospital-card:nth-child(5){animation-delay:0.25s}
+.hospital-card:nth-child(6){animation-delay:0.3s}
+
+@keyframes cardEntry {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* HOVER MAGIC EFFECT */
+.hospital-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(circle at top left, rgba(73,70,91,0.15), transparent);
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.hospital-card:hover::after {
+  opacity: 1;
+}
+
+
+
+.hospital-card:hover h2 {
+  letter-spacing: 0.5px;
+}
+
+/* BED BADGE STYLE */
+.beds {
+  background: rgba(73,70,91,0.08);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 
@@ -77,29 +202,39 @@ main { max-width:900px; margin:2rem auto; }
 </header>
 
 <main>
-  <div class="flex flex-col gap-4">
+ <div class="hospital-grid">
 
     <?php while($row = mysqli_fetch_assoc($result)): ?>
 
-      <div class="hospital-card"
-           onclick="goToDetails(<?= $row['id'] ?>)">
+<?php 
+$image = !empty($row['profilePic']) 
+    ? $row['profilePic'] 
+    : 'default.png';
+?>
 
-        <img src="images/icons8-hospital-100.png" alt="Hospital">
+<div class="hospital-card" onclick="goToDetails(<?= $row['id'] ?>)">
 
-        <div class="hospital-info">
-          <h2><?= htmlspecialchars($row['hospitalName']) ?></h2>
+  <!-- IMAGE TOP -->
+  <img src="<?= $image ?>" onerror="this.src='default.png'">
 
-          <div>📍 <?= htmlspecialchars($row['location']) ?></div>
+  <!-- INFO CENTER -->
+  <div class="hospital-info">
 
-          <div>📞 <?= htmlspecialchars($row['phone'] ?? 'Not set') ?></div>
+    <h2><?= htmlspecialchars($row['hospitalName']) ?></h2>
 
-          <div>🛏 Beds: <?= $row['availableBeds'] ?> / <?= $row['totalBeds'] ?></div>
-        </div>
+    <div>📍 <?= htmlspecialchars($row['location']) ?></div>
 
-      </div>
+    <div>📞 <?= htmlspecialchars($row['hphone'] ?? 'Not set') ?></div>
 
-    <?php endwhile; ?>
+    <div class="beds">
+      🛏 Beds: <?= $row['availableBeds'] ?> / <?= $row['totalBeds'] ?>
+    </div>
 
+  </div>
+
+</div>
+
+<?php endwhile; ?>
   </div>
 </main>
 

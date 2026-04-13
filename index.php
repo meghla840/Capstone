@@ -153,6 +153,8 @@ if($result){
     font-size: 80px;
     color: #888;
 }
+
+
     </style>
 </head>
 <body class="open-sans">
@@ -192,7 +194,7 @@ if($result){
         <ul class="ul" id="nav-links">
             <li><a href="index.php">Home</a></li>
             <li class="drpdwn">
-                <a href="">Doctors</a>
+                <a href="findDoctor.php">Doctors</a>
                 <div class="dropdown-content">
                     <a href="findDoctor.php">Find Doctors</a>
                     
@@ -200,27 +202,27 @@ if($result){
                    
                 </div>
             </li>
-            <li class="drpdwn"><a href="">Hospital</a>
+            <li class="drpdwn"><a href="hospital_list.php">Hospital</a>
                 <div class="dropdown-content">
                     <a href="find_hospital.php">Find Hospital</a>
                     <a href="hospital_list.php">Hospital List</a>
                 </div>
             </li>
-            <li class="drpdwn"><a href="">Medicine Availability</a>
+            <li class="drpdwn"><a href="medicine_nearby.php">Medicine Availability</a>
                 <div class="dropdown-content">
                     <a href="medicine_nearby.php">Medical Store list</a>
                     
                     <a href="medicine_details.php">Medicine Details</a>
                 </div>
             </li>
-            <li class="drpdwn"><a href="">Health Forum</a>
+            <li class="drpdwn"><a href="browse.php">Health Forum</a>
                 <div class="dropdown-content">
-                    <a href="askQc.html">Ask a Question</a>
-                    <a href="browse.html">Browse Discussions</a>
+                    <a href="askQc.php">Ask a Question</a>
+                    <a href="browse.php">Browse Discussions</a>
                 </div>
             </li>
             <li class="drpdwn">
-                <a href="">Health Support Services</a>
+                <a href="get_in_touch.php">Health Support Services</a>
                 <div class="dropdown-content">
                     <a href="articles.html">Latest Health News</a>
                     <a href="emergency_action_guide.html">Emergency Action Guide</a>
@@ -567,10 +569,51 @@ if($result){
             <div class="formm">
                  <h3 class="merriweather"> Something bothering you?</h3>
                 <p>Submit your complaint below and we’ll get back to you shortly.</p>
-                <form >
-                    <textarea name="complaint" placeholder="Write your complaint here..." rows="5" required></textarea>
-                <button class="send">Send</button>
-                </form>
+                <form style="
+    width:100%;
+    max-width:500px;
+    margin-top:10px;
+">
+
+    <textarea name="complaint"
+        placeholder="Write your complaint..."
+        required
+        style="
+            width:100%;
+            height:110px;
+            padding:10px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:14px;
+            resize:none;
+            outline:none;
+            box-sizing:border-box;
+        "
+    ></textarea>
+
+    <div style="
+        display:flex;
+        justify-content:flex-end;
+        margin-top:4px;   /* 🔥 আগে 8px ছিল */
+    ">
+
+        <button type="submit"
+            style="
+                padding:10px 18px;
+                border:none;
+                border-radius:10px;
+                background:#49465b;
+                color:white;
+                font-weight:600;
+                cursor:pointer;
+            "
+        >
+            Send
+        </button>
+
+    </div>
+
+</form>
                 
             </div>
             

@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include "backend/db.php";
@@ -28,7 +29,9 @@ if(isset($_POST['sendMsg'])){
         $stmt->bind_param("iss", $user_id, $name, $message);
         $stmt->execute();
 
-        $success = "✅ Message sent successfully!";
+        // 🔥 IMPORTANT: redirect after insert
+        header("Location: ".$_SERVER['PHP_SELF']."?success=1");
+        exit();
     }
 }
 ?>
@@ -51,15 +54,15 @@ body { background: #f7f7fc; color: #1f2937; }
 .header { 
     position: sticky;
     top: 0;
-    background: rgba(75, 75, 113, 0.85); /* semi-transparent purple-ish */
+    background: rgba(75, 75, 113, 0.85);
     color: white; 
     text-align: center; 
-    padding: 15px 15px; /* reduced padding */
+    padding: 15px 15px;
     z-index: 100;
     border-radius: 0 0 20px 20px;
-    backdrop-filter: blur(6px); /* optional: makes background blur slightly for better readability */
+    backdrop-filter: blur(6px);
 }
-.header h1 { font-size: 1.6rem; } /* smaller */
+.header h1 { font-size: 1.6rem; }
 .header h1 span { color: #f7d774; }
 .header p { opacity: 0.85; margin-top: 6px; font-weight: 400; font-size: 0.9rem; }
 
@@ -109,9 +112,7 @@ body { background: #f7f7fc; color: #1f2937; }
 .contact-card p { font-size: 0.95rem; color: #4b5563; margin-bottom: 10px; }
 .contact-card a { text-decoration: none; font-weight: 900; color: #081c38; transition: 0.3s; }
 .contact-card a:hover { color: #2c2f3b; }
-
-/* Highlight text in card */
-.highlight { color: #4b5563; font-weight: 700; } /* bold */
+.highlight { color: #4b5563; font-weight: 700; }
 
 /* Form */
 .message-box { 
@@ -213,23 +214,11 @@ textarea { height: 140px; resize: vertical; }
 .chat-input input { flex: 1; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 0.9rem; }
 .chat-input button { background: #4b5563; color: white; border: none; padding: 6px 10px; margin-left: 5px; border-radius: 6px; cursor: pointer; }
 
-/* Responsive */
 @media(max-width:480px){
     .header h1 { font-size: 1.6rem; }
     .message-box { padding: 25px 20px; }
     .contact-card i { font-size: 2rem; }
     .chat-popup { width: 90%; right: 5%; bottom: 50%; }
-}
-
-.success-box {
-    margin-top: 15px;
-    padding: 12px;
-    background: #dcfce7;
-    color: #166534;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
-    border: 1px solid #bbf7d0;
 }
 </style>
 </head>
@@ -246,32 +235,29 @@ textarea { height: 140px; resize: vertical; }
 <main class="container">
 
 <section class="contact-grid">
-
     <div class="contact-card">
         <i class="bi bi-envelope-fill"></i>
         <h3>Email Us</h3>
         <p>We respond within <span class="highlight">24 hours</span>.</p>
         <a href="mailto:support@quickaid.com">support@quickaid.com</a>
     </div>
-
     <div class="contact-card">
         <i class="bi bi-telephone-fill"></i>
         <h3>Call Support</h3>
         <p>Emergency help <span class="highlight">24/7</span>.</p>
         <a href="tel:+880125460586">+880 1254-60586</a>
     </div>
-
     <div class="contact-card">
         <i class="bi bi-chat-dots-fill"></i>
         <h3>Live Chat</h3>
         <p>Chat with our support team or AI assistant.</p>
         <a href="#" id="openChat">Start Chat</a>
     </div>
-
 </section>
 
 <section class="message-box">
     <h2>Send us a message</h2>
+
     <form method="POST">
     <div class="form-group">
         <textarea name="message" placeholder="Write your message..." required><?= isset($success) ? '' : '' ?></textarea>
@@ -282,8 +268,8 @@ textarea { height: 140px; resize: vertical; }
 <?php if(!empty($success)): ?>
     <div class="success-box"><?= $success ?></div>
 <?php endif; ?>
+    
 </section>
-
 </main>
 
 <footer class="footer">
@@ -303,56 +289,247 @@ textarea { height: 140px; resize: vertical; }
     </div>
 </div>
 
+<!-- ONLY CHANGED PARTS: CHAT SIZE + SCRIPT FIX -->
+
+<style>
+    /* 🔥 BIGGER MODERN CHATBOX */
+    .chat-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        /* BIGGER */
+        height: 500px;
+        /* BIGGER */
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        background: #4b5563;
+        color: white;
+        padding: 12px;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+   .chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+}
+
+    .chat-input {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .chat-input button {
+        padding: 10px 15px;
+    }
+
+    @media(max-width:600px) {
+        .chat-popup {
+            width: 95%;
+            height: 80%;
+        }
+    }
+</style>
+
 <script>
 
-// Live chat popup toggle
-const chatPopup = document.getElementById("chatPopup");
-document.getElementById("openChat").addEventListener("click", function(e){
-    e.preventDefault();
-    chatPopup.style.display = "flex";
-});
-document.getElementById("closeChat").addEventListener("click", function(){
-    chatPopup.style.display = "none";
-});
 
-// Simple AI dynamic chat replies
-const aiReplies = [
-    "Thanks for reaching out! We'll respond shortly.",
-    "Hello! How can I assist you today?",
-    "Our support team is here to help you.",
-    "Please provide more details so we can assist better."
-];
+    // ===== Chat Popup =====
+    const chatPopup = document.getElementById("chatPopup");
 
-document.getElementById("sendChat").addEventListener("click", function(){
+    document.getElementById("openChat").addEventListener("click", function (e) {
+        e.preventDefault();
+        chatPopup.style.display = "flex";
+    });
+
+    document.getElementById("closeChat").addEventListener("click", function () {
+        chatPopup.style.display = "none";
+    });
+
+    // ===== AI LOGIC =====
+    function getAIReply(msg) {
+        msg = msg.toLowerCase();
+
+        if (msg.includes("hi") || msg.includes("hello")) {
+            return "Hello 👋 I'm QuickAid AI. Tell me your symptoms.";
+        }
+
+        if (msg.includes("emergency")) {
+            return "🚨 Call emergency immediately!";
+        }
+
+        const issues = [
+            { keywords: ["fever"], reply: "🤒 Fever: rest + water. High? see doctor." },
+            { keywords: ["cough"], reply: "🤧 Cough: fluids + rest." },
+            { keywords: ["headache"], reply: "🧠 Headache: rest + hydration." },
+            { keywords: ["burn"], reply: "🔥 Cool with water 20 mins." },
+            { keywords: ["cut"], reply: "🩸 Clean + bandage." },
+            { keywords: ["chest pain"], reply: "❤️ EMERGENCY! Go hospital NOW." },
+            { keywords: ["breathing"], reply: "💨 Breathing issue = emergency." },
+            { keywords: ["diarrhea"], reply: "💦 Drink ORS." },
+            { keywords: ["vomit"], reply: "🤮 Hydrate slowly." },
+            { keywords: ["weak"], reply: "😴 Rest + food." },
+            { keywords: ["stress"], reply: "🧘 Relax + breathing." },
+            { keywords: ["tooth"], reply: "🦷 See dentist." },
+            { keywords: ["ear"], reply: "👂 Avoid touching, doctor if pain." },
+            { keywords: ["eye"], reply: "👁️ Avoid strain." },
+            { keywords: ["rash"], reply: "🩹 Skin irritation care needed." }
+        ];
+
+        for (let issue of issues) {
+            for (let kw of issue.keywords) {
+                if (msg.includes(kw)) return issue.reply;
+            }
+        }
+
+        return "Describe more symptoms 🙂";
+    }
+
+    // ===== CHAT SEND =====
+   document.getElementById("sendChat").addEventListener("click", async function () {
     const input = document.getElementById("chatInput");
     const msg = input.value.trim();
-    if(msg==="") return;
+    if (!msg) return;
+
     const messagesDiv = document.getElementById("chatMessages");
 
-    // user message
-    const userMsg = document.createElement("div");
-    userMsg.style.textAlign = "right";
-    userMsg.style.marginBottom = "6px";
-    userMsg.innerHTML = `<span style="background:#4b5563;color:white;padding:6px 10px;border-radius:10px;display:inline-block;">${msg}</span>`;
-    messagesDiv.appendChild(userMsg);
+    // ===== USER MESSAGE =====
+    const userWrapper = document.createElement("div");
+    userWrapper.style.display = "flex";
+    userWrapper.style.justifyContent = "flex-end";
+    userWrapper.style.marginBottom = "10px";
 
-    // AI reply
-    const aiMsg = document.createElement("div");
-    aiMsg.style.textAlign = "left";
-    aiMsg.style.marginBottom = "6px";
-    const randomReply = aiReplies[Math.floor(Math.random()*aiReplies.length)];
-    aiMsg.innerHTML = `<span style="background:#f1f1f1;color:#111827;padding:6px 10px;border-radius:10px;display:inline-block;">${randomReply}</span>`;
-    messagesDiv.appendChild(aiMsg);
+    const userMsg = document.createElement("div");
+    userMsg.style.background = "#4b5563";
+    userMsg.style.color = "white";
+    userMsg.style.padding = "10px 14px";
+    userMsg.style.borderRadius = "18px 18px 0 18px";
+    userMsg.style.maxWidth = "70%";
+    userMsg.innerText = msg;
+
+    userWrapper.appendChild(userMsg);
+    messagesDiv.appendChild(userWrapper);
+
+    input.value = "";
+
+    // ===== TYPING =====
+    const typing = document.createElement("div");
+    typing.innerText = "QuickAid AI is typing...";
+    typing.style.fontSize = "0.8rem";
+    typing.style.margin = "5px";
+    messagesDiv.appendChild(typing);
 
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    input.value = "";
-});
-setTimeout(() => {
-    const msg = document.querySelector(".success-box");
-    if(msg){
-        msg.style.display = "none";
+
+    try {
+        const response = await fetch("chat.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: msg })
+        });
+
+        const data = await response.json();
+        typing.remove();
+
+        // ===== PARSE AI RESPONSE =====
+        let aiData;
+
+        try {
+            aiData = JSON.parse(data.reply);
+        } catch {
+            aiData = {
+                doctor: "Medicine",
+                message: data.reply
+            };
+        }
+
+        const doctorType = aiData.doctor || "Medicine";
+        const aiMessage = aiData.message || data.reply;
+
+        // ===== SHOW AI MESSAGE =====
+        const aiWrapper = document.createElement("div");
+        aiWrapper.style.display = "flex";
+        aiWrapper.style.justifyContent = "flex-start";
+        aiWrapper.style.marginBottom = "10px";
+
+        const aiMsg = document.createElement("div");
+        aiMsg.style.background = "#e5e7eb";
+        aiMsg.style.color = "#111";
+        aiMsg.style.padding = "10px 14px";
+        aiMsg.style.borderRadius = "18px 18px 18px 0";
+        aiMsg.style.maxWidth = "70%";
+        aiMsg.innerText = aiMessage;
+
+        aiWrapper.appendChild(aiMsg);
+        messagesDiv.appendChild(aiWrapper);
+
+        // ===== FETCH DOCTORS =====
+        const res2 = await fetch(`get_doctors.php?type=${doctorType}`);
+        const doctors = await res2.json();
+
+        // ===== SHOW DOCTORS =====
+        if (doctors.length > 0) {
+
+            const doctorWrapper = document.createElement("div");
+            doctorWrapper.style.margin = "10px 0";
+
+            const title = document.createElement("div");
+            title.innerText = "Recommended Doctors:";
+            title.style.fontWeight = "bold";
+            title.style.marginBottom = "5px";
+
+            doctorWrapper.appendChild(title);
+
+            doctors.forEach(doc => {
+                const card = document.createElement("div");
+                card.style.border = "1px solid #ddd";
+                card.style.borderRadius = "10px";
+                card.style.padding = "8px";
+                card.style.marginBottom = "6px";
+                card.style.background = "#f9fafb";
+
+               card.innerHTML = `
+    <div><b>👨‍⚕️ Dr. ${doc.name}</b></div>
+    <div>Specialist: ${doc.specialization}</div>
+    <div>🏥 Clinic: ${doc.clinic || "Not provided"}</div>
+    <div>💰 Fees: ৳${doc.fees || "Not set"}</div>
+    <div>🆔 BMDC: ${doc.bmdc}</div>
+`;
+                doctorWrapper.appendChild(card);
+            });
+
+            messagesDiv.appendChild(doctorWrapper);
+        }
+
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    } catch (error) {
+        typing.innerText = "⚠️ Error connecting to AI.";
     }
-}, 3000);
+});
 </script>
 
 </body>

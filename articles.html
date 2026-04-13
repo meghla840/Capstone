@@ -1,376 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health Articles - QuickAid</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<style>
-body {
-    font-family: 'Merriweather', serif;
-    background: #eaf0f3; /* consistent with doctor page */
-    margin: 0; padding: 0;
-}
-header {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="shortcut icon" href="images/WhatsApp Image 2025-08-02 at 12.37.45_fcd8b415.jpg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+        rel="stylesheet">
+    <title>QuickAid</title>
+    <style>
+        #top-rated-Specialists {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            width: 70%;
+            margin: 0 auto;
+        }
+.simple-header {
     position: sticky;
     top: 0;
     z-index: 9999;
-    width:100%;
-    background: rgba(75,75,113,0.85);
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-header h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: 0.5px;
-    color: #f3f3f3;
-}
-.btn-back {
-    background-color: transparent;
-    border: none;          /* remove border */
-    color: #f3f3f3;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s, color 0.3s;
-}
 
-.btn-back:hover {
-    background-color: rgba(108, 106, 129, 0.6); /* subtle hover background */
-    color: white;
-}
-
-.articles-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-    gap: 20px;
-    padding: 20px;
-    justify-items: center; /* centers cards */
-}
-
-.article-card {
-    background: #fff;
-   
-     width: 100%;
-    max-width: 350px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-.article-card:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-}
-.article-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-.article-content {
-    padding: 15px;
-}
-.article-content .category {
-    font-size: 14px;
-    font-weight: bold;
-    color: #49465b;
-}
-.article-content .title {
-    font-size: 18px;
-    margin: 5px 0;
-    color: #333;
-    font-weight: 600;
-}
-.article-content .date {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 10px;
-}
-.react-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 15px 15px 15px;
-}
-.react-container div {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: #555;
-    gap: 5px;
-    transition: color 0.2s;
-}
-.react-container div.liked i {
-    color: #e63946;
-}
-.react-container div.commented i {
-    color: #1d3557;
-}
-.react-container div:hover i {
-    transform: scale(1.1);
-}
-footer {
     background: #49465b;
-    color: white;
-    text-align: center;
-    padding: 1.2rem 2rem;
-    margin-top: 3rem;
-    font-size: 0.95rem;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    letter-spacing: 0.5px;
+    color: #fff;
+
+    padding: 12px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-/* Popup Background */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.55);
-    display: none;
+
+/* Back Button */
+.back-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 99999;
-    backdrop-filter: blur(4px);
+
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-/* Popup Box */
-.popup-box {
-    background: rgba(255,255,255,0.95);
-    width: 92%;
-    max-width: 470px;
-    padding: 0;
-    border-radius: 18px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.25);
-    animation: popupAnimate 0.35s ease forwards;
-    overflow: hidden;
-    transform: scale(0.7);
-    opacity: 0;
+.back-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.05);
 }
 
-/* Popup Animation */
-@keyframes popupAnimate {
-    0%   { transform: scale(0.7); opacity: 0; }
-    70%  { transform: scale(1.03); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* Popup Header */
-.popup-header {
-    background: #4b4b71;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Popup Title */
-.popup-header h2 {
+/* Title */
+.page-title {
+    flex: 1;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
     margin: 0;
-    font-size: 20px;
+    color: #fff;
+}
+
+/* right side balance */
+.right-space {
+    width: 38px;
+}
+        .rated-doctor-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .rated-doctor-card:hover {
+            transform: scale(1.03);
+        }
+
+        .rated-doctor-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .rated-doctor-info {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .rated-doctor-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .rated-doctor-rating {
+            color: #f1c40f;
+            font-size: 16px;
+        }
+
+        .btn-view {
+            background: #49465b;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-view:hover {
+            background: #68657b;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .search-btn-find_doctor_page {
+            background-color: #49465b;
+            color: #fff;
+            font-size: 18px;
+            width: 10%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hero .buttons a {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+
+        /* ARTICLES SECTION */
+        
+
+        /* TOP TEXT COLOR FIX */
+       
+
+        .articles p {
+            color: #f9f1f1;
+            
+        }
+
+        .subtext {
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .article_container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-top: 25px;
+          
+        }
+
+        @media (max-width: 1200px) {
+            .article_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article_container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+      
+
+        
+
+        .article_container .card .img-container .main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article_container .card:hover .main-img {
+            transform: scale(1.05);
+        }
+
+        .article_container .card .content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .article_container .card .content .category {
+            font-size: 12px;
+            font-weight: 600;
+            color: #00b894;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .article_container .card .content .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .article_container .card .content .date {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .article_container .card .like {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .article_container .card .like i {
+            margin-right: 5px;
+        }
+
+        .see {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .like-btn {
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .read-btn {
+            background-color: #49465b;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .read-btn:hover {
+            background-color: #68657b;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #d6d5dc;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        /* PURPLE BACKGROUND FOR TOP TEXT */
+        .articles {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 15px;
+    text-align: center;
+}
+
+/* HEADER CARD */
+.articles-header {
+    background: linear-gradient(135deg, #49465b, #5f5d73);
+    color: white;
+    padding: 30px 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+}
+
+/* badge */
+.badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+/* title */
+.articles-header h1 {
+    font-size: 26px;
+    margin: 8px 0;
     font-weight: 700;
 }
 
-/* Close Button */
-.close-popup {
-    background: transparent;
-    border: none;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #ffffff;
-    transition: 0.2s;
-}
-.close-popup:hover {
-    transform: scale(1.25);
-    color: #fceaea;
+.articles-header h1 span {
+    color: #ffd369;
 }
 
-/* Popup Content */
-.popup-body {
-    padding: 22px 25px;
-    font-size: 15.5px;
+/* subtitle */
+.subtitle {
+    font-size: 15px;
+    opacity: 0.95;
+    margin-bottom: 8px;
+    color: #faf6f6;
+}
+
+/* description */
+.desc {
+    font-size: 14px;
+    opacity: 0.85;
+    color: #faf6f6;
     line-height: 1.6;
-    color: #333;
+    max-width: 750px;
+    margin: 0 auto;
 }
 
+/* GRID spacing fix */
+.article_container {
+    margin-top: 30px;
+    gap: 20px;
+}
 
-</style>
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .articles-header {
+        padding: 22px 15px;
+        border-radius: 14px;
+    }
+
+    .articles-header h1 {
+        font-size: 20px;
+    }
+
+    .desc {
+        font-size: 13px;
+    }
+}
+    </style>
 </head>
-<body>
 
-<header>
-    <button class="btn-back" onclick="window.history.back()">← Back</button>
-    <h1>Health Articles</h1>
-    <div></div>
+<body class="open-sans">
+    <header class="simple-header">
+    <button class="back-btn" onclick="history.back()">
+        <i class="bi bi-arrow-left"></i>
+    </button>
+
+    <h1 class="page-title">Latest Health Articles</h1>
+
+    <div class="right-space"></div>
 </header>
+    <main>
 
-<div class="articles-container">
-    <div class="article-card">
-        <img src="images/corona.jpeg" alt="Corona Article">
-        <div class="article-content">
-            <div class="category">Corona</div>
-            <div class="title">How COVID-19 variants affect elderly immunity</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> August 5, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>88</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>10</span></div>
-        </div>
+
+
+    <section class="articles">
+
+    <div class="articles-header">
+        <span class="badge">Health Updates</span>
+
+        <h1>Latest Health <span>Articles</span></h1>
+
+        <p class="subtitle">
+            Stay updated with trusted medical tips, expert advice, and wellness insights.
+        </p>
+
+        <p class="desc">
+            Explore carefully written articles covering current health concerns, prevention guides,
+            and lifestyle tips to help you live healthier and safer every day.
+        </p>
     </div>
 
-    <div class="article-card">
-        <img src="images/dengue.jpeg" alt="Dengue Article">
-        <div class="article-content">
-            <div class="category">Dengue</div>
-            <div class="title">Dengue outbreak worsens during monsoon in Dhaka</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> July 29, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>188</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>90</span></div>
-        </div>
-    </div>
+    <div class="article_container"></div>
 
-    <div class="article-card">
-        <img src="images/heatstroke.jpeg" alt="Heart Health Article">
-        <div class="article-content">
-            <div class="category">Heart Health</div>
-            <div class="title">Tips for maintaining healthy heart during summer</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> June 12, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>75</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>8</span></div>
-        </div>
-    </div>
+</section>
 
-    <div class="article-card">
-        <img src="images/heartattack.webp" alt="Mental Health Article">
-        <div class="article-content">
-            <div class="category">Mental Health</div>
-            <div class="title">How meditation improves mental wellbeing</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> May 20, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>120</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>15</span></div>
-        </div>
-    </div>
 
-    <div class="article-card">
-        <img src="images/monkeypox.jpeg" alt="Heart Health Article">
-        <div class="article-content">
-            <div class="category">Heart Health</div>
-            <div class="title">Tips for maintaining healthy heart during summer</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> June 12, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>75</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>8</span></div>
-        </div>
-    </div>
 
-    <div class="article-card">
-        <img src="images/mental.jpeg" alt="Heart Health Article">
-        <div class="article-content">
-            <div class="category">Heart Health</div>
-            <div class="title">Tips for maintaining healthy heart during summer</div>
-            <div class="date"><i class="bi bi-calendar-week"></i> June 12, 2025</div>
-        </div>
-        <div class="react-container">
-            <div class="like-btn"><i class="bi bi-heart"></i> <span>75</span></div>
-            <div class="comment-btn"><i class="bi bi-chat"></i> <span>8</span></div>
-        </div>
-    </div>
-</div>
-<!-- Popup Modal -->
-<div id="popupModal" class="popup-overlay">
-    <div class="popup-box">
-        
-        <div class="popup-header">
-            <h2 id="popupTitle"></h2>
-            <button class="close-popup">&times;</button>
+
+    </main>
+    <footer>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 QuicAid. All rights reserved.</p>
         </div>
 
-        <div class="popup-body">
-            <p id="popupContent"></p>
-        </div>
+    </footer>
 
-    </div>
-</div>
-
-
-
-<footer>
-    &copy; 2025 QuickAid. All Rights Reserved.
-</footer>
-
-<script>
-const likeButtons = document.querySelectorAll('.like-btn');
-const commentButtons = document.querySelectorAll('.comment-btn');
-
-likeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('liked');
-        const span = btn.querySelector('span');
-        span.textContent = btn.classList.contains('liked') ? parseInt(span.textContent) + 1 : parseInt(span.textContent) - 1;
-    });
-});
-
-commentButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('commented');
-        const span = btn.querySelector('span');
-        span.textContent = btn.classList.contains('commented') ? parseInt(span.textContent) + 1 : parseInt(span.textContent) - 1;
-    });
-});
-// Latest news for each category
-const latestNews = {
-    "Corona": "A newly emerging COVID-19 subvariant has shown increased transmission among elderly populations. Health experts recommend booster shots and mask precautions in crowded areas.",
-    
-    "Dengue": "Recent hospital data shows a rise in dengue cases during the monsoon season. Authorities advise removing stagnant water and using repellents to reduce mosquito breeding.",
-    
-    "Heart Health": "Cardiologists report that heatwaves significantly increase risks of heart-related complications. Staying hydrated and avoiding excessive outdoor activity is strongly recommended.",
-    
-    "Mental Health": "A new global study indicates that daily mindfulness meditation can lower stress levels by up to 45% and improve emotional stability in young adults."
-};
-
-
-// Get modal elements
-const popup = document.getElementById("popupModal");
-const popupTitle = document.getElementById("popupTitle");
-const popupContent = document.getElementById("popupContent");
-const closeBtn = document.querySelector(".close-popup");
-
-// Close popup
-closeBtn.addEventListener("click", () => popup.style.display = "none");
-
-// Click outside popup hides it
-window.addEventListener("click", (e) => {
-    if (e.target === popup) popup.style.display = "none";
-});
-
-// Card click → show popup with topic news
-document.querySelectorAll(".article-card").forEach(card => {
-    card.addEventListener("click", () => {
-        const category = card.querySelector(".category").textContent.trim();
-        
-        popupTitle.textContent = category + " — Latest Update";
-        popupContent.textContent = latestNews[category] || "No latest news available.";
-
-        popup.style.display = "flex";
-    });
-});
-</script>
-
+    <script src="scripts/news.js"></script>
 </body>
+
 </html>

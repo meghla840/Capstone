@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1";
 $user = "root";
 $pass = "";
 $db   = "quickaid";
@@ -7,7 +7,8 @@ $db   = "quickaid";
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 if (!$conn) {
-    die("Database Connection Failed");
+    die("DB ERROR: " . mysqli_connect_error());
 }
+
+
 ?>
-`
