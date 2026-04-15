@@ -153,24 +153,162 @@ if($result){
     font-size: 80px;
     color: #888;
 }
+.scroll-wrapper {
+    overflow: hidden;
+    width: 100%;
+    background: transparent;
+}
+
+.scroll {
+    display: flex;
+    gap: 80px;
+    width: max-content;
+    animation: scrollLeft 30s linear infinite; /* 🔥 smooth slow */
+    align-items: center;
+}
+
+.scroll span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #5e3b3b;
+    font-weight: bold;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
 
 
+.live-chat-link{
+    background: #49465b;
+    color: #fff !important;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    animation: pulseChat 1.8s infinite;
+}
+
+/* hover effect */
+.live-chat-link:hover{
+    transform: scale(1.05);
+    background: #68657b;
+}
+
+/* small red live dot */
+.chat-dot{
+    width: 8px;
+    height: 8px;
+    background: #ff3b3b;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ff3b3b;
+}
+
+/* pulse animation */
+@keyframes pulseChat {
+    0% { box-shadow: 0 0 0 0 rgba(73,70,91,0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(73,70,91,0); }
+    100% { box-shadow: 0 0 0 0 rgba(73,70,91,0); }
+}
+
+/* mobile text hide (optional) */
+@media (max-width: 600px){
+    .chat-text{
+        display: none;
+    }
+}
+#userSection{
+    display: flex;
+    align-items: center;
+    gap: 18px; /* 🔥 live chat + profile এর মাঝে দূরত্ব */
+}
+
+/* optional: extra spacing only for live chat */
+.emergencyData ul li{
+    margin-right: 8px;
+}
+
+
+.slider-arrows {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.arrow-btn {
+    pointer-events: all;
+    background: rgba(0,0,0,0.4);
+    border: none;
+    color: white;
+    font-size: 22px;
+    padding: 12px 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 0 15px;
+}
+
+.arrow-btn:hover {
+    background: rgba(0,0,0,0.7);
+    transform: scale(1.1);
+}
     </style>
 </head>
 <body class="open-sans">
 <header>
     <div class="hold">
         <div class="estrip">
-            <div class="scroll">
-                <i class="bi bi-telephone"></i>Emergency Number: +880125460586 - Call Anytime!
-            </div>
+            <div class="scroll-wrapper">
+    <div class="scroll">
+        <span><i class="bi bi-robot"></i> We are always ready to help you. For emergencies, call us anytime. To clear your confusion, use our Health Forum. And to find the right doctor, take help from our AI assistant</span>
+        <span><i class="bi bi-shield-check"></i> Unique features to help you in emergencies</span>
+        <span><i class="bi bi-chat-dots-fill"></i> Live Chat Available</span>
+        <span><i class="bi bi-exclamation-triangle-fill"></i> Traffic Alert System</span>
+        <span><i class="bi bi-people-fill"></i> Health Forum</span>
+        
+        <span>Call Anytime!</span>
+
+        <!-- 🔥 DUPLICATE FOR SMOOTH LOOP -->
+        <span><i class="bi bi-telephone"></i> We are always ready to help you. For emergencies, call us anytime. To clear your confusion, use our Health Forum. And to find the right doctor, take help from our AI assistant</span>
+        <span><i class="bi bi-shield-check"></i> Unique features to help you in emergencies</span>
+        <span><i class="bi bi-chat-dots-fill"></i> Live Chat Available</span>
+        <span><i class="bi bi-exclamation-triangle-fill"></i> Traffic Alert System</span>
+        <span><i class="bi bi-people-fill"></i> Health Forum</span>
+        
+        <span>Call Anytime!</span>
+    </div>
+</div>
         </div>
         <div class="emergencyData">
             <ul style="display:flex; gap:5px; list-style:none; margin:0; padding:0;">
                 <li><a href=""><i class="bi bi-facebook"></i></a></li>
-                <li><a href=""><i class="bi bi-envelope"></i></a></li>
+                
                 <li><a href=""><i class="bi bi-google"></i></a></li>
-                <li><a href=""><i class="bi bi-geo-alt"></i></a></li>
+                <!-- 🔥 NEW LIVE CHAT ICON -->
+                <li>
+    <a href="get_in_touch.php#chatPopup" class="live-chat-link" title="Live Chat">
+        <i class="bi bi-robot"></i>
+        <span class="chat-text">Live Chat</span>
+        <span class="chat-dot"></span>
+    </a>
+</li>
             </ul>
 <div id="userSection">
 <?php if($isLoggedIn): ?>
@@ -233,7 +371,7 @@ if($result){
             </li>
             <li>
                 <button id="navbarEmergencyBtn" class="emergency-button">
-                    <i class="bi bi-car-front-fill"></i> Emergency
+                    <i class="bi bi-car-front-fill"></i> Get Transport
                 </button>
             </li>
         </ul>
@@ -280,6 +418,16 @@ if($result){
       <button class="btn2"><a href="medicine_details.html">Order Online</a></button>
     </div>
   </div>
+  <!-- Slider Arrows -->
+<div class="slider-arrows">
+    <button id="prevSlide" class="arrow-btn">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <button id="nextSlide" class="arrow-btn">
+        <i class="bi bi-chevron-right"></i>
+    </button>
+</div>
 </section>
         <section class="Seacrh_Section">
             <div class="search">
@@ -625,67 +773,39 @@ if($result){
     </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
     // ==========================
-    // EMERGENCY MODAL
+    // EMERGENCY BUTTON FIX
     // ==========================
     const emergencyBtn = document.getElementById("navbarEmergencyBtn");
-    const modal = document.getElementById("emergencyModal");
-    const confirmBtn = document.getElementById("confirmCall");
-    const cancelBtn = document.getElementById("cancelCall");
-    const emergencyNumber = "+880125460586";
 
     if (emergencyBtn) {
-        emergencyBtn.addEventListener("click", () => {
-            modal.style.display = "flex";
+        emergencyBtn.addEventListener("click", function () {
+            window.location.href = "ambulance.php";
         });
     }
 
-    if (confirmBtn) {
-        confirmBtn.addEventListener("click", () => {
-            window.location.href = `tel:${emergencyNumber}`;
-            modal.style.display = "none";
-        });
-    }
-
-    if (cancelBtn) {
-        cancelBtn.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-
-});
-// traffic alert
-document.addEventListener("DOMContentLoaded", function () {
-
+    // ==========================
+    // TRAFFIC ALERT
+    // ==========================
     const btn = document.getElementById("trafficAlertBtn");
     const modal = document.getElementById("confirmModal");
-
     const yesBtn = document.getElementById("confirmYes");
     const noBtn = document.getElementById("confirmNo");
 
-    // Open modal
     if (btn) {
         btn.addEventListener("click", function () {
             modal.style.display = "flex";
         });
     }
 
-    // Close modal (No button)
     if (noBtn) {
         noBtn.addEventListener("click", function () {
             modal.style.display = "none";
         });
     }
 
-    // Confirm Yes → Send alert
     if (yesBtn) {
         yesBtn.addEventListener("click", function () {
 
@@ -695,30 +815,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 credentials: "include"
             })
-            .then(res => res.text())   // ✅ changed from json() to text()
+            .then(res => res.text())
             .then(text => {
-
-                console.log("RAW RESPONSE:", text); // ✅ debug
 
                 let data;
 
                 try {
-                    data = JSON.parse(text); // convert manually
+                    data = JSON.parse(text);
                 } catch (e) {
-                    console.error("JSON parse error:", e);
-                    showToast("❌ Server response invalid", "error");
+                    showToast("❌ Server error", "error");
                     return;
                 }
 
                 if (data.status === "success") {
-                    showToast("✅ " + data.message + " from " + data.location, "success");
+                    showToast("✅ " + data.message, "success");
                 } else {
                     showToast("❌ " + data.message, "error");
                 }
 
             })
-            .catch((err) => {
-                console.error(err);
+            .catch(() => {
                 showToast("⚠️ Network error!", "error");
             });
 
@@ -726,10 +842,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+// ==========================
 function showToast(message, type = "success") {
 
     let toast = document.createElement("div");
-
     toast.innerText = message;
 
     toast.style.position = "fixed";
@@ -738,22 +855,71 @@ function showToast(message, type = "success") {
     toast.style.padding = "12px 18px";
     toast.style.borderRadius = "8px";
     toast.style.color = "#fff";
-    toast.style.fontSize = "14px";
     toast.style.zIndex = "9999";
-    toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
 
-    if(type === "success"){
-        toast.style.background = "#28a745";
-    } else {
-        toast.style.background = "#dc3545";
-    }
+    toast.style.background = type === "success" ? "#28a745" : "#dc3545";
 
     document.body.appendChild(toast);
 
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
+    setTimeout(() => toast.remove(), 3000);
 }
+
+// ==========================
+// HERO SLIDER
+// ==========================
+const slides = document.querySelectorAll(".hero .slide");
+let currentSlide = 0;
+
+const prevBtn = document.getElementById("prevSlide");
+const nextBtn = document.getElementById("nextSlide");
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === index) {
+            slide.classList.add("active");
+        }
+    });
+}
+
+// next slide
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+// previous slide
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+}
+
+// auto slide (9 seconds)
+let sliderInterval = setInterval(nextSlide, 9000);
+
+// reset interval (optional but smooth UX)
+function resetInterval() {
+    clearInterval(sliderInterval);
+    sliderInterval = setInterval(nextSlide, 9000);
+}
+
+// ==========================
+// ARROW EVENTS
+// ==========================
+if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        resetInterval();
+    });
+}
+
+if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+        prevSlide();
+        resetInterval();
+    });
+}
+
 /* ✅ GLOBAL FUNCTION (OUTSIDE) */
 function goToDoctor(id) {
     window.location.href = `doctor_details.php?id=${id}`;

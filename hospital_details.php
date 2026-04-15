@@ -163,9 +163,18 @@ input, textarea{
 <div class="card">
 
     <!-- Avatar -->
-    <div class="avatar">
+    <div class="avatar" style="overflow:hidden;">
+    <?php if(!empty($user['profilePic'])): ?>
+        <img src="uploads/<?= $user['profilePic'] ?>" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+             style="width:100%; height:100%; object-fit:cover;">
+        <div style="display:none; align-items:center; justify-content:center; width:100%; height:100%;">
+            <?= strtoupper(substr($user['name'],0,1)) ?>
+        </div>
+    <?php else: ?>
         <?= strtoupper(substr($user['name'],0,1)) ?>
-    </div>
+    <?php endif; ?>
+</div>
 
     <!-- User Info -->
     <div class="name"><?= htmlspecialchars($user['name']) ?></div>

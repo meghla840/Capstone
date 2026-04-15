@@ -232,8 +232,6 @@ a:hover{text-decoration:underline;}
 <?php endif; ?>
 </table>
 </div>
-
-</div>
 <!-- REVIEWS LIST -->
 <div class="card">
     <h3>Customer Reviews</h3>
@@ -285,6 +283,8 @@ a:hover{text-decoration:underline;}
         <?php endif; ?>
     </table>
 </div>
+</div>
+
 <script>
 // AUTO FADE MSG
 window.addEventListener('DOMContentLoaded', () => {

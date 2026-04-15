@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include "backend/db.php";
@@ -354,60 +353,21 @@ textarea { height: 140px; resize: vertical; }
 
 <script>
 
+// ===== Chat Popup =====
+const chatPopup = document.getElementById("chatPopup");
 
-    // ===== Chat Popup =====
-    const chatPopup = document.getElementById("chatPopup");
+document.getElementById("openChat").addEventListener("click", function (e) {
+    e.preventDefault();
+    chatPopup.style.display = "flex";
+});
 
-    document.getElementById("openChat").addEventListener("click", function (e) {
-        e.preventDefault();
-        chatPopup.style.display = "flex";
-    });
+document.getElementById("closeChat").addEventListener("click", function () {
+    chatPopup.style.display = "none";
+});
 
-    document.getElementById("closeChat").addEventListener("click", function () {
-        chatPopup.style.display = "none";
-    });
+// ===== CHAT SEND =====
+document.getElementById("sendChat").addEventListener("click", async function () {
 
-    // ===== AI LOGIC =====
-    function getAIReply(msg) {
-        msg = msg.toLowerCase();
-
-        if (msg.includes("hi") || msg.includes("hello")) {
-            return "Hello 👋 I'm QuickAid AI. Tell me your symptoms.";
-        }
-
-        if (msg.includes("emergency")) {
-            return "🚨 Call emergency immediately!";
-        }
-
-        const issues = [
-            { keywords: ["fever"], reply: "🤒 Fever: rest + water. High? see doctor." },
-            { keywords: ["cough"], reply: "🤧 Cough: fluids + rest." },
-            { keywords: ["headache"], reply: "🧠 Headache: rest + hydration." },
-            { keywords: ["burn"], reply: "🔥 Cool with water 20 mins." },
-            { keywords: ["cut"], reply: "🩸 Clean + bandage." },
-            { keywords: ["chest pain"], reply: "❤️ EMERGENCY! Go hospital NOW." },
-            { keywords: ["breathing"], reply: "💨 Breathing issue = emergency." },
-            { keywords: ["diarrhea"], reply: "💦 Drink ORS." },
-            { keywords: ["vomit"], reply: "🤮 Hydrate slowly." },
-            { keywords: ["weak"], reply: "😴 Rest + food." },
-            { keywords: ["stress"], reply: "🧘 Relax + breathing." },
-            { keywords: ["tooth"], reply: "🦷 See dentist." },
-            { keywords: ["ear"], reply: "👂 Avoid touching, doctor if pain." },
-            { keywords: ["eye"], reply: "👁️ Avoid strain." },
-            { keywords: ["rash"], reply: "🩹 Skin irritation care needed." }
-        ];
-
-        for (let issue of issues) {
-            for (let kw of issue.keywords) {
-                if (msg.includes(kw)) return issue.reply;
-            }
-        }
-
-        return "Describe more symptoms 🙂";
-    }
-
-    // ===== CHAT SEND =====
-   document.getElementById("sendChat").addEventListener("click", async function () {
     const input = document.getElementById("chatInput");
     const msg = input.value.trim();
     if (!msg) return;
@@ -454,20 +414,12 @@ textarea { height: 140px; resize: vertical; }
         const data = await response.json();
         typing.remove();
 
-        // ===== PARSE AI RESPONSE =====
-        let aiData;
+        // ✅ FIXED PART (NO MORE data.reply BUG)
+        const doctorType = data.doctorType || "Medicine";
+        const aiMessage = data.message || "No response from AI";
 
-        try {
-            aiData = JSON.parse(data.reply);
-        } catch {
-            aiData = {
-                doctor: "Medicine",
-                message: data.reply
-            };
-        }
-
-        const doctorType = aiData.doctor || "Medicine";
-        const aiMessage = aiData.message || data.reply;
+        const doctors = data.allDoctors || [];
+        const bestDoctor = data.bestDoctor || null;
 
         // ===== SHOW AI MESSAGE =====
         const aiWrapper = document.createElement("div");
@@ -485,10 +437,6 @@ textarea { height: 140px; resize: vertical; }
 
         aiWrapper.appendChild(aiMsg);
         messagesDiv.appendChild(aiWrapper);
-
-        // ===== FETCH DOCTORS =====
-        const res2 = await fetch(`get_doctors.php?type=${doctorType}`);
-        const doctors = await res2.json();
 
         // ===== SHOW DOCTORS =====
         if (doctors.length > 0) {
@@ -511,15 +459,46 @@ textarea { height: 140px; resize: vertical; }
                 card.style.marginBottom = "6px";
                 card.style.background = "#f9fafb";
 
-               card.innerHTML = `
+              card.innerHTML = `
     <div><b>👨‍⚕️ Dr. ${doc.name}</b></div>
     <div>Specialist: ${doc.specialization}</div>
+    <div>🧠 Experience: ${doc.experience} years</div>
     <div>🏥 Clinic: ${doc.clinic || "Not provided"}</div>
     <div>💰 Fees: ৳${doc.fees || "Not set"}</div>
-    <div>🆔 BMDC: ${doc.bmdc}</div>
+    <div>🆔 BMDC: ${doc.bmdc || "N/A"}</div>
+
+    <button onclick="viewDoctor('${doc.id}')"
+    style="margin-top:6px; padding:6px 10px; background:#4b5563; color:white; border:none; border-radius:6px; cursor:pointer;">
+        Book Appointment
+    </button>
 `;
+
                 doctorWrapper.appendChild(card);
             });
+
+            // ⭐ BEST DOCTOR
+            if (bestDoctor) {
+
+                const bestBox = document.createElement("div");
+                bestBox.style.border = "2px solid green";
+                bestBox.style.borderRadius = "10px";
+                bestBox.style.padding = "10px";
+                bestBox.style.marginTop = "10px";
+                bestBox.style.background = "#ecfdf5";
+
+                bestBox.innerHTML = `
+                    <b>⭐ Best Doctor</b><br>
+                    👨‍⚕️ Dr. ${bestDoctor.name}<br>
+                    🧠 Experience: ${bestDoctor.experience} years<br><br>
+
+                    <button onclick="viewDoctor('${bestDoctor.id}')"
+                    style="padding:6px 10px; background:#4b5563; color:white; border:none; border-radius:6px; cursor:pointer;">
+                        Book Appointment
+                    </button>
+                `;
+
+                doctorWrapper.appendChild(bestBox);
+            }
 
             messagesDiv.appendChild(doctorWrapper);
         }
@@ -530,6 +509,16 @@ textarea { height: 140px; resize: vertical; }
         typing.innerText = "⚠️ Error connecting to AI.";
     }
 });
+
+function bookNow(name){
+    alert("Booking for Dr. " + name);
+   window.location.href = "bookAppointment.php";
+}
+
+function viewDoctor(id){
+    window.location.href = "doctor_details.php?id=" + id;
+}
+
 </script>
 
 </body>

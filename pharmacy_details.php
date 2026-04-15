@@ -42,6 +42,16 @@ function timeAgo($time){
 <head>
 <title>Pharmacy Details</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    #modal.flex #modalBox {
+  transform: scale(1);
+  opacity: 1;
+}
+
+#modalBox {
+  transition: all 0.25s ease;
+}
+</style>
 </head>
 
 <body class="bg-gray-100">
@@ -84,13 +94,15 @@ function timeAgo($time){
 class="w-full p-3 border rounded-lg" placeholder="Search medicine...">
 </div>
 
-<!-- MEDICINES -->
+
 <!-- MEDICINES GRID -->
 <div class="grid md:grid-cols-3 gap-6">
 
 <?php while($row = mysqli_fetch_assoc($result)): ?>
 
-<div class="medicine-card bg-white p-4 rounded-xl shadow cursor-pointer"
+<div class="medicine-card group relative bg-white/90 backdrop-blur-md border border-gray-100 
+rounded-2xl p-4 cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-300
+hover:-translate-y-1 hover:scale-[1.02] overflow-hidden"
 data-name="<?php echo strtolower($row['name']); ?>"
 
 onclick='openModal(
@@ -101,44 +113,132 @@ onclick='openModal(
 <?php echo json_encode($row["stock"] ?? "N/A"); ?>
 )'>
 
-<h3 class="font-bold text-[#49465b]"><?php echo $row['name']; ?></h3>
+<!-- TOP SECTION -->
+<div class="flex items-start justify-between gap-2">
 
-<p class="text-sm text-gray-500"><?php echo $row['details']; ?></p>
+  <div>
+    <h3 class="font-bold text-[#49465b] text-lg group-hover:text-[#6b6785] transition">
+      <?php echo $row['name']; ?>
+    </h3>
 
-<div class="flex justify-between mt-2">
-<span class="text-green-600 font-semibold">৳ <?php echo $row['price']; ?></span>
+    <p class="text-xs text-gray-400 mt-1 leading-snug">
+      <?php echo substr($row['details'],0,60); ?>...
+    </p>
+  </div>
 
-<span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
-Stock: <?php echo $row['stock'] ?? 'N/A'; ?>
-</span>
+  <!-- STOCK WARNING (BLINK IF < 5) -->
+  <?php $lowStock = ($row['stock'] ?? 0) < 5; ?>
+
+  <span class="
+    text-[10px] px-2 py-1 rounded-full font-medium
+    <?php echo $lowStock ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-blue-100 text-blue-600'; ?>
+  ">
+    Stock: <?php echo $row['stock'] ?? 'N/A'; ?>
+  </span>
 
 </div>
+
+<!-- CATEGORY TAG -->
+<div class="mt-3">
+  <?php
+    $name = strtolower($row['name']);
+
+    if(strpos($name,'para') !== false || strpos($name,'pain') !== false){
+        $cat = "Painkiller";
+        $catColor = "bg-red-100 text-red-600";
+    }
+    elseif(strpos($name,'vit') !== false || strpos($name,'vitamin') !== false){
+        $cat = "Vitamin";
+        $catColor = "bg-yellow-100 text-yellow-600";
+    }
+    else{
+        $cat = "Antibiotic";
+        $catColor = "bg-green-100 text-green-600";
+    }
+  ?>
+
+  <span class="text-[11px] px-3 py-1 rounded-full font-semibold <?php echo $catColor; ?>">
+    <?php echo $cat; ?>
+  </span>
+</div>
+
+<!-- PRICE + STATUS -->
+<div class="mt-4 flex items-center justify-between">
+
+  <div class="text-lg font-bold text-green-600">
+    ৳ <?php echo $row['price']; ?>
+  </div>
+
+  <span class="
+    px-3 py-1 text-[11px] rounded-full font-semibold
+    <?php echo ($row['availability'] == 'Available') 
+      ? 'bg-green-100 text-green-600' 
+      : 'bg-red-100 text-red-500'; ?>
+  ">
+    <?php echo $row['availability']; ?>
+  </span>
+
+</div>
+
+<!-- GLOW EFFECT -->
+<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300
+bg-gradient-to-r from-[#49465b]/5 to-transparent pointer-events-none"></div>
 
 </div>
 
 <?php endwhile; ?>
 
 </div>
-<!-- MEDICINE MODAL -->
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+<!-- MODERN MEDICINE MODAL -->
+<div id="modal"
+  class="fixed inset-0 hidden items-center justify-center z-50 bg-black/40 backdrop-blur-sm">
 
-  <div class="bg-white w-[90%] md:w-[400px] rounded-xl p-5 relative">
+  <div class="w-[92%] md:w-[420px] rounded-2xl bg-white/90 backdrop-blur-xl shadow-2xl border border-white/40 overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+       id="modalBox">
 
-    <!-- CLOSE -->
-    <button onclick="closeModal()" class="absolute top-2 right-3 text-xl font-bold">✖</button>
+    <!-- TOP HEADER -->
+    <div class="bg-gradient-to-r from-[#49465b] to-[#6b6785] p-4 text-white relative">
 
-    <h2 id="mName" class="text-xl font-bold text-[#49465b]"></h2>
+      <h2 id="mName" class="text-lg font-bold"></h2>
 
-    <p id="mDetails" class="text-gray-600 mt-2"></p>
+      <button onclick="closeModal()"
+        class="absolute top-3 right-3 bg-white/20 hover:bg-white/30 rounded-full w-8 h-8 flex items-center justify-center">
+        ✕
+      </button>
+    </div>
 
-    <p id="mPrice" class="mt-3 font-semibold text-green-600"></p>
+    <!-- BODY -->
+    <div class="p-5 space-y-3">
 
-    <p id="mStock" class="mt-1 text-sm text-blue-600"></p>
+      <p id="mDetails" class="text-gray-600 text-sm leading-relaxed"></p>
 
-    <p id="mStatus" class="mt-1 text-sm text-gray-500"></p>
+      <div class="flex items-center justify-between mt-3">
+
+        <div class="text-green-600 font-bold text-lg">
+          <span id="mPrice"></span>
+        </div>
+
+        <div id="mStock"
+          class="text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-medium">
+        </div>
+
+      </div>
+
+      <div id="mStatus"
+        class="mt-2 text-xs font-semibold px-3 py-1 inline-block rounded-full">
+      </div>
+
+    </div>
+
+    <!-- FOOTER BUTTON -->
+    <div class="p-4 border-t bg-white/60 flex justify-end">
+      <button onclick="closeModal()"
+        class="px-4 py-2 rounded-lg bg-[#49465b] text-white hover:scale-105 transition">
+        Close
+      </button>
+    </div>
 
   </div>
-
 </div>
 <!-- REVIEWS -->
 <div class="mt-10 bg-white p-6 rounded-xl shadow">
@@ -193,24 +293,37 @@ card.style.display = card.dataset.name.includes(val) ? "block" : "none";
 }
 
 /* ================= MODAL ================= */
-function openModal(name,details,price,status,stock){
+function openModal(name, details, price, status, stock) {
     mName.innerText = name;
     mDetails.innerText = details;
     mPrice.innerText = "৳ " + price;
     mStock.innerText = "Stock: " + stock;
     mStatus.innerText = "Status: " + status;
 
+    // status color
+    if(status === "Available"){
+        mStatus.className = "mt-2 text-xs font-semibold px-3 py-1 inline-block rounded-full bg-green-100 text-green-600";
+    } else {
+        mStatus.className = "mt-2 text-xs font-semibold px-3 py-1 inline-block rounded-full bg-red-100 text-red-500";
+    }
+
     modal.classList.remove("hidden");
     modal.classList.add("flex");
-    setTimeout(()=> modal.classList.add("modal-show"),10);
+
+    setTimeout(() => {
+        document.getElementById("modalBox").style.transform = "scale(1)";
+        document.getElementById("modalBox").style.opacity = "1";
+    }, 10);
 }
 
-function closeModal(){
-    modal.classList.remove("modal-show");
-    setTimeout(()=>{
+function closeModal() {
+    document.getElementById("modalBox").style.transform = "scale(0.95)";
+    document.getElementById("modalBox").style.opacity = "0";
+
+    setTimeout(() => {
         modal.classList.add("hidden");
         modal.classList.remove("flex");
-    },200);
+    }, 200);
 }
 
 /* STAR */

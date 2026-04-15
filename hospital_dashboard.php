@@ -142,14 +142,29 @@ if(isset($_POST['addDoctor'])){
     $gender = $_POST['gender'];
 
     $availableDays = json_encode($_POST['availableDays'] ?? []);
-    $availableTimes = $_POST['availableTimes'];
-    $availableDate = $_POST['availableDate'];
+    $availableTimes = $_POST['availableTimes'] ?? '';
+    $availableDate = $_POST['availableDate'] ?? '';
 
     $newUserId = 'doc_'.time();
 
-    mysqli_query($conn,"INSERT INTO users (userId,name,role)
-    VALUES ('$newUserId','$docName','doctor')");
+    /* ✅ IMAGE UPLOAD */
+    $profilePic = "uploads/default.png";
 
+    if(!empty($_FILES['doctorPic']['name'])){
+        $targetDir = "uploads/";
+        $fileName = time().'_'.basename($_FILES["doctorPic"]["name"]);
+        $targetFile = $targetDir.$fileName;
+
+        if(move_uploaded_file($_FILES["doctorPic"]["tmp_name"], $targetFile)){
+            $profilePic = $targetFile;
+        }
+    }
+
+    /* ✅ INSERT USER WITH IMAGE */
+    mysqli_query($conn,"INSERT INTO users (userId,name,role,profilePic)
+    VALUES ('$newUserId','$docName','doctor','$profilePic')");
+
+    /* ✅ INSERT DOCTOR */
     mysqli_query($conn,"INSERT INTO doctors 
     (userId,specialization,bmdc,clinic,consultationFees,experienceYears,education,degrees,gender,availableDays,availableTimes,availableDate)
     VALUES 
@@ -162,8 +177,8 @@ if(isset($_POST['addDoctor'])){
     SET doctorsAvailable='".json_encode(array_values($doctorsArr))."' 
     WHERE userId='$userId'");
 
-    $_SESSION['msg'] = "✅ Doctor Added with Availability";
-    // 🔥 ADD THIS
+    $_SESSION['msg'] = "✅ Doctor Added with Profile Pic";
+
     header("Location: ".$_SERVER['PHP_SELF']);
     exit();
 }
@@ -734,7 +749,9 @@ button.selectdays:active {
 
 <div class="card">
 <h3>Add Doctor</h3>
-<form method="POST">
+
+
+<form method="POST" enctype="multipart/form-data">
 
 <input name="docName" placeholder="Doctor Name" required>
 <input name="specialization" placeholder="Specialization" required>
@@ -752,15 +769,11 @@ button.selectdays:active {
 <option value="Female">Female</option>
 </select>
 
-
-
-
-
+<input type="file" name="doctorPic">
 
 <button name="addDoctor">Add</button>
 </form>
 </div>
-
 <!-- DOCTORS -->
 <div class="card">
 <h3>Doctors</h3>
@@ -973,6 +986,9 @@ onclick="return confirm('Delete?')">❌</a>
 </div>
 
 </div>
+</div>
+
+
 </body>
 <script>
 function addServiceRow(){

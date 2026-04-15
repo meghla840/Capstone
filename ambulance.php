@@ -81,63 +81,58 @@ h1{
 /* ================= CARDS ================= */
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 280px));
+    justify-content:center; /* 🔥 center align grid */
+    gap:20px;
 }
-
 /* ✅ SQUARE PROFESSIONAL CARD */
 
-    .card{
-        background:#e6e6ff;
-        width:100%;
-        max-width:290px;
-
-        padding:15px;
-        
-        border-radius:6px;
-        /* ✅ Mixed color border (navy + purple + maroon feel via gradient) */
-        border-left:6px solid transparent;
-        background-image: linear-gradient(#e6e6ff, #e6e6ff),
-                        linear-gradient(180deg, #1a1f3a, #4b2a6b, #5a1a2f);
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-
-        /* fallback solid border color */
-        border-right:1px solid #cfcfff;
-        border-top:1px solid #cfcfff;
-        border-bottom:1px solid #cfcfff;
-
-        /* ✅ Shadow using similar mixed tone */
-        box-shadow: -4px 6px 12px rgba(26, 31, 58, 0.25);
-        cursor:pointer;
-        transition:0.25s;
-
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-    }
+.card{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid #eee;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    flex-direction:column;
+    text-align:center; /* 🔥 text center */
+}
 
 .card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 18px rgba(0,0,0,0.12);
+box-shadow:0 12px 25px rgba(0,0,0,0.15);
+    transform:translateY(-8px) scale(1.02);
 }
 
+/* IMAGE */
+.card img{
+    width:100%;
+    height:140px;
+    object-fit:contain;
+    background:#f4f6fb;
+    padding:10px;
+}
 
+/* CONTENT */
+.card-content{
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;   /* 🔥 horizontal center */
+    justify-content:center;
+}
 
-.card h3{
-    margin:0 0 10px;
+.card-content h3{
+    margin:0 0 8px;
     color:#2f2f5f;
+    font-size:18px;
 }
 
-.card p{
-    margin:5px 0;
-    font-size:14px;
-    color:#444;
-}
-.cards{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr); /* ✅ 3 per row */
-    gap:20px;
+.card-content p{
+    margin:3px 0;
+    font-size:13px;
+    color:#555;
 }
 /* ================= POPUP ================= */
 .popup-bg{
@@ -374,26 +369,55 @@ const vehicles = <?php echo json_encode($vehicles); ?>;
 let selectedVehicle = null;
 
 /* LOAD VEHICLES */
+function getVehicleImage(type){
+
+    if(!type || typeof type !== "string"){
+        return "assets/images/default.jpeg";
+    }
+
+    type = type.toLowerCase();
+
+    if(type.includes("cng")){
+        return "assets/images/cng.jpeg";
+    }
+    else if(type.includes("car")){
+        return "assets/images/car.jpeg";
+    }
+    else if(type.includes("ambulance")){
+        return "assets/images/ambulance.jpeg";
+    }
+    else{
+        return "assets/images/default.jpeg";
+    }
+}
 function loadVehicles(){
 
     let html = "";
 
     vehicles.forEach(v => {
 
+        const img = getVehicleImage(v.vehicleType);
+
         html += `
             <div class="card" onclick="openPopup(${v.id})">
-                <h3>${v.name}</h3>
-                <p><b>Type:</b> ${v.vehicleType}</p>
-                <p><b>Driver:</b> ${v.driverName || 'N/A'}</p>
-                <p><b>Capacity:</b> ${v.capacity || 'N/A'}</p>
+                
+                <img src="${img}" alt="vehicle">
+
+                <div class="card-content">
+                    <h3>${v.name}</h3>
+                    <p><b>Type:</b> ${v.vehicleType}</p>
+                    <p><b>Driver:</b> ${v.driverName || 'N/A'}</p>
+                    <p><b>Capacity:</b> ${v.capacity || 'N/A'}</p>
+                </div>
+
             </div>
         `;
     });
 
     document.getElementById("vehicleSection").innerHTML = html || "<p>No vehicles available</p>";
 }
-
 loadVehicles();
+
 
 /* POPUP */
 function openPopup(id){

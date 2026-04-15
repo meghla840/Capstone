@@ -7,7 +7,12 @@ $search = isset($_GET['search']) ? $_GET['search'] : "";
 
 /* QUERY */
 $sql = "
-SELECT d.*, u.name, u.phone, u.email, u.profilePic
+SELECT 
+d.*,
+u.name,
+u.phone,
+u.email,
+u.profilePic
 FROM doctors d
 LEFT JOIN users u ON d.userId = u.userId
 ";
@@ -188,20 +193,27 @@ $result = mysqli_query($conn, $sql);
 
     <div class="card-container">
 
-        <?php if(mysqli_num_rows($result) > 0): ?>
-            <?php while($row = mysqli_fetch_assoc($result)): ?>
-                <div class="card">
+                                <?php if(mysqli_num_rows($result) > 0): ?>
+                                    <?php while($row = mysqli_fetch_assoc($result)): ?>
+                                        <div class="card">
 
-                    <!-- PROFILE IMAGE / ICON -->
-                    <?php if(!empty($row['profilePic'])): ?>
-                        <img src="uploads/<?php echo $row['profilePic']; ?>" class="profile-img">
-                    <?php else: ?>
-                        <div class="default-icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/>
-                            </svg>
-                        </div>
-                    <?php endif; ?>
+                                            <!-- PROFILE IMAGE / ICON -->
+                                                                <?php 
+                        $imgPath = "uploads/" . $row['profilePic'];
+                        $hasImage = !empty($row['profilePic']) && file_exists($imgPath);
+                        ?>
+
+                        <?php if($hasImage): ?>
+                            <img src="<?= $imgPath ?>" class="profile-img">
+                        <?php else: ?>
+                            <div class="default-icon" style="
+    background: linear-gradient(135deg, rgba(73,70,91,0.15), rgba(124,120,163,0.15));
+">
+    <svg viewBox="0 0 24 24">
+        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/>
+    </svg>
+</div>
+                        <?php endif; ?>
 
                     <h3><?php echo $row['name']; ?></h3>
                     <p><strong>Specialization:</strong> <?php echo $row['specialization']; ?></p>

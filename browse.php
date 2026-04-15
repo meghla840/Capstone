@@ -165,25 +165,13 @@ body{
 }
 /* FEED AREA FULL HEIGHT SUPPORT */
 #feed{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    padding-bottom:100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 20px;
+
+    align-content: start;   /* ⭐ IMPORTANT */
 }
-
-/* CARD FIX */
-.card{
-    width:100%;
-    background:white;
-    padding:16px;
-    border-radius:14px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:0.2s;
-}
-
-/* MODAL FIX (IMPORTANT) */
-
 
 /* HEADER FIX (sticky full width) */
 .topbar{
@@ -226,41 +214,117 @@ body{
    
 }
 
-/* CARD */
 .card{
-    background: white;
-    border-radius: 16px;
-    padding: 14px;
-    margin: 10px auto;
-    width: 92%; /* left-right gap */
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    border: 1px solid rgba(0,0,0,0.05);
-    transition: all 0.25s ease;
-    cursor: pointer;
+    position: relative;
+    min-height: 200px;
+
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 20px;
+    padding: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(99,102,241,0.15);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.06),
+        0 1px 2px rgba(0,0,0,0.04);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+
+    animation: floatIn 0.6s ease-out both;
 }
 
+/* 🌈 GRADIENT BORDER GLOW */
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    height:2px;
+    width:100%;
+    background: linear-gradient(90deg,#6366f1,#06b6d4,#22c55e,#f59e0b);
+    background-size: 300% 300%;
+    animation: gradientMove 4s ease infinite;
+}
+
+/* 💫 SOFT LAYER GLOW */
+.card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at top left, rgba(99,102,241,0.08), transparent 60%);
+    opacity:0;
+    transition:0.4s;
+
+    pointer-events: none;  /* ⭐ THIS FIXES CLICK ISSUE */
+}
+
+.card:hover::after{
+    opacity:1;
+}
+
+/* 🚀 HOVER LIFT (premium feel) */
 .card:hover{
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.12),
+        0 5px 15px rgba(0,0,0,0.08);
 }
 
+/* HEADER */
 .card-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-weight:600;
-    font-size:15px;
-}
-
-.card h3{
-    margin:8px 0;
-    font-size:16px;
-}
-
-.card p{
-    color:#555;
     font-size:13px;
-    line-height:1.4;
+    font-weight:600;
+    color:#475569;
+    margin-bottom:10px;
+}
+
+/* TITLE */
+.card h3{
+    font-size:17px;
+    font-weight:800;
+    color:#0f172a;
+    margin:8px 0;
+    letter-spacing:0.2px;
+}
+
+/* CONTENT */
+.card p{
+    font-size:13.5px;
+    color:#64748b;
+    line-height:1.7;
+
+    max-height: 80px;
+    overflow: hidden;
+}
+
+/* ✨ ENTRY ANIMATION (smooth + modern) */
+@keyframes floatIn{
+    0%{
+        opacity:0;
+        transform: translateY(20px) scale(0.97);
+        filter: blur(6px);
+    }
+    100%{
+        opacity:1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* 🌊 GRADIENT MOVE */
+@keyframes gradientMove{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
 
 .meta{
@@ -269,21 +333,104 @@ body{
     margin-top:10px;
 }
 
+/* 🧩 ACTIONS BAR (MODERN) */
 .actions{
-    margin-top:10px;
-    display:flex;
-    gap:8px;
+    margin-top: auto;
+    padding-top: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    border-top: 1px solid rgba(148,163,184,0.25);
+
+    position: relative;
 }
 
+/* subtle glow line */
+.actions::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:1px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent);
+}
 
+/* 🎯 ICON BUTTONS (if needed upgrade feel) */
+.icon-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
 
-/* DOCTOR */
+    background: rgba(248,250,252,0.8);
+    border: 1px solid rgba(226,232,240,0.8);
+
+    padding:6px 12px;
+    border-radius:999px;
+
+    font-size:13px;
+    color:#334155;
+
+    cursor:pointer;
+
+    transition: all 0.25s ease;
+}
+
+.icon-btn:hover{
+    transform: translateY(-2px);
+    background: white;
+    border-color: rgba(99,102,241,0.3);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* ❤️ like active state */
+.icon-btn.liked{
+    background: rgba(239,68,68,0.08);
+    border-color: rgba(239,68,68,0.25);
+    color:#ef4444;
+}
+
+/* 🩺 DOCTOR BADGE (premium pill style) */
 .doctor-badge{
-    background:#0ea5e9;
-    color:white;
-    padding:3px 8px;
-    border-radius:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+
+    background: linear-gradient(135deg,#0ea5e9,#2563eb);
+    color:#fff;
+
     font-size:11px;
+    font-weight:600;
+
+    padding:4px 10px;
+    border-radius:999px;
+
+    box-shadow: 0 4px 10px rgba(14,165,233,0.25);
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle shine animation */
+.doctor-badge::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-60%;
+    width:50%;
+    height:100%;
+    background: rgba(255,255,255,0.25);
+    transform: skewX(-20deg);
+    animation: badgeShine 3s infinite;
+}
+
+@keyframes badgeShine{
+    0%{ left:-60%; }
+    50%{ left:120%; }
+    100%{ left:120%; }
 }
 
 /* BUTTONS */
@@ -317,6 +464,7 @@ body{
     display:none;
     position:fixed;
     inset:0;
+     max-height:90vh; 
     background:rgba(0,0,0,0.65);
     backdrop-filter: blur(8px);
     z-index:9999;
@@ -327,11 +475,14 @@ body{
     width:600px;
     max-width:95%;
     margin:5% auto;
-    background:#ffffff;
+    background:#fff;
     border-radius:18px;
     overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,0.25);
-    animation: popIn 0.25s ease;
+
+    display:flex;
+    flex-direction:column;
+
+    max-height:90vh;
 }
 
 /* HEADER */
@@ -364,6 +515,8 @@ body{
 /* BODY */
 .modal-body{
     padding:18px;
+    overflow-y:auto;   /* ⭐ scroll enable */
+    flex:1;
 }
 
 .post-author{
@@ -393,12 +546,26 @@ body{
     border-bottom:1px solid #eee;
 }
 
-/* COMMENTS */
+/* comments scroll fix */
 .comments{
     margin-top:12px;
-    max-height:260px;
-    overflow:auto;
+    max-height:100px;
+    overflow-y:auto;
     padding-right:5px;
+}
+
+/* comment box always visible */
+.comment-box{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+
+    background:white;
+    padding-top:10px;
+    border-top:1px solid #eee;
+
+    position: relative;   /* ⭐ NOT sticky */
+    z-index: 10;
 }
 
 .comment{
@@ -565,40 +732,59 @@ input{
     border-color:#49465b;
 }
 
-
-.actions{
-    display:flex;
-    gap:20px;
-    margin-top:14px;
-    align-items:center;
-}
-
-.icon-btn{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    border:none;
-    background:transparent;
-    cursor:pointer;
-    font-size:14px;
-    color:#444;
-    padding:6px 10px;
-    border-radius:8px;
-    transition:0.2s;
-}
-
-.icon-btn:hover{
-    background:#f3f4f6;
-}
-.footer{
+   .footer{
     width:100%;
     text-align:center;
     padding:12px;
-    margin-top:30px;
     font-size:13px;
+
     background: linear-gradient(90deg,#49465b,#6e6c80);
     color: #fff;
-    border-top:1px solid #eee;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    
+
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+}
+@media (max-width: 900px){
+    #feed{
+        grid-template-columns: repeat(2, 260px);
+    }
+}
+
+@media (max-width: 500px){
+    #feed{
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.post-content{
+    font-size:15px;
+    line-height:1.6;
+    color:#222;
+    margin-bottom:10px;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;   /* ⭐ 2 line limit */
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+}
+
+/* expanded হলে full show */
+.post-content.expanded{
+    -webkit-line-clamp: unset;
+}
+.see-more{
+    font-size:13px;
+    color:#2563eb;
+    cursor:pointer;
+    font-weight:600;
+    margin-bottom:10px;
+    display:inline-block;
 }
 </style>
 </head>
@@ -818,9 +1004,14 @@ let html = `
         </div>
     </div>
 
-    <div class="post-content">
-        ${p.content}
-    </div>
+    <div class="post-content" id="content-${p.id}">
+                ${p.content}
+            </div>
+
+            <span class="see-more" id="toggle-${p.id}"
+            onclick="toggleContent(${p.id})">
+                See more
+            </span>
 
     <div class="modal-stats">
         <div>❤️ Likes: ${p.like_count}</div>
@@ -854,6 +1045,16 @@ html += `
 
 document.getElementById("modalBody").innerHTML = html;
 document.getElementById("modal").style.display = "block";
+setTimeout(() => {
+    let el = document.getElementById("content-"+id);
+    let btn = document.getElementById("toggle-"+id);
+
+    if(el && btn){
+        if(el.innerText.length < 120){
+            btn.style.display = "none";
+        }
+    }
+}, 50);
 });
 }
 /* FIX CLOSE */
@@ -874,6 +1075,7 @@ document.addEventListener("keydown", function(e){
         closeModal();
     }
 });
+
 /* COMMENT */
 async function comment(id){
 
@@ -901,6 +1103,21 @@ window.addEventListener("scroll", () => {
         loadMore();
     }
 });
+
+
+function toggleContent(id){
+
+    let content = document.getElementById("content-"+id);
+    let btn = document.getElementById("toggle-"+id);
+
+    content.classList.toggle("expanded");
+
+    if(content.classList.contains("expanded")){
+        btn.innerText = "See less";
+    }else{
+        btn.innerText = "See more";
+    }
+}
 
 function loadMore() {
     loading = true;

@@ -20,13 +20,30 @@ $result = $stmt->get_result();
 $doctors = [];
 
 while ($row = $result->fetch_assoc()) {
-    $doctors[] = [
-        "name" => $row['doctorName'],
-        "specialization" => $row['specialization'],
-        "clinic" => $row['clinic'],
-        "bmdc" => $row['bmdc'],
-        "fees" => $row['consultationFees']
-    ];
+$doctors[] = [
+    "name" => $row['doctorName'],
+    "specialization" => $row['specialization'],
+    "clinic" => $row['clinic'],
+    "bmdc" => $row['bmdc'],
+    "fees" => $row['consultationFees'],
+    "experience" => $row['experienceYears'] // ✅ ADD THIS
+];
 }
 
-echo json_encode($doctors);
+// ⭐ SORT BY EXPERIENCE (BEST FIRST)
+usort($doctors, function($a, $b) {
+
+    // 1. Experience priority
+    if ($b['experience'] != $a['experience']) {
+        return $b['experience'] - $a['experience'];
+    }
+
+    // 2. If same experience → lower fees is better
+    return $a['fees'] - $b['fees'];
+});
+
+
+echo json_encode([
+    "allDoctors" => $doctors,
+    "bestDoctor" => $doctors[0] ?? null
+]);

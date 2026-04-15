@@ -237,6 +237,7 @@ while($row = mysqli_fetch_assoc($result)){
   inset: 0;
   border-radius: 18px;
   background: radial-gradient(circle at top left, rgba(73,70,91,0.15), transparent);
+  pointer-events: none;
   opacity: 0;
   transition: 0.4s;
 }

@@ -143,7 +143,7 @@ td .btn{
  border-radius:15px;
  width:420px;
  box-shadow:0 15px 40px rgba(0,0,0,0.25);
- z-index:100;
+ z-index:1000;
  animation:fadeIn 0.3s ease;
 }
 
@@ -237,7 +237,7 @@ td .btn{
 .filter-wrapper{
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 999;
     width: 100%;
     margin: 0;
     padding: 10px 0;

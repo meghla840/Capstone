@@ -280,11 +280,31 @@ footer {
 
 <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
-<div class="doctor-card bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:-translate-y-2 transition">
+<div class="doctor-card bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:-translate-y-2 transition"
 
-  <img src="<?= !empty($row['profilePic']) ? $row['profilePic'] : 'uploads/default.png' ?>"
-       onerror="this.src='uploads/default.png'"
-       class="w-24 h-24 rounded-full border-4 border-[#49465b] object-cover shadow">
+     data-name="<?= strtolower(htmlspecialchars($row['name'])) ?>"
+     data-speciality="<?= strtolower(htmlspecialchars($row['specialization'])) ?>"
+     data-gender="<?= strtolower(htmlspecialchars($row['gender'])) ?>"
+>
+
+  <?php 
+$imgPath = "uploads/" . $row['profilePic'];
+$hasImage = !empty($row['profilePic']) && file_exists($imgPath);
+?>
+
+<?php if($hasImage): ?>
+    <img src="<?= $imgPath ?>"
+         class="w-24 h-24 rounded-full border-4 border-[#49465b] object-cover shadow">
+<?php else: ?>
+    <div class="w-24 h-24 rounded-full border-4 border-[#49465b] shadow flex items-center justify-center bg-gray-100">
+
+        <!-- Default Doctor Avatar -->
+        <svg class="w-12 h-12 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/>
+        </svg>
+
+    </div>
+<?php endif; ?>
 
   <div class="mt-4">
     <h2 class="font-bold text-[#49465b] text-lg">

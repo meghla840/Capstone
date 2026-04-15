@@ -11,9 +11,11 @@ if(!$doctorId){
 
 /* ================= DOCTOR + USER JOIN ================= */
 $query = "
-SELECT d.*, u.name, u.profilePic 
+SELECT d.*, u.name, u.profilePic,
+a.days, a.timeRange, a.clinic AS availabilityClinic
 FROM doctors d
 LEFT JOIN users u ON d.userId = u.userId
+LEFT JOIN doctor_availability a ON d.userId = a.doctorId
 WHERE d.userId = '$doctorId'
 LIMIT 1
 ";
@@ -32,6 +34,13 @@ $clinic = !empty($doctor['clinic']) ? $doctor['clinic'] : 'Medical';
 $fees = !empty($doctor['consultationFees']) ? $doctor['consultationFees'] : 1000;
 
 /* ================= SLOTS ================= */
+$availabilityRes = mysqli_query($conn, "
+SELECT * FROM doctor_availability 
+WHERE doctorId = '$doctorId'
+");
+
+
+
 $slotQuery = mysqli_query($conn, "
 SELECT * FROM doctor_slots 
 WHERE doctorId='{$doctor['userId']}' 
@@ -102,16 +111,95 @@ $hasSlots = count($slots) > 0;
 </div>
 
 <!-- DETAILS CARD -->
-<div class="bg-white p-6 rounded-xl shadow mb-6 max-w-4xl mx-auto">
+<div class="bg-white p-6 rounded-2xl shadow mb-6 max-w-4xl mx-auto">
 
-<div class="grid md:grid-cols-2 gap-4 text-sm">
-    <div><b>Experience:</b> <?= $doctor['experienceYears'] ?? 'N/A' ?> years</div>
-    <div><b>Gender:</b> <?= $doctor['gender'] ?? 'N/A' ?></div>
-    <div><b>Available Days:</b> <?= $doctor['availableDays'] ?? 'N/A' ?></div>
-    <div><b>Available Time:</b> <?= $doctor['availableTimes'] ?? 'N/A' ?></div>
-    <div><b>Education:</b> <?= $doctor['education'] ?? 'N/A' ?></div>
-    <div><b>Degrees:</b> <?= $doctor['degrees'] ?? 'N/A' ?></div>
-</div>
+    <!-- Title -->
+    <h2 class="text-xl font-bold mb-4 text-[#49465b]">Doctor Information</h2>
+
+    <!-- Info Grid -->
+    <div class="grid md:grid-cols-2 gap-4 text-sm mb-6">
+
+        <div class="bg-gray-50 p-3 rounded-lg">
+            <b>Experience:</b> <?= $doctor['experienceYears'] ?? 'N/A' ?> years
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-lg">
+            <b>Gender:</b> <?= $doctor['gender'] ?? 'N/A' ?>
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-lg">
+            <b>Education:</b> <?= $doctor['education'] ?? 'N/A' ?>
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-lg">
+            <b>Degrees:</b> <?= $doctor['degrees'] ?? 'N/A' ?>
+        </div>
+
+    </div>
+
+    <!-- Schedule Table -->
+    <div>
+        <h3 class="text-lg font-semibold mb-3 text-[#49465b]">
+            Available Schedule
+        </h3>
+
+        <div class="overflow-x-auto border rounded-xl">
+
+            <table class="w-full text-sm">
+
+                <!-- Head -->
+                <thead class="bg-[#49465b] text-white">
+                    <tr>
+                        <th class="p-3 text-left">Days</th>
+                        <th class="p-3 text-left">Time</th>
+                        <th class="p-3 text-left">Clinic</th>
+                    </tr>
+                </thead>
+
+                <!-- Body -->
+                <tbody class="bg-white text-gray-700">
+
+                    <?php 
+                    $hasData = false;
+                    while($row = mysqli_fetch_assoc($availabilityRes)): 
+                        $hasData = true;
+                    ?>
+                    <tr class="border-t hover:bg-gray-50 transition">
+                        
+                        <!-- Days -->
+                        <td class="p-3">
+                            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">
+                                <?= $row['days'] ?>
+                            </span>
+                        </td>
+
+                        <!-- Time -->
+                        <td class="p-3 font-medium">
+                            <?= $row['timeRange'] ?>
+                        </td>
+
+                        <!-- Clinic -->
+                        <td class="p-3 text-gray-600">
+                            <?= $row['clinic'] ?>
+                        </td>
+
+                    </tr>
+                    <?php endwhile; ?>
+
+                    <?php if(!$hasData): ?>
+                    <tr>
+                        <td colspan="3" class="p-4 text-center text-gray-400">
+                            No schedule available
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
 
 </div>
 
